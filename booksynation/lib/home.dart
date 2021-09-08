@@ -5,19 +5,21 @@ class Homepage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'BookSyNation',
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(
+            'BookSyNation',
+          ),
+          centerTitle: true,
+          backgroundColor: Color(0xFF3DDD6A).withOpacity(0.5),
         ),
-        centerTitle: true,
-        backgroundColor: Color(0xFF3DDD6A).withOpacity(0.5),
-      ),
-      body: Center(
-        child: Text('LOGIN INTERFACE',
-            style: TextStyle(
-              fontSize: 36,
-            )),
+        body: Center(
+          child: Text('LOGIN INTERFACE',
+              style: TextStyle(
+                fontSize: 36,
+              )),
+        ),
       ),
     );
   }
