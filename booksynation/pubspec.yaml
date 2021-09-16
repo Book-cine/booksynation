@@ -62,6 +62,12 @@ flutter:
     - family: Antic Didone
       fonts:
         - asset: fonts/AnticDidone-Regular.ttf
+    - family: Mulish
+      fonts:
+        - asset: fonts/Mulish-Regular.ttf
+        - asset: fonts/Mulish-Bold.ttf
+        - asset: fonts/Mulish-SemiBold.ttf
+          weight: 700
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

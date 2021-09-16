@@ -1,3 +1,4 @@
+import 'package:booksynation/weblogin.dart';
 import 'package:flutter/material.dart';
 
 class Homepage extends StatelessWidget {
@@ -20,6 +21,12 @@ class Homepage extends StatelessWidget {
                 fontSize: 36,
               )),
         ),
+        floatingActionButton: IconButton(
+            onPressed: () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => WebLogin()));
+            },
+            icon: Icon(Icons.web)),
       ),
     );
   }
