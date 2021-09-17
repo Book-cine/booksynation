@@ -1,3 +1,4 @@
+import 'package:booksynation/sidemenu.dart';
 import 'package:booksynation/weblogin.dart';
 import 'package:flutter/material.dart';
 
@@ -15,6 +16,7 @@ class Homepage extends StatelessWidget {
           centerTitle: true,
           backgroundColor: Color(0xFF3DDD6A).withOpacity(0.5),
         ),
+        drawer: SideMenu(),
         body: Center(
           child: Text('LOGIN INTERFACE',
               style: TextStyle(
