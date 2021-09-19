@@ -8,10 +8,17 @@ class PersonalInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: SideMenu(),
-      appBar: AppBar(
-        title: Text('Personal Information'),
-        centerTitle: true,
-        backgroundColor: Colors.greenAccent,
+      body: Center(
+        child: Text('Personal Info',
+            style: TextStyle(
+              fontSize: 72,
+            )),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.pop(context);
+        },
+        child: Icon(Icons.arrow_back_ios),
       ),
     );
   }

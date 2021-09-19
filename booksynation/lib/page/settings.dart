@@ -8,10 +8,17 @@ class PatientSettings extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: SideMenu(),
-      appBar: AppBar(
-        title: Text('Settings'),
-        centerTitle: true,
-        backgroundColor: Colors.greenAccent,
+      body: Center(
+        child: Text('Settings',
+            style: TextStyle(
+              fontSize: 72,
+            )),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.pop(context);
+        },
+        child: Icon(Icons.arrow_back_ios),
       ),
     );
   }

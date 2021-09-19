@@ -55,8 +55,6 @@ class _WebLoginState extends State<WebLogin> {
                 child: AspectRatio(
                   aspectRatio: 10 / 16,
                   child: Container(
-                    // height: height * 0.63,
-                    // width: width * 0.33,
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.all(Radius.circular(20.0)),

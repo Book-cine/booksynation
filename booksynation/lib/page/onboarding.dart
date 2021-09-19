@@ -7,10 +7,13 @@ class OnBoard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Onboarding'),
-      ),
       drawer: SideMenu(),
+      body: Center(
+        child: Text('Onboarding',
+            style: TextStyle(
+              fontSize: 72,
+            )),
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.pop(context);

@@ -11,6 +11,7 @@ class Homepage extends StatelessWidget {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
+
     return SafeArea(
       child: Scaffold(
         body: Container(
@@ -51,128 +52,139 @@ class Homepage extends StatelessWidget {
                 height: height * 0.05,
               ),
               Container(
-                height: height * 0.40,
-                width: width * 0.75,
-                padding: EdgeInsets.all(25.0),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(25.0),
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          height: height * 0.020,
+                height: height * 0.48,
+                width: width * 0.85,
+                child: AspectRatio(
+                  aspectRatio: 2 / 3,
+                  child: Container(
+                    padding: EdgeInsets.all(25.0),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(25.0),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.25),
+                          blurRadius: 5,
+                          offset: Offset(3, 4), // changes position of shadow
                         ),
-                        TextField(
-                          decoration: InputDecoration(
-                            icon: Icon(
-                              Icons.person_outline_outlined,
-                              color: Colors.black,
-                            ),
-                            hintText: 'Username',
-                          ),
-                        ),
-                        SizedBox(
-                          height: height * 0.025,
-                        ),
-                        TextField(
-                          obscureText: true,
-                          decoration: InputDecoration(
-                            icon: Icon(
-                              Icons.lock_outlined,
-                              color: Colors.black,
-                            ),
-                            hintText: 'Password',
-                          ),
-                        ),
-                        SizedBox(
-                          height: height * 0.05,
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.25),
+                          blurRadius: 5,
+                          offset: Offset(3, 4), // changes position of shadow
                         ),
                       ],
                     ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => OnBoard()),
-                            );
-                          },
-                          style: ElevatedButton.styleFrom(
-                            primary: Color(0xFF26A98A),
-                            fixedSize: Size(
-                              width * 0.5,
-                              height * 0.05,
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(
+                              height: height * 0.015,
                             ),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(40.0),
+                            TextField(
+                              decoration: InputDecoration(
+                                icon: Icon(
+                                  Icons.person_outline_outlined,
+                                  color: Colors.black,
+                                ),
+                                hintText: 'Username',
+                              ),
                             ),
-                          ),
-                          child: Text(
-                            'Log In',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontFamily: 'Mulish',
-                              fontWeight: FontWeight.w600,
-                              fontSize: height * 0.014,
-                              decoration: TextDecoration.none,
+                            SizedBox(
+                              height: height * 0.025,
                             ),
-                          ),
+                            TextField(
+                              obscureText: true,
+                              decoration: InputDecoration(
+                                icon: Icon(
+                                  Icons.lock_outlined,
+                                  color: Colors.black,
+                                ),
+                                hintText: 'Password',
+                              ),
+                            ),
+                            SizedBox(
+                              height: height * 0.025,
+                            ),
+                          ],
                         ),
-                        SizedBox(
-                          height: height * 0.020,
-                        ),
-                        InkWell(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => RegisterPatient()),
-                            );
-                          },
-                          child: Text(
-                            'Register Now',
-                            style: TextStyle(
-                              color: Color(0xFF146955),
-                              fontFamily: 'Mulish',
-                              fontWeight: FontWeight.bold,
-                              fontSize: height * 0.014,
-                              decoration: TextDecoration.none,
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            ElevatedButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => OnBoard()),
+                                );
+                              },
+                              style: ElevatedButton.styleFrom(
+                                primary: Color(0xFF26A98A),
+                                fixedSize: Size(
+                                  width * 0.65,
+                                  height * 0.070,
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(40.0),
+                                ),
+                              ),
+                              child: Text(
+                                'Log In',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontFamily: 'Mulish',
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: height * 0.018,
+                                  decoration: TextDecoration.none,
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: height * 0.020,
-                        ),
-                        InkWell(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => OnBoard()),
-                            );
-                          },
-                          child: Text(
-                            'Forgot Password',
-                            style: TextStyle(
-                              color: Color(0xFF146955),
-                              fontFamily: 'Mulish',
-                              fontWeight: FontWeight.bold,
-                              fontSize: height * 0.014,
-                              decoration: TextDecoration.none,
+                            SizedBox(
+                              height: height * 0.025,
                             ),
-                          ),
+                            InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => RegisterPatient()),
+                                );
+                              },
+                              child: Text(
+                                'Register Now',
+                                style: TextStyle(
+                                  color: Color(0xFF146955),
+                                  fontFamily: 'Mulish',
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: height * 0.016,
+                                  decoration: TextDecoration.none,
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: height * 0.025,
+                            ),
+                            InkWell(
+                              onTap: () {},
+                              child: Text(
+                                'Forgot Password',
+                                style: TextStyle(
+                                  color: Color(0xFF146955),
+                                  fontFamily: 'Mulish',
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: height * 0.016,
+                                  decoration: TextDecoration.none,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
-                  ],
+                  ),
                 ),
               ),
             ],
