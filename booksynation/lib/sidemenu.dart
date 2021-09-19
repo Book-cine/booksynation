@@ -4,16 +4,32 @@ import 'package:booksynation/page/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class SideMenu extends StatelessWidget {
+class SideMenu extends StatefulWidget {
   SideMenu({Key? key}) : super(key: key);
+
+  @override
+  State<SideMenu> createState() => _SideMenuState();
+}
+
+class _SideMenuState extends State<SideMenu> {
   final padding = EdgeInsets.symmetric(horizontal: 20);
+
+  final emails = [
+    'nashtaps@gmail.com',
+    'joserizal@gmail.com',
+    'darksaviour@gmail.com',
+    'cyberblaze@gmail.com',
+    'mervtampus@gmail.com',
+  ];
+
+  String? value;
 
   @override
   Widget build(BuildContext context) {
     final name = 'Juan Dela Cruz';
     final email = 'book-cine@gmail.com';
     final image = 'images/nashimg.png';
-    final width = MediaQuery.of(context).size.width;
+    // final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
 
     return Drawer(
@@ -118,33 +134,29 @@ class SideMenu extends StatelessWidget {
             SizedBox(
               height: 20,
             ),
-            InkWell(
-              hoverColor: Colors.white10,
-              onTap: onClicked,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(name,
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.white,
-                          )),
-                      const SizedBox(
-                        height: 4,
-                      ),
-                      Text(email,
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.white,
-                          )),
-                    ],
-                  ),
-                  Icon(Icons.arrow_drop_down_outlined, color: Colors.white),
-                ],
+            Text(name,
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.white,
+                )),
+            const SizedBox(
+              height: 2,
+            ),
+            DropdownButtonHideUnderline(
+              child: DropdownButton<String>(
+                value: value,
+                dropdownColor: Colors.teal[200],
+                hint: Text(
+                  email,
+                  style: TextStyle(color: Colors.white, fontSize: 16),
+                ),
+                style: TextStyle(color: Colors.white),
+                icon: Icon(Icons.arrow_drop_down_outlined, color: Colors.white),
+                isExpanded: true,
+                items: emails.map(buildDropItem).toList(),
+                onChanged: (value) => setState(() {
+                  this.value = value;
+                }),
               ),
             ),
           ],
@@ -190,4 +202,15 @@ class SideMenu extends StatelessWidget {
         break;
     }
   }
+
+  DropdownMenuItem<String> buildDropItem(String item) => DropdownMenuItem(
+        value: item,
+        child: Text(
+          item,
+          style: TextStyle(
+            fontSize: 16,
+            color: Colors.white,
+          ),
+        ),
+      );
 }
