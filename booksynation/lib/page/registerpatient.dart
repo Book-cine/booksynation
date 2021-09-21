@@ -43,6 +43,7 @@ class _RegisterPatientState extends State<RegisterPatient> {
                 Container(
                   height: height * 0.70,
                   width: width * 0.85,
+                  alignment: Alignment.center,
                   child: AspectRatio(
                     aspectRatio: 2 / 3,
                     child: Container(
@@ -159,8 +160,8 @@ class _RegisterPatientState extends State<RegisterPatient> {
                                 style: ElevatedButton.styleFrom(
                                   primary: Color(0xFF26A98A),
                                   fixedSize: Size(
-                                    width * 0.65,
-                                    height * 0.070,
+                                    width * 0.55,
+                                    height * 0.065,
                                   ),
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(40.0),
@@ -172,7 +173,7 @@ class _RegisterPatientState extends State<RegisterPatient> {
                                     color: Colors.white,
                                     fontFamily: 'Mulish',
                                     fontWeight: FontWeight.w600,
-                                    fontSize: height * 0.016,
+                                    fontSize: height * 0.018,
                                     decoration: TextDecoration.none,
                                   ),
                                 ),

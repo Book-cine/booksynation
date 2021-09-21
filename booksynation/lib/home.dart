@@ -54,8 +54,9 @@ class Homepage extends StatelessWidget {
               Container(
                 height: height * 0.48,
                 width: width * 0.85,
+                alignment: Alignment.center,
                 child: AspectRatio(
-                  aspectRatio: 2 / 3,
+                  aspectRatio: 0.95,
                   child: Container(
                     padding: EdgeInsets.all(25.0),
                     decoration: BoxDecoration(
@@ -124,8 +125,8 @@ class Homepage extends StatelessWidget {
                               style: ElevatedButton.styleFrom(
                                 primary: Color(0xFF26A98A),
                                 fixedSize: Size(
-                                  width * 0.65,
-                                  height * 0.070,
+                                  width * 0.45,
+                                  height * 0.060,
                                 ),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(40.0),
@@ -159,7 +160,7 @@ class Homepage extends StatelessWidget {
                                   color: Color(0xFF146955),
                                   fontFamily: 'Mulish',
                                   fontWeight: FontWeight.bold,
-                                  fontSize: height * 0.016,
+                                  fontSize: height * 0.017,
                                   decoration: TextDecoration.none,
                                 ),
                               ),
@@ -175,7 +176,7 @@ class Homepage extends StatelessWidget {
                                   color: Color(0xFF146955),
                                   fontFamily: 'Mulish',
                                   fontWeight: FontWeight.bold,
-                                  fontSize: height * 0.016,
+                                  fontSize: height * 0.017,
                                   decoration: TextDecoration.none,
                                 ),
                               ),

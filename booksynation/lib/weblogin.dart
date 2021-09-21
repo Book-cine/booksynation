@@ -49,11 +49,11 @@ class _WebLoginState extends State<WebLogin> {
             Align(
               alignment: Alignment.center,
               child: Container(
-                height: height * 0.63,
-                width: width * 0.33,
+                height: height * 0.65,
+                width: width * 0.75,
                 alignment: Alignment.center,
                 child: AspectRatio(
-                  aspectRatio: 10 / 16,
+                  aspectRatio: 0.7,
                   child: Container(
                     decoration: BoxDecoration(
                       color: Colors.white,
@@ -67,184 +67,188 @@ class _WebLoginState extends State<WebLogin> {
                       ],
                     ),
                     padding: EdgeInsets.symmetric(
-                        vertical: height * 0.05, horizontal: width * 0.02),
+                        vertical: height * 0.05, horizontal: width * 0.035),
                     child: Container(
-                      child: Column(
-                        children: [
-                          Column(
-                            children: [
-                              SvgPicture.asset(
-                                'images/Logo_BSN.svg',
-                                height: height * 0.1,
-                                width: width * 0.1,
-                              ),
-                              SizedBox(
-                                height: height * 0.01,
-                              ),
-                              Text(
-                                'BookSyNation',
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontFamily: 'Antic Didone',
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: height * 0.02,
-                                  decoration: TextDecoration.none,
+                      child: SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            Column(
+                              children: [
+                                SvgPicture.asset(
+                                  'images/Logo_BSN.svg',
+                                  height: height * 0.1,
+                                  width: width * 0.1,
                                 ),
-                              ),
-                              SizedBox(
-                                height: height * 0.02,
-                              ),
-                              Text(
-                                'Log in to BookSyNation',
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontFamily: 'Mulish',
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: height * 0.024,
-                                  decoration: TextDecoration.none,
+                                SizedBox(
+                                  height: height * 0.01,
                                 ),
-                              ),
-                              Text(
-                                'Enter your email and password below',
-                                style: TextStyle(
-                                  color: Color(0xFF9FA2B4),
-                                  fontFamily: 'Mulish',
-                                  fontSize: height * 0.014,
-                                  fontWeight: FontWeight.normal,
-                                  decoration: TextDecoration.none,
-                                ),
-                              ),
-                              SizedBox(
-                                height: height * 0.015,
-                              ),
-                            ],
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Email',
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontFamily: 'Mulish',
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: height * 0.015,
-                                  decoration: TextDecoration.none,
-                                ),
-                              ),
-                              SizedBox(
-                                height: height * 0.005,
-                              ),
-                              TextField(
-                                decoration: InputDecoration(
-                                  enabledBorder: OutlineInputBorder(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(8.0)),
-                                    borderSide: const BorderSide(
-                                      color: Colors.grey,
-                                    ),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(8.0)),
-                                    borderSide: BorderSide(color: Colors.blue),
-                                  ),
-                                  hintText: 'Email Address',
-                                ),
-                              ),
-                              SizedBox(
-                                height: height * 0.025,
-                              ),
-                              Text(
-                                'PASSWORD',
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontFamily: 'Mulish',
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: height * 0.012,
-                                  decoration: TextDecoration.none,
-                                ),
-                              ),
-                              SizedBox(
-                                height: height * 0.005,
-                              ),
-                              TextField(
-                                obscureText: true,
-                                decoration: InputDecoration(
-                                  enabledBorder: OutlineInputBorder(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(8.0)),
-                                    borderSide: const BorderSide(
-                                      color: Colors.grey,
-                                    ),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(8.0)),
-                                    borderSide: BorderSide(color: Colors.blue),
-                                  ),
-                                  hintText: 'Password',
-                                  suffixIcon:
-                                      Icon(Icons.visibility_off_outlined),
-                                ),
-                              ),
-                              SizedBox(
-                                height: height * 0.03,
-                              ),
-                              ElevatedButton(
-                                onPressed: () {},
-                                style: ElevatedButton.styleFrom(
-                                  primary: Color(0xFF26A98A),
-                                  fixedSize: Size(
-                                    width * 0.32,
-                                    height * 0.05,
-                                  ),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(8.0),
-                                  ),
-                                ),
-                                child: Text(
-                                  'Log In',
+                                Text(
+                                  'BookSyNation',
                                   style: TextStyle(
-                                    color: Colors.white,
+                                    color: Colors.black,
+                                    fontFamily: 'Antic Didone',
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: height * 0.02,
+                                    decoration: TextDecoration.none,
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: height * 0.02,
+                                ),
+                                Text(
+                                  'Log in to BookSyNation',
+                                  style: TextStyle(
+                                    color: Colors.black,
                                     fontFamily: 'Mulish',
-                                    fontWeight: FontWeight.w600,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: height * 0.024,
+                                    decoration: TextDecoration.none,
+                                  ),
+                                ),
+                                Text(
+                                  'Enter your email and password below',
+                                  style: TextStyle(
+                                    color: Color(0xFF9FA2B4),
+                                    fontFamily: 'Mulish',
+                                    fontSize: height * 0.014,
+                                    fontWeight: FontWeight.normal,
+                                    decoration: TextDecoration.none,
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: height * 0.015,
+                                ),
+                              ],
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Email',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontFamily: 'Mulish',
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: height * 0.015,
+                                    decoration: TextDecoration.none,
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: height * 0.005,
+                                ),
+                                TextField(
+                                  decoration: InputDecoration(
+                                    enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(8.0)),
+                                      borderSide: const BorderSide(
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(8.0)),
+                                      borderSide:
+                                          BorderSide(color: Colors.blue),
+                                    ),
+                                    hintText: 'Email Address',
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: height * 0.025,
+                                ),
+                                Text(
+                                  'PASSWORD',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontFamily: 'Mulish',
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: height * 0.012,
+                                    decoration: TextDecoration.none,
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: height * 0.005,
+                                ),
+                                TextField(
+                                  obscureText: true,
+                                  decoration: InputDecoration(
+                                    enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(8.0)),
+                                      borderSide: const BorderSide(
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(8.0)),
+                                      borderSide:
+                                          BorderSide(color: Colors.blue),
+                                    ),
+                                    hintText: 'Password',
+                                    suffixIcon:
+                                        Icon(Icons.visibility_off_outlined),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: height * 0.03,
+                                ),
+                              ],
+                            ),
+                            ElevatedButton(
+                              onPressed: () {},
+                              style: ElevatedButton.styleFrom(
+                                primary: Color(0xFF26A98A),
+                                fixedSize: Size(
+                                  width * 0.30,
+                                  height * 0.05,
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8.0),
+                                ),
+                              ),
+                              child: Text(
+                                'Log In',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontFamily: 'Mulish',
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: height * 0.016,
+                                  decoration: TextDecoration.none,
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: height * 0.03,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'Don\'t have an account? ',
+                                  style: TextStyle(
+                                    color: Color(0xFF9FA2B4),
+                                    fontFamily: 'Mulish',
+                                    fontWeight: FontWeight.normal,
                                     fontSize: height * 0.014,
                                     decoration: TextDecoration.none,
                                   ),
                                 ),
-                              ),
-                              SizedBox(
-                                height: height * 0.03,
-                              ),
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                'Don\'t have an account? ',
-                                style: TextStyle(
-                                  color: Color(0xFF9FA2B4),
-                                  fontFamily: 'Mulish',
-                                  fontWeight: FontWeight.normal,
-                                  fontSize: height * 0.014,
-                                  decoration: TextDecoration.none,
+                                Text(
+                                  'Sign Up',
+                                  style: TextStyle(
+                                    color: Color(0xFF146955),
+                                    fontFamily: 'Mulish',
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: height * 0.014,
+                                    decoration: TextDecoration.none,
+                                  ),
                                 ),
-                              ),
-                              Text(
-                                'Sign Up',
-                                style: TextStyle(
-                                  color: Color(0xFF146955),
-                                  fontFamily: 'Mulish',
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: height * 0.014,
-                                  decoration: TextDecoration.none,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
