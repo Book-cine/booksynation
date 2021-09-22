@@ -23,6 +23,7 @@ class OnBoard extends StatelessWidget {
               child: SingleChildScrollView(
                 child: Column(
                   children: [
+                    SizedBox(height: height * 0.10),
                     Image.asset('images/onb1.png'),
                     SizedBox(height: height * 0.10),
                     Text(
@@ -31,65 +32,83 @@ class OnBoard extends StatelessWidget {
                         color: Colors.black,
                         fontFamily: 'Average',
                         fontWeight: FontWeight.bold,
-                        fontSize: height * 0.042,
+                        fontSize: height * 0.040,
                       ),
                     ),
                     SizedBox(height: height * 0.020),
-                    Text(
-                      'You won’t need to fill up a written form in the vaccination site once you filled the online form.',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontFamily: 'Average',
-                        fontSize: height * 0.024,
+                    Container(
+                      width: width * 0.65,
+                      alignment: Alignment.center,
+                      padding: EdgeInsets.symmetric(horizontal: 10.0),
+                      child: Text(
+                        'You won’t need to fill up a written form in the vaccination site once you filled the online form.',
+                        textAlign: TextAlign.justify,
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontFamily: 'Average',
+                          fontSize: height * 0.024,
+                        ),
                       ),
                     ),
                     SizedBox(height: height * 0.20),
                     Image.asset('images/imagecp.png'),
                     SizedBox(height: height * 0.10),
                     Text(
-                      'Book a schedule for vaccination.',
+                      'Book a schedule for\nvaccination.',
                       style: TextStyle(
                         color: Colors.black,
                         fontFamily: 'Average',
                         fontWeight: FontWeight.bold,
-                        fontSize: height * 0.042,
+                        fontSize: height * 0.040,
                       ),
                     ),
                     SizedBox(height: height * 0.020),
-                    Text(
-                      'Choose your schedule at your most appropriate time and date.',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontFamily: 'Average',
-                        fontSize: height * 0.024,
+                    Container(
+                      width: width * 0.65,
+                      alignment: Alignment.center,
+                      padding: EdgeInsets.symmetric(horizontal: 10.0),
+                      child: Text(
+                        'Choose your schedule at your most appropriate time and date.',
+                        textAlign: TextAlign.justify,
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontFamily: 'Average',
+                          fontSize: height * 0.024,
+                        ),
                       ),
                     ),
                     SizedBox(height: height * 0.20),
                     Image.asset('images/onb2.png'),
                     SizedBox(height: height * 0.10),
                     Text(
-                      'Get notified when schedule is near.',
+                      'Get notified when schedule\nis near.',
                       style: TextStyle(
                         color: Colors.black,
                         fontFamily: 'Average',
                         fontWeight: FontWeight.bold,
-                        fontSize: height * 0.042,
+                        fontSize: height * 0.040,
                       ),
                     ),
                     SizedBox(height: height * 0.020),
-                    Text(
-                      'Be reminded of your vaccination schedule a day before to be ready for the appointment.',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontFamily: 'Average',
-                        fontSize: height * 0.024,
+                    Container(
+                      width: width * 0.70,
+                      alignment: Alignment.center,
+                      padding: EdgeInsets.symmetric(horizontal: 10.0),
+                      child: Text(
+                        'Be reminded of your vaccination schedule a day before to be ready for the appointment.',
+                        textAlign: TextAlign.justify,
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontFamily: 'Average',
+                          fontSize: height * 0.024,
+                        ),
                       ),
                     ),
-                    SizedBox(height: height * 0.30),
+                    SizedBox(height: height * 0.25),
                     Align(
                       alignment: Alignment.center,
                       child: Container(
-                        width: width * 0.65,
+                        width: width * 0.38,
                         decoration: BoxDecoration(boxShadow: [
                           BoxShadow(
                             color: Color(0xFF26A98A).withOpacity(0.16),
@@ -105,14 +124,14 @@ class OnBoard extends StatelessWidget {
                             primary: Color(0xFF26A98A),
                             fixedSize: Size(
                               width * 0.35,
-                              height * 0.055,
+                              height * 0.065,
                             ),
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(6.0),
+                              borderRadius: BorderRadius.circular(60.0),
                             ),
                           ),
                           child: Text(
-                            'Proceed',
+                            'PROCEED',
                             style: TextStyle(
                               color: Colors.white,
                               fontFamily: 'Mulish',
