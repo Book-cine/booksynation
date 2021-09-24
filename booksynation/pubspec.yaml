@@ -62,6 +62,9 @@ flutter:
     - family: Antic Didone
       fonts:
         - asset: fonts/AnticDidone-Regular.ttf
+    - family: Average
+      fonts:
+        - asset: fonts/Average-Regular.ttf
     - family: Mulish
       fonts:
         - asset: fonts/Mulish-Regular.ttf
