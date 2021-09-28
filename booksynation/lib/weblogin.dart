@@ -1,3 +1,4 @@
+import 'package:booksynation/webregister.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'dart:math' as math;
@@ -235,14 +236,23 @@ class _WebLoginState extends State<WebLogin> {
                                     decoration: TextDecoration.none,
                                   ),
                                 ),
-                                Text(
-                                  'Sign Up',
-                                  style: TextStyle(
-                                    color: Color(0xFF146955),
-                                    fontFamily: 'Mulish',
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: height * 0.014,
-                                    decoration: TextDecoration.none,
+                                InkWell(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => WebRegister()),
+                                    );
+                                  },
+                                  child: Text(
+                                    'Sign Up',
+                                    style: TextStyle(
+                                      color: Color(0xFF146955),
+                                      fontFamily: 'Mulish',
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: height * 0.014,
+                                      decoration: TextDecoration.none,
+                                    ),
                                   ),
                                 ),
                               ],
