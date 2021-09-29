@@ -1,3 +1,4 @@
+import 'package:booksynation/web_pages/websettings.dart';
 import 'package:booksynation/webregister.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -198,7 +199,13 @@ class _WebLoginState extends State<WebLogin> {
                               ],
                             ),
                             ElevatedButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => WebSettings()),
+                                );
+                              },
                               style: ElevatedButton.styleFrom(
                                 primary: Color(0xFF26A98A),
                                 fixedSize: Size(
