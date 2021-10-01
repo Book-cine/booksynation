@@ -24,6 +24,8 @@ class _WebSettingsState extends State<WebSettings> {
   ];
 
   String? value;
+  int? selected;
+
   @override
   Widget build(BuildContext context) {
     final name = 'Juan Dela Cruz';
@@ -132,7 +134,7 @@ class _WebSettingsState extends State<WebSettings> {
                                   ),
                                 ),
                                 buildMenuItem(
-                                  status: false,
+                                  item: 0,
                                   text: 'Manage Vaccines',
                                   icon: SvgPicture.asset(
                                       'images/vaccine_icon.svg',
@@ -141,7 +143,7 @@ class _WebSettingsState extends State<WebSettings> {
                                 ),
                                 const SizedBox(height: 12),
                                 buildMenuItem(
-                                  status: false,
+                                  item: 1,
                                   text: 'Scheduled Vaccinations',
                                   icon: SvgPicture.asset(
                                       'images/schedule_icon.svg',
@@ -150,7 +152,7 @@ class _WebSettingsState extends State<WebSettings> {
                                 ),
                                 const SizedBox(height: 12),
                                 buildMenuItem(
-                                  status: false,
+                                  item: 2,
                                   text: 'Missed Vaccinations',
                                   icon: SvgPicture.asset(
                                       'images/missed_icon.svg',
@@ -159,7 +161,7 @@ class _WebSettingsState extends State<WebSettings> {
                                 ),
                                 const SizedBox(height: 12),
                                 buildMenuItem(
-                                  status: true,
+                                  item: 3,
                                   text: 'Account Settings',
                                   icon: SvgPicture.asset(
                                       'images/settings_icon.svg',
@@ -204,19 +206,23 @@ class _WebSettingsState extends State<WebSettings> {
     );
   }
 
+  void set status(int? selection) {
+    selected = selection;
+  }
+
+  int? get status => selected;
+
   Widget buildMenuItem({
+    required int item,
     required String text,
     required SvgPicture icon,
-    required bool status,
     VoidCallback? onClicked,
   }) {
     final hoverColor = Colors.grey[200];
 
     return ListTile(
       leading: icon,
-      title: Text(text,
-          style:
-              TextStyle(color: status ? Color(0xFF4DB89E) : Color(0xFF334D6E))),
+      title: Text(text, style: TextStyle(color: Color(0xFF4DB89E))),
       horizontalTitleGap: 5,
       hoverColor: hoverColor,
       onTap: onClicked,
