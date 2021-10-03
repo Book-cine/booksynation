@@ -1,3 +1,7 @@
+import 'package:booksynation/web_pages/webmanage.dart';
+import 'package:booksynation/web_pages/webmissed.dart';
+import 'package:booksynation/web_pages/webschedule.dart';
+import 'package:booksynation/web_pages/websettings.dart';
 import 'package:booksynation/weblogin.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -43,6 +47,10 @@ class _WebMainState extends State<WebMain> {
           children: [
             Align(
               alignment: Alignment.bottomRight,
+              child: getContent(),
+            ),
+            Align(
+              alignment: Alignment.topRight,
               child: Container(
                 height: height,
                 width: width - 260,
@@ -309,6 +317,25 @@ class _WebMainState extends State<WebMain> {
         break;
     }
     return section;
+  }
+
+  Widget getContent() {
+    Widget content = WebManage();
+    switch (status) {
+      case 0:
+        content = WebManage();
+        break;
+      case 1:
+        content = WebSchedule();
+        break;
+      case 2:
+        content = WebMissed();
+        break;
+      case 3:
+        content = WebSettings();
+        break;
+    }
+    return content;
   }
 
   Widget buildMenuItem({
