@@ -50,7 +50,7 @@ class _WebRegisterState extends State<WebRegister> {
               alignment: Alignment.center,
               child: Container(
                 height: height * 0.65,
-                width: width * 0.75,
+                width: width * 0.65,
                 alignment: Alignment.center,
                 child: AspectRatio(
                   aspectRatio: 0.7,
@@ -67,7 +67,7 @@ class _WebRegisterState extends State<WebRegister> {
                       ],
                     ),
                     padding: EdgeInsets.symmetric(
-                        vertical: height * 0.05, horizontal: width * 0.035),
+                        vertical: height * 0.035, horizontal: width * 0.025),
                     child: SingleChildScrollView(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -166,7 +166,7 @@ class _WebRegisterState extends State<WebRegister> {
                                     height * 0.045,
                                   ),
                                   shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(40.0),
+                                    borderRadius: BorderRadius.circular(10.0),
                                   ),
                                 ),
                                 child: Text(
