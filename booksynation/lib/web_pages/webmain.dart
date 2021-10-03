@@ -1,18 +1,19 @@
 import 'package:booksynation/web_pages/webmanage.dart';
 import 'package:booksynation/web_pages/webmissed.dart';
 import 'package:booksynation/web_pages/webschedule.dart';
+import 'package:booksynation/web_pages/websettings.dart';
 import 'package:booksynation/weblogin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-class WebSettings extends StatefulWidget {
-  WebSettings({Key? key}) : super(key: key);
+class WebMain extends StatefulWidget {
+  WebMain({Key? key}) : super(key: key);
 
   @override
-  _WebSettingsState createState() => _WebSettingsState();
+  _WebMainState createState() => _WebMainState();
 }
 
-class _WebSettingsState extends State<WebSettings> {
+class _WebMainState extends State<WebMain> {
   final padding = EdgeInsets.symmetric(horizontal: 20);
 
   final emails = [
@@ -24,7 +25,7 @@ class _WebSettingsState extends State<WebSettings> {
   ];
 
   String? value;
-  int? selected;
+  int _selected = 3;
 
   @override
   Widget build(BuildContext context) {
@@ -138,8 +139,13 @@ class _WebSettingsState extends State<WebSettings> {
                                   text: 'Manage Vaccines',
                                   icon: SvgPicture.asset(
                                       'images/vaccine_icon.svg',
+                                      color: this.status == 0
+                                          ? Color(0xFF4DB89E)
+                                          : Color(0xFFCCCCCC),
                                       height: 20),
-                                  onClicked: () => selectedItem(context, 0),
+                                  onClicked: () => setState(() {
+                                    this.status = 0;
+                                  }),
                                 ),
                                 const SizedBox(height: 12),
                                 buildMenuItem(
@@ -147,8 +153,13 @@ class _WebSettingsState extends State<WebSettings> {
                                   text: 'Scheduled Vaccinations',
                                   icon: SvgPicture.asset(
                                       'images/schedule_icon.svg',
+                                      color: this.status == 1
+                                          ? Color(0xFF4DB89E)
+                                          : Color(0xFFCCCCCC),
                                       height: 20),
-                                  onClicked: () => selectedItem(context, 1),
+                                  onClicked: () => setState(() {
+                                    this.status = 1;
+                                  }),
                                 ),
                                 const SizedBox(height: 12),
                                 buildMenuItem(
@@ -156,8 +167,13 @@ class _WebSettingsState extends State<WebSettings> {
                                   text: 'Missed Vaccinations',
                                   icon: SvgPicture.asset(
                                       'images/missed_icon.svg',
+                                      color: this.status == 2
+                                          ? Color(0xFF4DB89E)
+                                          : Color(0xFFCCCCCC),
                                       height: 20),
-                                  onClicked: () => selectedItem(context, 2),
+                                  onClicked: () => setState(() {
+                                    this.status = 2;
+                                  }),
                                 ),
                                 const SizedBox(height: 12),
                                 buildMenuItem(
@@ -165,9 +181,13 @@ class _WebSettingsState extends State<WebSettings> {
                                   text: 'Account Settings',
                                   icon: SvgPicture.asset(
                                       'images/settings_icon.svg',
-                                      color: Color(0xFF4DB89E),
+                                      color: this.status == 3
+                                          ? Color(0xFF4DB89E)
+                                          : Color(0xFFCCCCCC),
                                       height: 20),
-                                  onClicked: () => selectedItem(context, 3),
+                                  onClicked: () => setState(() {
+                                    this.status = 3;
+                                  }),
                                 ),
                               ],
                             ),
@@ -191,7 +211,11 @@ class _WebSettingsState extends State<WebSettings> {
                             text: 'Sign-out',
                             icon: SvgPicture.asset('images/signout_icon.svg',
                                 height: 15),
-                            onClicked: () => selectedItem(context, 4),
+                            onClicked: () => {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => WebLogin(),
+                              ))
+                            },
                           ),
                         ),
                       ],
@@ -206,11 +230,11 @@ class _WebSettingsState extends State<WebSettings> {
     );
   }
 
-  void set status(int? selection) {
-    selected = selection;
+  void set status(int selection) {
+    _selected = selection;
   }
 
-  int? get status => selected;
+  int get status => _selected;
 
   Widget buildMenuItem({
     required int item,
@@ -222,7 +246,10 @@ class _WebSettingsState extends State<WebSettings> {
 
     return ListTile(
       leading: icon,
-      title: Text(text, style: TextStyle(color: Color(0xFF4DB89E))),
+      title: Text(text,
+          style: TextStyle(
+              color:
+                  this.status == item ? Color(0xFF4DB89E) : Color(0xFF334D6E))),
       horizontalTitleGap: 5,
       hoverColor: hoverColor,
       onTap: onClicked,
@@ -241,37 +268,5 @@ class _WebSettingsState extends State<WebSettings> {
           Text(text, style: TextStyle(fontSize: 15, color: Color(0xFF334D6E))),
       onTap: onClicked,
     );
-  }
-
-  void selectedItem(BuildContext context, int index) {
-    Navigator.of(context).pop();
-
-    switch (index) {
-      case 0:
-        Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => WebManage(),
-        ));
-        break;
-      case 1:
-        Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => WebSchedule(),
-        ));
-        break;
-      case 2:
-        Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => WebMissed(),
-        ));
-        break;
-      case 3:
-        Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => WebSettings(),
-        ));
-        break;
-      case 4:
-        Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => WebLogin(),
-        ));
-        break;
-    }
   }
 }

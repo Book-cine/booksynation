@@ -1,4 +1,4 @@
-import 'package:booksynation/web_pages/websettings.dart';
+import 'package:booksynation/web_pages/webmain.dart';
 import 'package:booksynation/webregister.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -203,7 +203,7 @@ class _WebLoginState extends State<WebLogin> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => WebSettings()),
+                                      builder: (context) => WebMain()),
                                 );
                               },
                               style: ElevatedButton.styleFrom(
