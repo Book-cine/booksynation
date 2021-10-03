@@ -155,7 +155,7 @@ class _WebSettingsState extends State<WebSettings> {
                               ),
                             ),
                             SizedBox(
-                              height: height * 0.010,
+                              height: height * 0.015,
                             ),
                             TextField(
                               obscureText: true,
@@ -168,7 +168,7 @@ class _WebSettingsState extends State<WebSettings> {
                               ),
                             ),
                             SizedBox(
-                              height: height * 0.010,
+                              height: height * 0.015,
                             ),
                             TextField(
                               obscureText: true,
@@ -179,11 +179,11 @@ class _WebSettingsState extends State<WebSettings> {
                                 ),
                                 hintText: 'Confirm Password',
                               ),
-                            ),
-                            SizedBox(
-                              height: height * 0.05,
-                            ),
+                            )
                           ],
+                        ),
+                        SizedBox(
+                          height: height * 0.045,
                         ),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
