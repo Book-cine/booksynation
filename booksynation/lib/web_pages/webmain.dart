@@ -65,7 +65,7 @@ class _WebMainState extends State<WebMain> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 SizedBox(
-                                  width: 20,
+                                  width: 40,
                                 ),
                                 Container(
                                   child: Text(getSection(),
