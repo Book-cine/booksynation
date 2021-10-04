@@ -269,7 +269,7 @@ class PatientDropdown extends StatefulWidget {
 
 class _PatientDropdownState extends State<PatientDropdown> {
   String? dropdownValue;
-
+  DateTime? date;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -306,6 +306,21 @@ class _PatientDropdownState extends State<PatientDropdown> {
         ),
       ),
     );
+  }
+
+  Future pickDate(BuildContext context) async {
+    final initialDate = DateTime.now();
+    final newDate = await showDatePicker(
+      context: context,
+      initialDate: initialDate,
+      firstDate: DateTime(DateTime.now().year - 100),
+      lastDate: DateTime(DateTime.now().year + 1),
+    );
+    if (newDate == null) return;
+
+    setState(() {
+      date = newDate;
+    });
   }
 }
 
