@@ -31,6 +31,9 @@ class _WebScheduleState extends State<WebSchedule> {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
+                  SizedBox(
+                    width: 10,
+                  ),
                   Container(
                     child: Text('Vaccine: ',
                         style: TextStyle(
@@ -164,6 +167,48 @@ class _WebScheduleState extends State<WebSchedule> {
                               DataCell(Container(child: Text('2nd'))),
                               DataCell(Container(child: Text('A4'))),
                               DataCell(Container(child: Text('Sept 23, 2021'))),
+                              DataCell(
+                                Container(
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      IconButton(
+                                        icon: SvgPicture.asset(
+                                          'images/check_icon.svg',
+                                          color: Color(0xFF4ECB71),
+                                          height: 25,
+                                          width: 25,
+                                        ),
+                                        tooltip: 'Mark as finished',
+                                        onPressed: () {},
+                                      ),
+                                      IconButton(
+                                        icon: SvgPicture.asset(
+                                          'images/reject_icon.svg',
+                                          color: Color(0xFFF11010),
+                                          height: 25,
+                                          width: 25,
+                                        ),
+                                        tooltip: 'Mark as missed',
+                                        onPressed: () {},
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          DataRow(
+                            cells: <DataCell>[
+                              DataCell(Container(child: Text('19-4097-771'))),
+                              DataCell(
+                                  Container(child: Text('Mervin John Tampus'))),
+                              DataCell(Container(
+                                  child: Text('mervinjohn@gmail.com'))),
+                              DataCell(Container(child: Text('Pfizer'))),
+                              DataCell(Container(child: Text('1st'))),
+                              DataCell(Container(child: Text('A2'))),
+                              DataCell(Container(child: Text('Sept 24, 2021'))),
                               DataCell(
                                 Container(
                                   child: Row(
