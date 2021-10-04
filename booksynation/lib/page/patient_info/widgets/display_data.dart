@@ -42,7 +42,6 @@ class DisplayData extends StatelessWidget {
                           Text(
                               'My name is ${data.docs[index]['firstname']} ${data.docs[index]['middlename']} ${data.docs[index]['lastname']} ${data.docs[index]['suffix']}'),
                           Text('Gender: ${data.docs[index]['gender']}'),
-                          Text('Bdate: ${data.docs[index]['bday']}'),
                           Text(
                               'Civil Status:${data.docs[index]['civstatus']} '),
                           Text('Philhealth:${data.docs[index]['philhealth']}'),
