@@ -91,10 +91,12 @@ class _MyCustomFormState extends State<MyCustomForm> {
     "Male",
     "Female",
   ];
+  var sex = '';
   var civstatus = [
     "Single",
     "Married",
   ];
+  var civstat = '';
 
   @override
   Widget build(BuildContext context) {
@@ -110,14 +112,14 @@ class _MyCustomFormState extends State<MyCustomForm> {
               Expanded(
                 child: PatientFormField(
                   label: 'First Name',
-                  docField: 'firstname',
+                  docField: firstName,
                 ),
               ),
               SizedBox(width: widget.width * 0.015),
               Expanded(
                 child: PatientFormField(
                   label: 'Middle Name',
-                  docField: 'middlename',
+                  docField: middleName,
                 ),
               ),
             ],
@@ -130,7 +132,7 @@ class _MyCustomFormState extends State<MyCustomForm> {
                 flex: 3,
                 child: PatientFormField(
                   label: 'Last Name',
-                  docField: 'lastname',
+                  docField: lastName,
                 ),
               ),
               SizedBox(width: widget.width * 0.015),
@@ -138,7 +140,7 @@ class _MyCustomFormState extends State<MyCustomForm> {
                 flex: 1,
                 child: PatientFormField(
                   label: 'Suffix',
-                  docField: 'suffix',
+                  docField: suffix,
                 ),
               ),
             ],
@@ -149,7 +151,10 @@ class _MyCustomFormState extends State<MyCustomForm> {
             children: [
               Expanded(
                 flex: 1,
-                child: PatientDropdown(),
+                child: PatientDropdown(
+                  dropList: gender,
+                  docField: sex,
+                ),
               ),
               SizedBox(width: widget.width * 0.015),
               Expanded(
@@ -165,7 +170,7 @@ class _MyCustomFormState extends State<MyCustomForm> {
                 flex: 1,
                 child: PatientFormField(
                   label: 'Age',
-                  docField: 'age',
+                  docField: age,
                 ),
               ),
             ],
@@ -176,10 +181,9 @@ class _MyCustomFormState extends State<MyCustomForm> {
             children: [
               Expanded(
                 flex: 1,
-                child: TextField(
-                  decoration: InputDecoration(
-                    labelText: 'Civil Status',
-                  ),
+                child: PatientDropdown(
+                  dropList: civstatus,
+                  docField: civstat,
                 ),
               ),
               SizedBox(width: widget.width * 0.015),
@@ -219,7 +223,9 @@ class _MyCustomFormState extends State<MyCustomForm> {
                         'middlename': middleName,
                         'lastname': lastName,
                         'suffix': suffix,
+                        'gender': sex,
                         'age': age,
+                        'civstatus': civstat,
                         'philhealth': philhealth,
                       })
                       .then((value) => print('Add User'))
@@ -252,7 +258,6 @@ class PatientFormField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       decoration: InputDecoration(
-        // hintText: 'Nash',
         labelText: '$label',
       ),
       onChanged: (value) {
@@ -271,21 +276,24 @@ class PatientFormField extends StatelessWidget {
 class PatientDropdown extends StatefulWidget {
   PatientDropdown({
     Key? key,
-    // @required this.placeholder,
+    @required this.dropList,
+    @required this.docField,
   }) : super(key: key);
 
-  // final placeholder;
+  final dropList;
+  late final docField;
   @override
   _PatientDropdownState createState() => _PatientDropdownState();
 }
 
 class _PatientDropdownState extends State<PatientDropdown> {
-  String dropdownValue = 'Male';
+  String? dropdownValue;
 
   @override
   Widget build(BuildContext context) {
     return DropdownButton<String>(
       value: dropdownValue,
+      isExpanded: true,
       icon: const Icon(Icons.arrow_downward),
       iconSize: 20,
       style: TextStyle(
@@ -296,13 +304,11 @@ class _PatientDropdownState extends State<PatientDropdown> {
         height: 1,
         color: Colors.grey,
       ),
-      onChanged: (String? newValue) {
-        setState(() {
-          dropdownValue = newValue!;
-        });
+      onChanged: (value) {
+        setState(() => this.dropdownValue = value);
+        widget.docField = value;
       },
-      items: <String>['Male', 'Female']
-          .map<DropdownMenuItem<String>>((String value) {
+      items: widget.dropList.map<DropdownMenuItem<String>>((String value) {
         return DropdownMenuItem<String>(
           value: value,
           child: Text(value),
