@@ -95,7 +95,7 @@ Widget buildHeaderVaccines() {
                               style: TextStyle(
                                   fontFamily: 'Poppins',
                                   fontWeight: FontWeight.w500,
-                                  fontSize: 48,
+                                  fontSize: 40,
                                   color: Color(0xFFEA3D2F))),
                         ),
                         Container(
@@ -147,7 +147,7 @@ Widget buildHeaderVaccines() {
                               style: TextStyle(
                                   fontFamily: 'Poppins',
                                   fontWeight: FontWeight.w500,
-                                  fontSize: 50,
+                                  fontSize: 40,
                                   color: Color(0xFF367BF5))),
                         ),
                         Container(
@@ -199,7 +199,7 @@ Widget buildHeaderVaccines() {
                               style: TextStyle(
                                   fontFamily: 'Poppins',
                                   fontWeight: FontWeight.w500,
-                                  fontSize: 50,
+                                  fontSize: 40,
                                   color: Color(0xFF2FA84F))),
                         ),
                         Container(
@@ -251,7 +251,7 @@ Widget buildHeaderVaccines() {
                               style: TextStyle(
                                   fontFamily: 'Poppins',
                                   fontWeight: FontWeight.w500,
-                                  fontSize: 48,
+                                  fontSize: 40,
                                   color: Color(0xFFF3AA18))),
                         ),
                         Container(
@@ -303,7 +303,7 @@ Widget buildHeaderVaccines() {
                               style: TextStyle(
                                   fontFamily: 'Poppins',
                                   fontWeight: FontWeight.w500,
-                                  fontSize: 48,
+                                  fontSize: 40,
                                   color: Color(0xFF6E8987))),
                         ),
                         Container(
@@ -376,7 +376,7 @@ Widget buildFooterUpdates() {
                                             style: TextStyle(
                                                 fontFamily: 'Poppins',
                                                 fontWeight: FontWeight.w500,
-                                                fontSize: 48,
+                                                fontSize: 40,
                                                 color: Color(0xFF6A93DD))),
                                       ),
                                     ],
@@ -420,7 +420,7 @@ Widget buildFooterUpdates() {
                                             style: TextStyle(
                                                 fontFamily: 'Poppins',
                                                 fontWeight: FontWeight.w500,
-                                                fontSize: 50,
+                                                fontSize: 40,
                                                 color: Color(0xFF87B593))),
                                       ),
                                     ],
@@ -480,7 +480,7 @@ Widget buildFooterUpdates() {
                                             style: TextStyle(
                                                 fontFamily: 'Poppins',
                                                 fontWeight: FontWeight.w500,
-                                                fontSize: 48,
+                                                fontSize: 40,
                                                 color: Color(0xFFDAAC51))),
                                       ),
                                     ],
@@ -524,7 +524,7 @@ Widget buildFooterUpdates() {
                                             style: TextStyle(
                                                 fontFamily: 'Poppins',
                                                 fontWeight: FontWeight.w500,
-                                                fontSize: 50,
+                                                fontSize: 40,
                                                 color: Color(0xFFDE7D7D))),
                                       ),
                                     ],
