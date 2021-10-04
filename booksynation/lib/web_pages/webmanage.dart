@@ -65,10 +65,13 @@ Widget buildHeaderVaccines() {
           Expanded(
             flex: 10,
             child: Container(
+              padding: EdgeInsets.only(left: 20, top: 20),
               decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(16),
                 color: Color(0xFFF7F9FA),
               ),
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Container(
                     child: Row(
@@ -114,10 +117,13 @@ Widget buildHeaderVaccines() {
           Expanded(
             flex: 10,
             child: Container(
+              padding: EdgeInsets.only(left: 20, top: 20),
               decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(16),
                 color: Color(0xFFF7F9FA),
               ),
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Container(
                     child: Row(
@@ -163,10 +169,13 @@ Widget buildHeaderVaccines() {
           Expanded(
             flex: 10,
             child: Container(
+              padding: EdgeInsets.only(left: 20, top: 20),
               decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(16),
                 color: Color(0xFFF7F9FA),
               ),
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Container(
                     child: Row(
@@ -212,10 +221,13 @@ Widget buildHeaderVaccines() {
           Expanded(
             flex: 10,
             child: Container(
+              padding: EdgeInsets.only(left: 20, top: 20),
               decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(16),
                 color: Color(0xFFF7F9FA),
               ),
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Container(
                     child: Row(
@@ -261,10 +273,13 @@ Widget buildHeaderVaccines() {
           Expanded(
             flex: 10,
             child: Container(
+              padding: EdgeInsets.only(left: 20, top: 20),
               decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(16),
                 color: Color(0xFFF7F9FA),
               ),
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Container(
                     child: Row(
@@ -331,10 +346,13 @@ Widget buildFooterUpdates() {
                         Expanded(
                           flex: 10,
                           child: Container(
+                            padding: EdgeInsets.only(left: 20, top: 20),
                             decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(16),
                               color: Color(0xFFF7F9FA),
                             ),
                             child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Container(
                                   child: Row(
@@ -372,10 +390,13 @@ Widget buildFooterUpdates() {
                         Expanded(
                           flex: 10,
                           child: Container(
+                            padding: EdgeInsets.only(left: 20, top: 20),
                             decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(16),
                               color: Color(0xFFF7F9FA),
                             ),
                             child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Container(
                                   child: Row(
@@ -429,10 +450,13 @@ Widget buildFooterUpdates() {
                         Expanded(
                           flex: 10,
                           child: Container(
+                            padding: EdgeInsets.only(left: 20, top: 20),
                             decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(16),
                               color: Color(0xFFF7F9FA),
                             ),
                             child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Container(
                                   child: Row(
@@ -470,10 +494,13 @@ Widget buildFooterUpdates() {
                         Expanded(
                           flex: 10,
                           child: Container(
+                            padding: EdgeInsets.only(left: 20, top: 20),
                             decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(16),
                               color: Color(0xFFF7F9FA),
                             ),
                             child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Container(
                                   child: Row(
