@@ -212,6 +212,7 @@ class _WebSettingsState extends State<WebSettings> {
                                   fontSize: height * 0.018,
                                   decoration: TextDecoration.none,
                                 ),
+                                textAlign: TextAlign.center,
                               ),
                             ),
                           ],

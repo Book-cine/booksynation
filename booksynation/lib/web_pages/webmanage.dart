@@ -48,7 +48,7 @@ class _WebManageState extends State<WebManage> {
                             flex: 20,
                             child: Container(
                                 padding: EdgeInsets.only(
-                                    top: 20, left: 20, right: 20),
+                                    top: 30, left: 30, right: 30),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(16),
                                   color: Color(0xFFF7F9FA),
@@ -700,7 +700,7 @@ class _WebManageState extends State<WebManage> {
                 child: Container(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Container(
                         child: Text(
@@ -724,7 +724,7 @@ class _WebManageState extends State<WebManage> {
                 child: Container(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Container(
                         child: Text(
@@ -756,7 +756,7 @@ class _WebManageState extends State<WebManage> {
                   child: Container(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Container(
                           child: Text(
@@ -765,15 +765,30 @@ class _WebManageState extends State<WebManage> {
                               color: Color(0xFF333333),
                               fontFamily: 'Poppins',
                               fontWeight: FontWeight.w600,
-                              fontSize: 14,
+                              fontSize: 13,
                               decoration: TextDecoration.none,
                             ),
                           ),
                         ),
                         Container(
-                          child: TextField(
+                          padding: EdgeInsets.only(top: 10),
+                          child: TextFormField(
                             style: TextStyle(
-                              fontSize: 15,
+                              color: Color(0xFF333333),
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.w500,
+                              fontSize: 13,
+                              decoration: TextDecoration.none,
+                            ),
+                            decoration: new InputDecoration(
+                              fillColor: Colors.white,
+                              isDense: true,
+                              contentPadding:
+                                  EdgeInsets.fromLTRB(10, 15, 10, 10),
+                              border: new OutlineInputBorder(
+                                borderSide: new BorderSide(),
+                              ),
+                              //fillColor: Colors.green
                             ),
                           ),
                         ),
@@ -781,12 +796,13 @@ class _WebManageState extends State<WebManage> {
                     ),
                   ),
                 ),
+                Spacer(),
                 Expanded(
                   flex: 7,
                   child: Container(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Container(
                           child: Text(
@@ -801,50 +817,56 @@ class _WebManageState extends State<WebManage> {
                           ),
                         ),
                         Container(
-                          child: DropdownButton<String>(
-                            value: dropdownValue,
-                            icon: const Icon(Icons.arrow_downward),
-                            iconSize: 18,
-                            elevation: 16,
-                            style: const TextStyle(color: Color(0xFF109CF1)),
-                            underline: Container(
-                              height: 2,
-                              color: Color(0xFFCCCCCC),
+                          padding: EdgeInsets.fromLTRB(10, 5, 5, 5),
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.grey),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: DropdownButtonHideUnderline(
+                            child: DropdownButton<String>(
+                              value: dropdownValue,
+                              icon: const Icon(Icons.arrow_downward),
+                              iconSize: 18,
+                              elevation: 16,
+                              isDense: true,
+                              isExpanded: true,
+                              style: const TextStyle(color: Color(0xFF109CF1)),
+                              onChanged: (String? newValue) {
+                                setState(() {
+                                  dropdownValue = newValue!;
+                                });
+                              },
+                              items: <String>[
+                                'Astrazenica',
+                                'Janssen',
+                                'Moderna',
+                                'Pfizer',
+                                'Sinovac'
+                              ].map<DropdownMenuItem<String>>((String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(value,
+                                      style: TextStyle(
+                                          fontFamily: 'Poppins',
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 13,
+                                          color: Color(0xFF109CF1))),
+                                );
+                              }).toList(),
                             ),
-                            onChanged: (String? newValue) {
-                              setState(() {
-                                dropdownValue = newValue!;
-                              });
-                            },
-                            items: <String>[
-                              'Astrazenica',
-                              'Janssen',
-                              'Moderna',
-                              'Pfizer',
-                              'Sinovac'
-                            ].map<DropdownMenuItem<String>>((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(value,
-                                    style: TextStyle(
-                                        fontFamily: 'Poppins',
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 13,
-                                        color: Color(0xFF109CF1))),
-                              );
-                            }).toList(),
                           ),
                         ),
                       ],
                     ),
                   ),
                 ),
+                Spacer(),
                 Expanded(
                   flex: 7,
                   child: Container(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Container(
                           child: Text(
@@ -859,33 +881,43 @@ class _WebManageState extends State<WebManage> {
                           ),
                         ),
                         Container(
-                          child: DropdownButton<String>(
-                            value: dropdownValue2,
-                            icon: const Icon(Icons.arrow_downward),
-                            iconSize: 18,
-                            elevation: 16,
-                            style: const TextStyle(color: Color(0xFF109CF1)),
-                            underline: Container(
-                              height: 2,
-                              color: Color(0xFFCCCCCC),
+                          padding: EdgeInsets.fromLTRB(10, 5, 5, 5),
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.grey),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: DropdownButtonHideUnderline(
+                            child: DropdownButton<String>(
+                              value: dropdownValue2,
+                              icon: const Icon(Icons.arrow_downward),
+                              iconSize: 18,
+                              elevation: 16,
+                              isDense: true,
+                              isExpanded: true,
+                              style: const TextStyle(color: Color(0xFF109CF1)),
+                              onChanged: (String? newValue) {
+                                setState(() {
+                                  dropdownValue2 = newValue!;
+                                });
+                              },
+                              items: <String>[
+                                'A1',
+                                'A2',
+                                'A3',
+                                'A4',
+                                'A5'
+                              ].map<DropdownMenuItem<String>>((String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(value,
+                                      style: TextStyle(
+                                          fontFamily: 'Poppins',
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 13,
+                                          color: Color(0xFF109CF1))),
+                                );
+                              }).toList(),
                             ),
-                            onChanged: (String? newValue) {
-                              setState(() {
-                                dropdownValue2 = newValue!;
-                              });
-                            },
-                            items: <String>['A1', 'A2', 'A3', 'A4', 'A5']
-                                .map<DropdownMenuItem<String>>((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(value,
-                                    style: TextStyle(
-                                        fontFamily: 'Poppins',
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 13,
-                                        color: Color(0xFF109CF1))),
-                              );
-                            }).toList(),
                           ),
                         ),
                       ],
@@ -923,6 +955,7 @@ class _WebManageState extends State<WebManage> {
                       fontSize: height * 0.018,
                       decoration: TextDecoration.none,
                     ),
+                    textAlign: TextAlign.center,
                   ),
                 ),
                 Spacer(),

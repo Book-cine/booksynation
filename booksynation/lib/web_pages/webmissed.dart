@@ -112,6 +112,7 @@ class _WebMissedState extends State<WebMissed> {
                             fontSize: height * 0.018,
                             decoration: TextDecoration.none,
                           ),
+                          textAlign: TextAlign.center,
                         ),
                       ),
                       ElevatedButton(
@@ -135,6 +136,7 @@ class _WebMissedState extends State<WebMissed> {
                             fontSize: height * 0.018,
                             decoration: TextDecoration.none,
                           ),
+                          textAlign: TextAlign.center,
                         ),
                       ),
                     ],
