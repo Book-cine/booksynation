@@ -10,6 +10,8 @@ class WebManage extends StatefulWidget {
 class _WebManageState extends State<WebManage> {
   String? dropdownValue;
   String? dropdownValue2;
+  DateTime? dateStart;
+  DateTime? dateEnd;
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width - 260;
@@ -714,11 +716,14 @@ class _WebManageState extends State<WebManage> {
                           ),
                         ),
                       ),
-                      Container(),
+                      Container(
+                        child: datePickerStart(),
+                      ),
                     ],
                   ),
                 ),
               ),
+              Spacer(),
               Expanded(
                 flex: 10,
                 child: Container(
@@ -738,7 +743,9 @@ class _WebManageState extends State<WebManage> {
                           ),
                         ),
                       ),
-                      Container(),
+                      Container(
+                        child: datePickerEnd(),
+                      ),
                     ],
                   ),
                 ),
@@ -746,6 +753,7 @@ class _WebManageState extends State<WebManage> {
             ],
           ),
         ),
+        Spacer(),
         Container(
           child: Expanded(
             flex: 6,
@@ -965,5 +973,109 @@ class _WebManageState extends State<WebManage> {
         ),
       ],
     );
+  }
+
+  Widget datePickerStart() {
+    return InkWell(
+      onTap: () => pickDateStart(context),
+      child: Container(
+        padding: EdgeInsets.fromLTRB(10, 5, 5, 5),
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.grey),
+          borderRadius: BorderRadius.circular(5),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              getTextStart().toString(),
+              style: TextStyle(
+                fontSize: 16,
+                color: Colors.grey.shade600,
+              ),
+            ),
+            Icon(
+              Icons.keyboard_arrow_down,
+              color: Colors.grey.shade600,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget datePickerEnd() {
+    return InkWell(
+      onTap: () => pickDateEnd(context),
+      child: Container(
+        padding: EdgeInsets.fromLTRB(10, 5, 5, 5),
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.grey),
+          borderRadius: BorderRadius.circular(5),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              getTextEnd().toString(),
+              style: TextStyle(
+                fontSize: 16,
+                color: Colors.grey.shade600,
+              ),
+            ),
+            Icon(
+              Icons.keyboard_arrow_down,
+              color: Colors.grey.shade600,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  String? getTextStart() {
+    if (dateStart == null) {
+      return 'mm/dd/yy';
+    } else {
+      return '${dateStart?.month}/${dateStart?.day}/${dateStart?.year}';
+    }
+  }
+
+  String? getTextEnd() {
+    if (dateEnd == null) {
+      return 'mm/dd/yy';
+    } else {
+      return '${dateEnd?.month}/${dateEnd?.day}/${dateEnd?.year}';
+    }
+  }
+
+  Future pickDateStart(BuildContext context) async {
+    final initialDate = DateTime.now();
+    final newDate = await showDatePicker(
+      context: context,
+      initialDate: initialDate,
+      firstDate: DateTime(DateTime.now().year - 100),
+      lastDate: DateTime(DateTime.now().year + 1),
+    );
+    if (newDate == null) return;
+
+    setState(() {
+      dateStart = newDate;
+    });
+  }
+
+  Future pickDateEnd(BuildContext context) async {
+    final initialDate = DateTime.now();
+    final newDate = await showDatePicker(
+      context: context,
+      initialDate: initialDate,
+      firstDate: DateTime(DateTime.now().year - 100),
+      lastDate: DateTime(DateTime.now().year + 1),
+    );
+    if (newDate == null) return;
+
+    setState(() {
+      dateEnd = newDate;
+    });
   }
 }
