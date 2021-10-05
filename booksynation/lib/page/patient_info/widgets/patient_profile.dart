@@ -1,18 +1,6 @@
 import 'package:booksynation/page/patient_info/widgets/display_data.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:booksynation/page/patient_info/widgets/infoData.dart';
 import 'package:flutter/material.dart';
-
-Map<String, String> docFields = {
-  'firstname': '',
-  'middlename': '',
-  'lastname': '',
-  'suffix': '',
-  'age': '',
-  'bday': '',
-  'gender': '',
-  'civstatus': '',
-  'philhealth': '',
-};
 
 class PatientProfile extends StatefulWidget {
   const PatientProfile({
@@ -29,20 +17,7 @@ class PatientProfile extends StatefulWidget {
 }
 
 class _PatientProfileState extends State<PatientProfile> {
-  final Stream<QuerySnapshot> users =
-      FirebaseFirestore.instance.collection('users').snapshots();
   final _formKey = GlobalKey<FormState>();
-
-  var gender = [
-    "Male",
-    "Female",
-  ];
-  var civstatus = [
-    "Single",
-    "Married",
-  ];
-
-  DateTime? date;
 
   @override
   Widget build(BuildContext context) {
@@ -50,8 +25,6 @@ class _PatientProfileState extends State<PatientProfile> {
   }
 
   Widget _patientProfileForm() {
-    CollectionReference users = FirebaseFirestore.instance.collection('users');
-    final Stream<QuerySnapshot<Object?>> user = users.snapshots();
     return Form(
       key: _formKey,
       child: Column(
@@ -61,11 +34,11 @@ class _PatientProfileState extends State<PatientProfile> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Expanded(
-                child: _patientFormField('First Name'),
+                child: PatientFormField(label: 'First Name'),
               ),
               SizedBox(width: widget.width * 0.015),
               Expanded(
-                child: _patientFormField('Middle Name'),
+                child: PatientFormField(label: 'Middle Name'),
               ),
             ],
           ),
@@ -75,12 +48,12 @@ class _PatientProfileState extends State<PatientProfile> {
             children: [
               Expanded(
                 flex: 3,
-                child: _patientFormField('Last Name'),
+                child: PatientFormField(label: 'Last Name'),
               ),
               SizedBox(width: widget.width * 0.015),
               Expanded(
                 flex: 1,
-                child: _patientFormField('Suffix'),
+                child: PatientFormField(label: 'Suffix'),
               ),
             ],
           ),
@@ -100,7 +73,7 @@ class _PatientProfileState extends State<PatientProfile> {
               SizedBox(width: widget.width * 0.015),
               Expanded(
                 flex: 1,
-                child: _patientFormField('Age'),
+                child: PatientFormField(label: 'Age'),
               ),
             ],
           ),
@@ -118,7 +91,7 @@ class _PatientProfileState extends State<PatientProfile> {
               SizedBox(width: widget.width * 0.015),
               Expanded(
                 flex: 2,
-                child: TextField(
+                child: TextFormField(
                   decoration: InputDecoration(
                     contentPadding: EdgeInsets.symmetric(
                       vertical: 13,
@@ -146,7 +119,7 @@ class _PatientProfileState extends State<PatientProfile> {
                     ),
                   );
 
-                  users
+                  userCollection
                       .add({
                         'firstname': docFields['firstname'].toString(),
                         'middlename': docFields['middlename'].toString(),
@@ -171,7 +144,7 @@ class _PatientProfileState extends State<PatientProfile> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => DisplayData(users: user)),
+                    builder: (context) => DisplayData(users: users)),
               );
             },
             style: ElevatedButton.styleFrom(
@@ -200,42 +173,9 @@ class _PatientProfileState extends State<PatientProfile> {
     );
   }
 
-  Widget _patientFormField(String label) {
-    return TextFormField(
-      decoration: InputDecoration(
-        labelText: '$label',
-      ),
-      onChanged: (value) {
-        switch (label) {
-          case 'First Name':
-            docFields['firstname'] = value;
-            break;
-          case 'Middle Name':
-            docFields['middlename'] = value;
-            break;
-          case 'Last Name':
-            docFields['lastname'] = value;
-            break;
-          case 'Suffix':
-            docFields['suffix'] = value;
-            break;
-          case 'Age':
-            docFields['age'] = value;
-            break;
-        }
-      },
-      validator: (value) {
-        if (value == null || value.isEmpty) {
-          return 'Please enter some text';
-        }
-        return null;
-      },
-    );
-  }
-
   String? getText() {
     if (date == null) {
-      return 'Birthdate';
+      return 'Birthday';
     } else {
       docFields['bday'] = '${date?.month}/${date?.day}/${date?.year}';
       return docFields['bday'];
@@ -285,6 +225,47 @@ class _PatientProfileState extends State<PatientProfile> {
     setState(() {
       date = newDate;
     });
+  }
+}
+
+class PatientFormField extends StatelessWidget {
+  const PatientFormField({Key? key, @required this.label}) : super(key: key);
+  final label;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      decoration: InputDecoration(
+        labelText: '$label',
+      ),
+      onChanged: (value) {
+        switch (label) {
+          case 'First Name':
+            docFields['firstname'] = value;
+            break;
+          case 'Middle Name':
+            docFields['middlename'] = value;
+            break;
+          case 'Last Name':
+            docFields['lastname'] = value;
+            break;
+          case 'Suffix':
+            docFields['suffix'] = value;
+            break;
+          case 'Age':
+            docFields['age'] = value;
+            break;
+        }
+      },
+      validator: (value) {
+        if (label == 'Suffix') {
+          return null;
+        } else if (value == null || value.isEmpty) {
+          return 'Please enter some text';
+        }
+        return null;
+      },
+    );
   }
 }
 
