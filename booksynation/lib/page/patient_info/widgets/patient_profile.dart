@@ -68,7 +68,7 @@ class _PatientProfileState extends State<PatientProfile> {
               SizedBox(width: widget.width * 0.015),
               Expanded(
                 flex: 2,
-                child: _birthdayPicker(),
+                child: DatePicker(label: 'bday'),
               ),
               SizedBox(width: widget.width * 0.015),
               Expanded(
@@ -91,18 +91,20 @@ class _PatientProfileState extends State<PatientProfile> {
               SizedBox(width: widget.width * 0.015),
               Expanded(
                 flex: 2,
-                child: TextFormField(
-                  decoration: InputDecoration(
-                    contentPadding: EdgeInsets.symmetric(
-                      vertical: 13,
-                    ),
-                    labelText: 'PHIC/Philhealth No. (If Applicable)',
-                    labelStyle: TextStyle(fontSize: 12),
-                  ),
-                  onChanged: (value) {
-                    docFields['philhealth'] = value;
-                  },
-                ),
+                child: PatientFormField(
+                    label: 'PHIC/Philhealth No. (If Applicable)'),
+                // TextFormField(
+                //   decoration: InputDecoration(
+                //     contentPadding: EdgeInsets.symmetric(
+                //       vertical: 13,
+                //     ),
+                //     labelText: 'PHIC/Philhealth No. (If Applicable)',
+                //     labelStyle: TextStyle(fontSize: 12),
+                //   ),
+                //   onChanged: (value) {
+                //     docFields['philhealth'] = value;
+                //   },
+                // ),
               ),
             ],
           ),
@@ -172,60 +174,6 @@ class _PatientProfileState extends State<PatientProfile> {
       ),
     );
   }
-
-  String? getText() {
-    if (date == null) {
-      return 'Birthday';
-    } else {
-      docFields['bday'] = '${date?.month}/${date?.day}/${date?.year}';
-      return docFields['bday'];
-    }
-  }
-
-  Widget _birthdayPicker() {
-    return InkWell(
-      onTap: () => pickDate(context),
-      child: Container(
-        padding: EdgeInsets.only(bottom: 15, top: 20),
-        decoration: BoxDecoration(
-          border: Border(
-            bottom: BorderSide(width: 1, color: Colors.grey),
-          ),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              getText().toString(),
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.grey.shade600,
-              ),
-            ),
-            Icon(
-              Icons.keyboard_arrow_down,
-              color: Colors.grey.shade600,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Future pickDate(BuildContext context) async {
-    final initialDate = DateTime.now();
-    final newDate = await showDatePicker(
-      context: context,
-      initialDate: initialDate,
-      firstDate: DateTime(DateTime.now().year - 100),
-      lastDate: DateTime(DateTime.now().year + 1),
-    );
-    if (newDate == null) return;
-
-    setState(() {
-      date = newDate;
-    });
-  }
 }
 
 class PatientFormField extends StatelessWidget {
@@ -234,38 +182,53 @@ class PatientFormField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      decoration: InputDecoration(
-        labelText: '$label',
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      Text(
+        label,
+        style: (label == 'PHIC/Philhealth No. (If Applicable)')
+            ? TextStyle(fontSize: 13)
+            : null,
       ),
-      onChanged: (value) {
-        switch (label) {
-          case 'First Name':
-            docFields['firstname'] = value;
-            break;
-          case 'Middle Name':
-            docFields['middlename'] = value;
-            break;
-          case 'Last Name':
-            docFields['lastname'] = value;
-            break;
-          case 'Suffix':
-            docFields['suffix'] = value;
-            break;
-          case 'Age':
-            docFields['age'] = value;
-            break;
-        }
-      },
-      validator: (value) {
-        if (label == 'Suffix') {
+      TextFormField(
+        decoration: InputDecoration(
+          hintText: '$label',
+          // labelStyle: (label == 'PHIC/Philhealth No. (If Applicable)')
+          //     ? TextStyle(fontSize: 11)
+          //     : null,
+        ),
+        onChanged: (value) {
+          switch (label) {
+            case 'First Name':
+              docFields['firstname'] = value;
+              break;
+            case 'Middle Name':
+              docFields['middlename'] = value;
+              break;
+            case 'Last Name':
+              docFields['lastname'] = value;
+              break;
+            case 'Suffix':
+              docFields['suffix'] = value;
+              break;
+            case 'Age':
+              docFields['age'] = value;
+              break;
+            case 'PHIC/Philhealth No. (If Applicable)':
+              docFields['philhealth'] = value;
+              break;
+          }
+        },
+        validator: (value) {
+          if (label == 'Suffix' ||
+              label == 'PHIC/Philhealth No. (If Applicable)') {
+            return null;
+          } else if (value == null || value.isEmpty) {
+            return 'Please enter some text';
+          }
           return null;
-        } else if (value == null || value.isEmpty) {
-          return 'Please enter some text';
-        }
-        return null;
-      },
-    );
+        },
+      ),
+    ]);
   }
 }
 
@@ -287,46 +250,134 @@ class _PatientDropdownState extends State<PatientDropdown> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.only(bottom: 5, top: 5),
-      decoration: BoxDecoration(
-        border: Border(
-          bottom: BorderSide(width: 1, color: Colors.grey),
-        ),
-      ),
-      child: DropdownButtonHideUnderline(
-        child: DropdownButton<String>(
-          value: dropdownValue,
-          isExpanded: true,
-          icon: const Icon(Icons.keyboard_arrow_down),
-          iconSize: 20,
-          style: TextStyle(
-            fontSize: 16,
-            color: Colors.grey.shade700,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(widget.label),
+        Container(
+          decoration: BoxDecoration(
+            border: Border(
+              bottom: BorderSide(width: 1, color: Colors.grey),
+            ),
           ),
-          underline: Container(
-            height: 1,
-            color: Colors.grey,
+          child: DropdownButtonHideUnderline(
+            child: DropdownButton<String>(
+              value: dropdownValue,
+              isExpanded: true,
+              icon: const Icon(Icons.keyboard_arrow_down),
+              iconSize: 20,
+              style: TextStyle(
+                fontSize: 16,
+                color: Colors.grey.shade700,
+              ),
+              underline: Container(
+                height: 1,
+                color: Colors.grey,
+              ),
+              onChanged: (value) {
+                setState(() => this.dropdownValue = value);
+                switch (widget.label) {
+                  case 'Gender':
+                    docFields['gender'] = value.toString();
+                    break;
+                  case 'Civil Status':
+                    docFields['civstatus'] = value.toString();
+                    break;
+                }
+              },
+              items:
+                  widget.dropList.map<DropdownMenuItem<String>>((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value),
+                );
+              }).toList(),
+            ),
           ),
-          onChanged: (value) {
-            setState(() => this.dropdownValue = value);
-            switch (widget.label) {
-              case 'Gender':
-                docFields['gender'] = value.toString();
-                break;
-              case 'Civil Status':
-                docFields['civstatus'] = value.toString();
-                break;
-            }
-          },
-          items: widget.dropList.map<DropdownMenuItem<String>>((String value) {
-            return DropdownMenuItem<String>(
-              value: value,
-              child: Text(value),
-            );
-          }).toList(),
         ),
-      ),
+      ],
     );
+  }
+}
+
+class DatePicker extends StatefulWidget {
+  const DatePicker({
+    Key? key,
+    @required this.label,
+  }) : super(key: key);
+
+  final label;
+  @override
+  _DatePickerState createState() => _DatePickerState();
+}
+
+class _DatePickerState extends State<DatePicker> {
+  String? getText() {
+    if (date == null && widget.label == 'bday') {
+      return 'Birthday';
+    } else if (date == null && widget.label == 'Diagnosed Date') {
+      return 'Diagnosed Date';
+    } else if (widget.label == 'bday') {
+      docFields['bday'] = '${date?.month}/${date?.day}/${date?.year}';
+      return docFields['bday'];
+    } else if (widget.label == 'Diagnosed Date') {
+      docFields['diagnoseDate'] = '${date?.month}/${date?.day}/${date?.year}';
+      return docFields['diagnoseDate'];
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    String dateLabel = getText().toString();
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          dateLabel,
+        ),
+        InkWell(
+          onTap: () => pickDate(context),
+          child: Container(
+            padding: EdgeInsets.only(bottom: 10, top: 15),
+            decoration: BoxDecoration(
+              border: Border(
+                bottom: BorderSide(width: 1, color: Colors.grey),
+              ),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  getText().toString(),
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.grey.shade600,
+                  ),
+                ),
+                Icon(
+                  Icons.keyboard_arrow_down,
+                  color: Colors.grey.shade600,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Future pickDate(BuildContext context) async {
+    final initialDate = DateTime.now();
+    final newDate = await showDatePicker(
+      context: context,
+      initialDate: initialDate,
+      firstDate: DateTime(DateTime.now().year - 100),
+      lastDate: DateTime(DateTime.now().year + 1),
+    );
+    if (newDate == null) return;
+
+    setState(() {
+      date = newDate;
+    });
   }
 }
