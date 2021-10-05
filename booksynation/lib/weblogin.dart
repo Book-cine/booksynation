@@ -68,8 +68,11 @@ class _WebLoginState extends State<WebLogin> {
                         ),
                       ],
                     ),
-                    padding: EdgeInsets.symmetric(
-                        vertical: height * 0.05, horizontal: width * 0.035),
+                    padding: EdgeInsets.only(
+                        top: height * 0.05,
+                        bottom: height * 0.025,
+                        left: width * 0.015,
+                        right: width * 0.015),
                     child: Container(
                       child: SingleChildScrollView(
                         child: Column(

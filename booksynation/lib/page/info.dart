@@ -31,77 +31,74 @@ class PersonalInfo extends StatelessWidget {
         drawer: SideMenu(),
         body: Container(
           alignment: Alignment.center,
-          child: AspectRatio(
-            aspectRatio: 4 / 5,
-            child: Container(
-              color: Colors.white,
-              padding: EdgeInsets.all(25.0),
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('Profile',
-                        style: TextStyle(
-                          fontSize: height * 0.024,
-                          fontWeight: FontWeight.bold,
-                        )),
-                    PatientProfile(height: height, width: width),
-                    SizedBox(height: height * 0.10),
-                    Text('Contact Details',
-                        style: TextStyle(
-                          fontSize: height * 0.024,
-                          fontWeight: FontWeight.bold,
-                        )),
-                    ContactDetails(height: height, width: width),
-                    SizedBox(height: height * 0.10),
-                    Text('Essential Information',
-                        style: TextStyle(
-                          fontSize: height * 0.024,
-                          fontWeight: FontWeight.bold,
-                        )),
-                    EssentialInfo(height: height, width: width),
-                    SizedBox(height: height * 0.10),
-                    Align(
-                      alignment: Alignment.center,
-                      child: Container(
-                        width: width * 0.65,
-                        decoration: BoxDecoration(boxShadow: [
-                          BoxShadow(
-                            color: Color(0xFF1D74E9).withOpacity(0.16),
-                            blurRadius: 8,
-                            offset: Offset(0, 4), // changes position of shadow
+          child: Container(
+            color: Colors.white,
+            padding: EdgeInsets.all(25.0),
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('Profile',
+                      style: TextStyle(
+                        fontSize: height * 0.024,
+                        fontWeight: FontWeight.bold,
+                      )),
+                  PatientProfile(height: height, width: width),
+                  SizedBox(height: height * 0.10),
+                  Text('Contact Details',
+                      style: TextStyle(
+                        fontSize: height * 0.024,
+                        fontWeight: FontWeight.bold,
+                      )),
+                  ContactDetails(height: height, width: width),
+                  SizedBox(height: height * 0.10),
+                  Text('Essential Information',
+                      style: TextStyle(
+                        fontSize: height * 0.024,
+                        fontWeight: FontWeight.bold,
+                      )),
+                  EssentialInfo(height: height, width: width),
+                  SizedBox(height: height * 0.10),
+                  Align(
+                    alignment: Alignment.center,
+                    child: Container(
+                      width: width * 0.65,
+                      decoration: BoxDecoration(boxShadow: [
+                        BoxShadow(
+                          color: Color(0xFF1D74E9).withOpacity(0.16),
+                          blurRadius: 8,
+                          offset: Offset(0, 4), // changes position of shadow
+                        ),
+                      ]),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.blue[700],
+                          fixedSize: Size(
+                            width * 0.65,
+                            height * 0.060,
                           ),
-                        ]),
-                        child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          style: ElevatedButton.styleFrom(
-                            primary: Colors.blue[700],
-                            fixedSize: Size(
-                              width * 0.65,
-                              height * 0.060,
-                            ),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(6.0),
-                            ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(6.0),
                           ),
-                          child: Text(
-                            'Save Changes',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontFamily: 'Mulish',
-                              fontWeight: FontWeight.w600,
-                              fontSize: height * 0.018,
-                              decoration: TextDecoration.none,
-                            ),
+                        ),
+                        child: Text(
+                          'Save Changes',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: 'Mulish',
+                            fontWeight: FontWeight.w600,
+                            fontSize: height * 0.018,
+                            decoration: TextDecoration.none,
                           ),
                         ),
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ),
@@ -128,112 +125,110 @@ class PatientProfile extends StatefulWidget {
 class _PatientProfileState extends State<PatientProfile> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Column(
-          children: [
-            SizedBox(height: widget.height * 0.010),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: TextField(
-                    decoration: InputDecoration(
-                      labelText: 'First Name',
-                    ),
+    return Container(
+      child: Column(
+        children: [
+          SizedBox(height: widget.height * 0.010),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: TextField(
+                  decoration: InputDecoration(
+                    labelText: 'First Name',
                   ),
                 ),
-                SizedBox(width: widget.width * 0.015),
-                Expanded(
-                  child: TextField(
-                    decoration: InputDecoration(
-                      labelText: 'Middle Name',
-                    ),
+              ),
+              SizedBox(width: widget.width * 0.015),
+              Expanded(
+                child: TextField(
+                  decoration: InputDecoration(
+                    labelText: 'Middle Name',
                   ),
                 ),
-              ],
-            ),
-            SizedBox(height: widget.height * 0.010),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  flex: 3,
-                  child: TextField(
-                    decoration: InputDecoration(
-                      labelText: 'Last Name',
-                    ),
+              ),
+            ],
+          ),
+          SizedBox(height: widget.height * 0.010),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                flex: 3,
+                child: TextField(
+                  decoration: InputDecoration(
+                    labelText: 'Last Name',
                   ),
                 ),
-                SizedBox(width: widget.width * 0.015),
-                Expanded(
-                  flex: 1,
-                  child: TextField(
-                    decoration: InputDecoration(
-                      labelText: 'Suffix',
-                    ),
+              ),
+              SizedBox(width: widget.width * 0.015),
+              Expanded(
+                flex: 1,
+                child: TextField(
+                  decoration: InputDecoration(
+                    labelText: 'Suffix',
                   ),
                 ),
-              ],
-            ),
-            SizedBox(height: widget.height * 0.010),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  flex: 1,
-                  child: TextField(
-                    decoration: InputDecoration(
-                      labelText: 'Sex',
-                    ),
+              ),
+            ],
+          ),
+          SizedBox(height: widget.height * 0.010),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                flex: 1,
+                child: TextField(
+                  decoration: InputDecoration(
+                    labelText: 'Sex',
                   ),
                 ),
-                SizedBox(width: widget.width * 0.015),
-                Expanded(
-                  flex: 2,
-                  child: TextField(
-                    decoration: InputDecoration(
-                      labelText: 'Birthdate',
-                    ),
+              ),
+              SizedBox(width: widget.width * 0.015),
+              Expanded(
+                flex: 2,
+                child: TextField(
+                  decoration: InputDecoration(
+                    labelText: 'Birthdate',
                   ),
                 ),
-                SizedBox(width: widget.width * 0.015),
-                Expanded(
-                  flex: 1,
-                  child: TextField(
-                    decoration: InputDecoration(
-                      labelText: 'Age',
-                    ),
+              ),
+              SizedBox(width: widget.width * 0.015),
+              Expanded(
+                flex: 1,
+                child: TextField(
+                  decoration: InputDecoration(
+                    labelText: 'Age',
                   ),
                 ),
-              ],
-            ),
-            SizedBox(height: widget.height * 0.010),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  flex: 1,
-                  child: TextField(
-                    decoration: InputDecoration(
-                      labelText: 'Civil Status',
-                    ),
+              ),
+            ],
+          ),
+          SizedBox(height: widget.height * 0.010),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                flex: 1,
+                child: TextField(
+                  decoration: InputDecoration(
+                    labelText: 'Civil Status',
                   ),
                 ),
-                SizedBox(width: widget.width * 0.015),
-                Expanded(
-                  flex: 3,
-                  child: TextField(
-                    decoration: InputDecoration(
-                      labelText: 'PHIC/Philhealth No. (If Applicable)',
-                    ),
+              ),
+              SizedBox(width: widget.width * 0.015),
+              Expanded(
+                flex: 3,
+                child: TextField(
+                  decoration: InputDecoration(
+                    labelText: 'PHIC/Philhealth No. (If Applicable)',
                   ),
                 ),
-              ],
-            ),
-          ],
-        ),
-      ],
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }
