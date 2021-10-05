@@ -40,16 +40,37 @@ class PatientFormField extends StatelessWidget {
             case 'PHIC/Philhealth No. (If Applicable)':
               docFields['philhealth'] = value;
               break;
+            case 'Current Address':
+              docFields['currentaddress'] = value;
+              break;
+            case 'Zip':
+              docFields['zip'] = value;
+              break;
+            case 'Contact No.':
+              docFields['contact'] = value;
+              break;
+            case 'Email Address':
+              docFields['email'] = value;
+              break;
+            case 'Other Allergies:':
+              docFields['otherallergies'] = value;
+
+              break;
+            case 'Others:':
+              docFields['others'] = value;
+
+              break;
           }
         },
         validator: (value) {
+          //TODO: Need to fix errors for other fields.
           if (label == 'Suffix' ||
               label == 'PHIC/Philhealth No. (If Applicable)') {
             return null;
           } else if (value == null || value.isEmpty) {
             return 'This field is required';
           }
-          return null;
+          // return null;
         },
       ),
     ]);

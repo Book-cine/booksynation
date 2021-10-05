@@ -22,15 +22,17 @@ class _DatePickerState extends State<DatePicker> {
   }
 
   String? getText() {
-    if (date == null && widget.label == 'Diagnosed Date') {
+    if (diagnosedDate == null && widget.label == 'Diagnosed Date') {
       return 'N/A';
-    } else if (date == null && widget.label == 'bday') {
+    } else if (birthDate == null && widget.label == 'bday') {
       return '01/01/2000';
     } else if (widget.label == 'bday') {
-      docFields['bday'] = '${date?.month}/${date?.day}/${date?.year}';
+      docFields['bday'] =
+          '${birthDate?.month}/${birthDate?.day}/${birthDate?.year}';
       return docFields['bday'];
     } else if (widget.label == 'Diagnosed Date') {
-      docFields['diagnoseDate'] = '${date?.month}/${date?.day}/${date?.year}';
+      docFields['diagnoseDate'] =
+          '${diagnosedDate?.month}/${diagnosedDate?.day}/${diagnosedDate?.year}';
       return docFields['diagnoseDate'];
     }
   }
@@ -108,7 +110,11 @@ class _DatePickerState extends State<DatePicker> {
     if (newDate == null) return;
 
     setState(() {
-      date = newDate;
+      if (getLabel() == 'Birthday') {
+        birthDate = newDate;
+      } else if (getLabel() == 'Diagnosed Date') {
+        diagnosedDate = newDate;
+      }
     });
   }
 }

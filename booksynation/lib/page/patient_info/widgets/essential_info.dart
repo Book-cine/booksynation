@@ -1,5 +1,6 @@
 import 'package:booksynation/page/patient_info/widgets/date_picker.dart';
 import 'package:booksynation/page/patient_info/widgets/infoData.dart';
+import 'package:booksynation/page/patient_info/widgets/patient_check_box.dart';
 import 'package:booksynation/page/patient_info/widgets/patient_dropdown.dart';
 import 'package:booksynation/page/patient_info/widgets/patient_form_field.dart';
 import 'package:flutter/material.dart';
@@ -131,69 +132,6 @@ class _EssentialInfoState extends State<EssentialInfo> {
           ),
         ],
       ),
-    );
-  }
-}
-
-class LabeledCheckbox extends StatelessWidget {
-  const LabeledCheckbox({
-    Key? key,
-    required this.label,
-    required this.value,
-    required this.onChanged,
-  }) : super(key: key);
-
-  final String label;
-  final bool value;
-  final Function onChanged;
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        onChanged(!value);
-      },
-      child: Row(
-        children: <Widget>[
-          Checkbox(
-            value: value,
-            activeColor: Colors.blueAccent,
-            onChanged: (bool? newValue) {
-              onChanged(newValue);
-            },
-          ),
-          Expanded(child: Text(label, style: TextStyle(fontSize: 14))),
-        ],
-      ),
-    );
-  }
-}
-
-/// This is the stateful widget that the main application instantiates.
-class PatientCheckbox extends StatefulWidget {
-  const PatientCheckbox({
-    Key? key,
-    @required this.label,
-  }) : super(key: key);
-  final label;
-  @override
-  State<PatientCheckbox> createState() => _PatientCheckboxState();
-}
-
-/// This is the private State class that goes with PatientCheckbox.
-class _PatientCheckboxState extends State<PatientCheckbox> {
-  bool _isSelected = false;
-
-  @override
-  Widget build(BuildContext context) {
-    return LabeledCheckbox(
-      label: widget.label,
-      value: _isSelected,
-      onChanged: (bool newValue) {
-        setState(() {
-          _isSelected = newValue;
-        });
-      },
     );
   }
 }

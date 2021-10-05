@@ -11,9 +11,27 @@ Map<String, String> docFields = {
   'gender': '',
   'civstatus': '',
   'philhealth': '',
+  'currentaddress': '',
+  'region': '',
+  'province': '',
+  'city': '',
+  'brgy': '',
+  'zip': '',
+  'contact': '',
+  'email': '',
   'covclass': '',
+  'employed': '',
+  'pregnant': '',
+  'disability': '',
+  'interactedCovid': '',
   'diagnoseDate': '',
+  'otherallergies': '',
+  'others': '',
 };
+
+List<String> allergies = [];
+
+List<String> comorbidities = [];
 
 List<String> gender = [
   "Male",
@@ -78,7 +96,8 @@ List<String> brgy = [
   "Cabangcalan",
 ];
 
-DateTime? date;
+DateTime? birthDate;
+DateTime? diagnosedDate;
 
 bool diagnosed = false;
 
