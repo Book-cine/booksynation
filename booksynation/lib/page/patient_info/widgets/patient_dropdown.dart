@@ -53,12 +53,40 @@ class _PatientDropdownState extends State<PatientDropdown> {
                   case 'Civil Status':
                     docFields['civstatus'] = value.toString();
                     break;
+                  case 'Region':
+                    docFields['region'] = value.toString();
+                    break;
+                  case 'Province':
+                    docFields['province'] = value.toString();
+                    break;
+                  case 'City':
+                    docFields['city'] = value.toString();
+                    break;
+                  case 'Barangay':
+                    docFields['brgy'] = value.toString();
+                    break;
+                  case 'Covid-19 Classification':
+                    docFields['covclass'] = value.toString();
+                    break;
+                  case 'Are you Employed?':
+                    docFields['employed'] = value.toString();
+                    break;
+                  case 'Are you Pregnant?':
+                    docFields['pregnant'] = value.toString();
+                    break;
+                  case 'Person with Disability?':
+                    docFields['disability'] = value.toString();
+                    break;
+                  case 'Directly interacted with Covid-19 Patient?':
+                    docFields['interactedCovid'] = value.toString();
+                    break;
                   case 'Are you diagnosed with Covid-19?':
                     if (value == 'Yes') {
                       diagnosed = true;
                     } else {
                       diagnosed = false;
                     }
+                    docFields['isDiagnosed'] = value.toString();
                     break;
                 }
               },
