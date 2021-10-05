@@ -1,4 +1,5 @@
-
+import 'package:booksynation/page/patient_info/widgets/infoData.dart';
+import 'package:booksynation/page/patient_info/widgets/patient_profile.dart';
 import 'package:flutter/material.dart';
 
 class EssentialInfo extends StatefulWidget {
@@ -27,19 +28,13 @@ class _EssentialInfoState extends State<EssentialInfo> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Expanded(
-                  child: TextField(
-                    decoration: InputDecoration(
-                      labelText: 'Covid-19 Classification',
-                    ),
-                  ),
+                  child: PatientDropdown(
+                      dropList: covclass, label: 'Covid-19 Classification'),
                 ),
                 SizedBox(width: widget.width * 0.015),
                 Expanded(
-                  child: TextField(
-                    decoration: InputDecoration(
-                      labelText: 'Are you Employed?',
-                    ),
-                  ),
+                  child: PatientDropdown(
+                      dropList: yesOrNo, label: 'Are you Employed?'),
                 ),
               ],
             ),
