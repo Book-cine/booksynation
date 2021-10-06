@@ -43,77 +43,69 @@ class _PersonalInfoState extends State<PersonalInfo> {
           ),
         ),
         drawer: SideMenu(),
-        body: Container(
-          alignment: Alignment.center,
-          child: Container(
-            color: Colors.white,
-            padding: EdgeInsets.all(25.0),
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('Profile',
-                      style: TextStyle(
-                        fontSize: height * 0.024,
-                        fontWeight: FontWeight.bold,
-                      )),
-                  PatientProfile(height: height, width: width),
-                  SizedBox(height: height * 0.10),
-                  Text('Contact Details',
-                      style: TextStyle(
-                        fontSize: height * 0.024,
-                        fontWeight: FontWeight.bold,
-                      )),
-                  ContactDetails(height: height, width: width),
-                  SizedBox(height: height * 0.10),
-                  Text('Essential Information',
-                      style: TextStyle(
-                        fontSize: height * 0.024,
-                        fontWeight: FontWeight.bold,
-                      )),
-                  EssentialInfo(height: height, width: width),
-                  SizedBox(height: height * 0.10),
-                  Align(
-                    alignment: Alignment.center,
-                    child: Container(
-                      width: width * 0.65,
-                      decoration: BoxDecoration(boxShadow: [
-                        BoxShadow(
-                          color: Color(0xFF1D74E9).withOpacity(0.16),
-                          blurRadius: 8,
-                          offset: Offset(0, 4), // changes position of shadow
-                        ),
-                      ]),
-                      child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        style: ElevatedButton.styleFrom(
-                          primary: Colors.blue[700],
-                          fixedSize: Size(
-                            width * 0.65,
-                            height * 0.060,
-                          ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(6.0),
-                          ),
-                        ),
-                        child: Text(
-                          'Save Changes',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontFamily: 'Mulish',
-                            fontWeight: FontWeight.w600,
-                            fontSize: height * 0.018,
-                            decoration: TextDecoration.none,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+        body: PesonalInfoBody(height: height, width: width, users: users),
+      ),
+    );
+  }
+}
+
+class PesonalInfoBody extends StatelessWidget {
+  const PesonalInfoBody({
+    Key? key,
+    required this.height,
+    required this.width,
+    required this.users,
+  }) : super(key: key);
+
+  final double height;
+  final double width;
+  final Stream<QuerySnapshot<Object?>> users;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      alignment: Alignment.center,
+      child: Container(
+        color: Colors.white,
+        padding: EdgeInsets.all(25.0),
+        child: Form(
+          key: formKey,
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('Profile',
+                    style: TextStyle(
+                      fontSize: height * 0.024,
+                      fontWeight: FontWeight.bold,
+                    )),
+                SizedBox(height: height * 0.03),
+                PatientProfile(height: height, width: width),
+                SizedBox(height: height * 0.03),
+                Text('Contact Details',
+                    style: TextStyle(
+                      fontSize: height * 0.024,
+                      fontWeight: FontWeight.bold,
+                    )),
+                SizedBox(height: height * 0.03),
+                ContactDetails(height: height, width: width),
+                SizedBox(height: height * 0.03),
+                Text('Essential Information',
+                    style: TextStyle(
+                      fontSize: height * 0.024,
+                      fontWeight: FontWeight.bold,
+                    )),
+                SizedBox(height: height * 0.03),
+                EssentialInfo(height: height, width: width),
+                SizedBox(height: height * 0.1),
+                Align(
+                  alignment: Alignment.center,
+                  child:
+                      SaveChanges(width: width, users: users, height: height),
+                ),
+                SizedBox(height: height * 0.1),
+              ],
             ),
           ),
         ),
