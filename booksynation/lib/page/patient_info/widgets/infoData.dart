@@ -10,8 +10,6 @@ Map<String, String> docFields = {
   'gender': '',
   'civstatus': '',
   'philhealth': '',
-  'covclass': '',
-  'diagnoseDate': '',
 };
 
 List<String> gender = [
