@@ -90,9 +90,6 @@ class _PersonalInfoState extends State<PersonalInfo> {
                       ]),
                       child: ElevatedButton(
                         onPressed: () {
-                          allergies.add(docFields['otherallergies'].toString());
-                          comorbidities.add(docFields['others'].toString());
-
                           if (formKey.currentState!.validate()) {
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
@@ -116,26 +113,6 @@ class _PersonalInfoState extends State<PersonalInfo> {
                                   'philhealth':
                                       docFields['philhealth'].toString(),
                                   'bday': docFields['bday'].toString(),
-                                  'currentaddress':
-                                      docFields['currentaddress'].toString(),
-                                  'region': docFields['region'].toString(),
-                                  'province': docFields['province'].toString(),
-                                  'city': docFields['city'].toString(),
-                                  'brgy': docFields['brgy'].toString(),
-                                  'zip': docFields['zip'].toString(),
-                                  'contact': docFields['contact'].toString(),
-                                  'email': docFields['email'].toString(),
-                                  'covclass': docFields['covclass'].toString(),
-                                  'employed': docFields['employed'].toString(),
-                                  'pregnant': docFields['pregnant'].toString(),
-                                  'disability':
-                                      docFields['disability'].toString(),
-                                  'interactedCovid':
-                                      docFields['interactedCovid'].toString(),
-                                  'diagnoseDate':
-                                      docFields['diagnoseDate'].toString(),
-                                  'allergies': allergies,
-                                  'comorbidities': comorbidities,
                                 })
                                 .then((value) => print('Add User'))
                                 .catchError((error) =>
