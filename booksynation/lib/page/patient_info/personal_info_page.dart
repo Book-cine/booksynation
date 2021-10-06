@@ -1,7 +1,5 @@
 import 'package:booksynation/page/patient_info/widgets/contact_details.dart';
-import 'package:booksynation/page/patient_info/widgets/display_data.dart';
 import 'package:booksynation/page/patient_info/widgets/essential_info.dart';
-import 'package:booksynation/page/patient_info/widgets/infoData.dart';
 import 'package:booksynation/page/patient_info/widgets/patient_profile.dart';
 import 'package:booksynation/sidemenu.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -58,25 +56,22 @@ class _PersonalInfoState extends State<PersonalInfo> {
                         fontSize: height * 0.024,
                         fontWeight: FontWeight.bold,
                       )),
-                  SizedBox(height: height * 0.03),
                   PatientProfile(height: height, width: width),
-                  SizedBox(height: height * 0.03),
+                  SizedBox(height: height * 0.10),
                   Text('Contact Details',
                       style: TextStyle(
                         fontSize: height * 0.024,
                         fontWeight: FontWeight.bold,
                       )),
-                  SizedBox(height: height * 0.03),
                   ContactDetails(height: height, width: width),
-                  SizedBox(height: height * 0.03),
+                  SizedBox(height: height * 0.10),
                   Text('Essential Information',
                       style: TextStyle(
                         fontSize: height * 0.024,
                         fontWeight: FontWeight.bold,
                       )),
-                  SizedBox(height: height * 0.03),
                   EssentialInfo(height: height, width: width),
-                  SizedBox(height: height * 0.03),
+                  SizedBox(height: height * 0.10),
                   Align(
                     alignment: Alignment.center,
                     child: Container(
@@ -90,50 +85,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                       ]),
                       child: ElevatedButton(
                         onPressed: () {
-                          if (formKey.currentState!.validate()) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text(
-                                  'Submitting Your Data',
-                                ),
-                              ),
-                            );
-                            userCollection
-                                .add({
-                                  'firstname':
-                                      docFields['firstname'].toString(),
-                                  'middlename':
-                                      docFields['middlename'].toString(),
-                                  'lastname': docFields['lastname'].toString(),
-                                  'suffix': docFields['suffix'].toString(),
-                                  'gender': docFields['gender'].toString(),
-                                  'age': docFields['age'].toString(),
-                                  'civstatus':
-                                      docFields['civstatus'].toString(),
-                                  'philhealth':
-                                      docFields['philhealth'].toString(),
-                                  'bday': docFields['bday'].toString(),
-                                })
-                                .then((value) => print('Add User'))
-                                .catchError((error) =>
-                                    print('Failed to add user: $error'));
-                            Future.delayed(const Duration(seconds: 2), () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        DisplayData(users: users)),
-                              );
-                            });
-                          } else {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text(
-                                  'Please review the fields before submitting.',
-                                ),
-                              ),
-                            );
-                          }
+                          Navigator.pop(context);
                         },
                         style: ElevatedButton.styleFrom(
                           primary: Colors.blue[700],
