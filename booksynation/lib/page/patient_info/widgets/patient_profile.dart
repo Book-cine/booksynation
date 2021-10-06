@@ -21,76 +21,83 @@ class PatientProfile extends StatefulWidget {
 class _PatientProfileState extends State<PatientProfile> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Expanded(
-              child: PatientFormField(label: 'First Name'),
-            ),
-            SizedBox(width: widget.width * 0.015),
-            Expanded(
-              child: PatientFormField(label: 'Middle Name'),
-            ),
-          ],
-        ),
-        SizedBox(height: widget.height * 0.025),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Expanded(
-              flex: 3,
-              child: PatientFormField(label: 'Last Name'),
-            ),
-            SizedBox(width: widget.width * 0.015),
-            Expanded(
-              flex: 1,
-              child: PatientFormField(label: 'Suffix'),
-            ),
-          ],
-        ),
-        SizedBox(height: widget.height * 0.025),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Expanded(
-              flex: 1,
-              child: PatientDropdown(dropList: gender, label: 'Gender'),
-            ),
-            SizedBox(width: widget.width * 0.015),
-            Expanded(
-              flex: 2,
-              child: DatePicker(label: 'bday'),
-            ),
-            SizedBox(width: widget.width * 0.015),
-            Expanded(
-              flex: 1,
-              child: PatientFormField(label: 'Age'),
-            ),
-          ],
-        ),
-        SizedBox(height: widget.height * 0.025),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Expanded(
-              flex: 1,
-              child: PatientDropdown(
-                dropList: civstatus,
-                label: 'Civil Status',
+    return _patientProfileForm(); // returns whole Profile form
+  }
+
+  Widget _patientProfileForm() {
+    return Form(
+      key: formKey,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: PatientFormField(label: 'First Name'),
               ),
-            ),
-            SizedBox(width: widget.width * 0.015),
-            Expanded(
-              flex: 2,
-              child: PatientFormField(
-                  label: 'PHIC/Philhealth No. (If Applicable)'),
-            ),
-          ],
-        ),
-      ],
+              SizedBox(width: widget.width * 0.015),
+              Expanded(
+                child: PatientFormField(label: 'Middle Name'),
+              ),
+            ],
+          ),
+          SizedBox(height: widget.height * 0.025),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                flex: 3,
+                child: PatientFormField(label: 'Last Name'),
+              ),
+              SizedBox(width: widget.width * 0.015),
+              Expanded(
+                flex: 1,
+                child: PatientFormField(label: 'Suffix'),
+              ),
+            ],
+          ),
+          SizedBox(height: widget.height * 0.025),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                flex: 1,
+                child: PatientDropdown(dropList: gender, label: 'Gender'),
+              ),
+              SizedBox(width: widget.width * 0.015),
+              Expanded(
+                flex: 2,
+                child: DatePicker(label: 'bday'),
+              ),
+              SizedBox(width: widget.width * 0.015),
+              Expanded(
+                flex: 1,
+                child: PatientFormField(label: 'Age'),
+              ),
+            ],
+          ),
+          SizedBox(height: widget.height * 0.025),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                flex: 1,
+                child: PatientDropdown(
+                  dropList: civstatus,
+                  label: 'Civil Status',
+                ),
+              ),
+              SizedBox(width: widget.width * 0.015),
+              Expanded(
+                flex: 2,
+                child: PatientFormField(
+                    label: 'PHIC/Philhealth No. (If Applicable)'),
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }

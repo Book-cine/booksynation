@@ -100,7 +100,6 @@ DateTime? birthDate;
 DateTime? diagnosedDate;
 
 bool diagnosed = false;
-bool initialState = true;
 
 final formKey = GlobalKey<FormState>();
 CollectionReference userCollection =

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:booksynation/page/patient_info/widgets/infoData.dart';
 import 'package:flutter/material.dart';
 
@@ -18,7 +16,6 @@ class PatientDropdown extends StatefulWidget {
 
 class _PatientDropdownState extends State<PatientDropdown> {
   String? dropdownValue;
-  String error = 'Select a value';
 
   @override
   Widget build(BuildContext context) {
@@ -29,19 +26,12 @@ class _PatientDropdownState extends State<PatientDropdown> {
         Container(
           height: 35,
           margin: EdgeInsets.only(
-            bottom: 7,
+            bottom: 22,
           ),
           decoration: BoxDecoration(
             // color: Colors.red,
             border: Border(
-              bottom: BorderSide(
-                width: 1,
-                color: (initialState)
-                    ? Colors.grey
-                    : (dropdownValue == null)
-                        ? Colors.red
-                        : Colors.green,
-              ),
+              bottom: BorderSide(width: 1, color: Colors.grey),
             ),
           ),
           child: DropdownButtonHideUnderline(
@@ -55,9 +45,7 @@ class _PatientDropdownState extends State<PatientDropdown> {
                 color: Colors.grey.shade700,
               ),
               onChanged: (value) {
-                setState(() {
-                  this.dropdownValue = value;
-                });
+                setState(() => this.dropdownValue = value);
                 switch (widget.label) {
                   case 'Gender':
                     docFields['gender'] = value.toString();
@@ -106,22 +94,11 @@ class _PatientDropdownState extends State<PatientDropdown> {
                   widget.dropList.map<DropdownMenuItem<String>>((String value) {
                 return DropdownMenuItem<String>(
                   value: value,
-                  child: Text(
-                    value,
-                    style: TextStyle(color: Colors.black),
-                  ),
+                  child: Text(value),
                 );
               }).toList(),
             ),
           ),
-        ),
-        Text(
-          (initialState)
-              ? ''
-              : (dropdownValue == null)
-                  ? error
-                  : '',
-          style: TextStyle(color: Colors.red.shade900, fontSize: 11),
         ),
       ],
     );

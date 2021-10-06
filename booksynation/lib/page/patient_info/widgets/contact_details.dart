@@ -24,7 +24,7 @@ class _ContactDetailsState extends State<ContactDetails> {
       children: [
         SizedBox(height: widget.height * 0.010),
         PatientFormField(label: 'Current Address'),
-        SizedBox(height: widget.height * 0.025),
+        SizedBox(width: widget.width * 0.015),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -43,7 +43,7 @@ class _ContactDetailsState extends State<ContactDetails> {
             ),
           ],
         ),
-        SizedBox(height: widget.height * 0.025),
+        SizedBox(height: widget.height * 0.010),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -69,7 +69,7 @@ class _ContactDetailsState extends State<ContactDetails> {
             ),
           ],
         ),
-        SizedBox(height: widget.height * 0.025),
+        SizedBox(height: widget.height * 0.010),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [

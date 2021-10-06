@@ -54,20 +54,21 @@ class PatientFormField extends StatelessWidget {
               break;
             case 'Other Allergies:':
               docFields['otherallergies'] = value;
+
               break;
             case 'Others:':
               docFields['others'] = value;
+
               break;
           }
         },
         validator: (value) {
+          //TODO: Need to fix errors for other fields.
           if (label == 'Suffix' ||
-              label == 'PHIC/Philhealth No. (If Applicable)' ||
-              label == 'Other Allergies:' ||
-              label == 'Others:') {
+              label == 'PHIC/Philhealth No. (If Applicable)') {
             return null;
-          } else {
-            return 'This field is required.';
+          } else if (value == null || value.isEmpty) {
+            return 'This field is required';
           }
           // return null;
         },
