@@ -34,19 +34,8 @@ class DisplayData extends StatelessWidget {
                 return ListView.builder(
                     itemCount: data.size,
                     itemBuilder: (context, index) {
-                      return Column(
-                        children: [
-                          SizedBox(
-                            height: 15,
-                          ),
-                          Text(
-                              'My name is ${data.docs[index]['firstname']} ${data.docs[index]['middlename']} ${data.docs[index]['lastname']} ${data.docs[index]['suffix']}'),
-                          Text('Gender: ${data.docs[index]['gender']}'),
-                          Text(
-                              'Civil Status:${data.docs[index]['civstatus']} '),
-                          Text('Philhealth:${data.docs[index]['philhealth']}'),
-                        ],
-                      );
+                      return Text(
+                          'My name is ${data.docs[index]['firstname']} ${data.docs[index]['middlename']} ${data.docs[index]['lastname']}');
                     });
               },
             )),
