@@ -66,10 +66,11 @@ class PatientFormField extends StatelessWidget {
               label == 'Other Allergies:' ||
               label == 'Others:') {
             return null;
-          } else {
+          } else if (value == null || value.isEmpty) {
             return 'This field is required.';
+          } else {
+            return null;
           }
-          // return null;
         },
       ),
     ]);

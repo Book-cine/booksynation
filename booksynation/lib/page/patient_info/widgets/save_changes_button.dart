@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:booksynation/page/patient_info/widgets/display_data.dart';
 import 'package:booksynation/page/patient_info/widgets/infoData.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
