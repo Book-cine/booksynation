@@ -1,5 +1,5 @@
 import 'package:booksynation/page/appointment.dart';
-import 'package:booksynation/page/patient_info/personal_info_page.dart';
+import 'package:booksynation/page/info.dart';
 import 'package:booksynation/page/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
