@@ -20,6 +20,9 @@ class _WebSettingsState extends State<WebSettings> {
     return Container(
       height: height,
       width: width,
+      decoration: BoxDecoration(
+        color: Color(0xFF3DDD6A).withOpacity(0.1),
+      ),
       child: Stack(
         children: [
           Positioned(
@@ -209,6 +212,7 @@ class _WebSettingsState extends State<WebSettings> {
                                   fontSize: height * 0.018,
                                   decoration: TextDecoration.none,
                                 ),
+                                textAlign: TextAlign.center,
                               ),
                             ),
                           ],

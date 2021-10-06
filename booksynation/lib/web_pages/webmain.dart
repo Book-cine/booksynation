@@ -41,7 +41,7 @@ class _WebMainState extends State<WebMain> {
         height: height,
         width: width,
         decoration: BoxDecoration(
-          color: Color(0xFF3DDD6A).withOpacity(0.10),
+          color: Color(0xFFEFEFEF),
         ),
         child: Stack(
           children: [
