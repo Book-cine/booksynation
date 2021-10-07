@@ -1,3 +1,4 @@
+import 'package:booksynation/web_pages/web_data/web_missed_data.dart';
 import 'package:flutter/material.dart';
 
 class WebMissed extends StatefulWidget {
@@ -9,11 +10,18 @@ class WebMissed extends StatefulWidget {
 
 class _WebMissedState extends State<WebMissed> {
   String dropdownValue = 'All';
-  List<bool> _selectedIndex = [false, false];
+  List _selectedIndex = [];
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width - 260;
     final height = MediaQuery.of(context).size.height - 60;
+    List<MissedData> data = [
+      MissedData(0, '19-4097-770', 'Nash Uriel A. Tapayan',
+          'tnashuriel@gmail.com', 'Astrazenica', '2nd', 'A4', 'Dec 12, 2021'),
+      MissedData(1, '19-40970-771', 'Mervin John Tampus',
+          'mervinjohn@gmail.com', 'Pfizer', '1st', 'A3', 'Dec 15, 2021'),
+    ];
+
     return Container(
         height: height,
         width: width,
@@ -213,46 +221,30 @@ class _WebMissedState extends State<WebMissed> {
                             ),
                           ),
                         ],
-                        rows: <DataRow>[
-                          DataRow(
-                            selected: true == _selectedIndex[0],
+                        rows: data.map((data) {
+                          return DataRow(
+                            selected: _selectedIndex.contains(data.index),
                             onSelectChanged: (val) {
                               setState(() {
-                                _selectedIndex[0] = !_selectedIndex[0];
+                                if (_selectedIndex.contains(data.index)) {
+                                  _selectedIndex.remove(data.index);
+                                } else {
+                                  _selectedIndex.add(data.index);
+                                }
                               });
                             },
                             cells: <DataCell>[
-                              DataCell(Container(child: Text('19-4097-770'))),
-                              DataCell(Container(
-                                  child: Text('Nash Uriel A. Tapayan'))),
-                              DataCell(Container(
-                                  child: Text('tnashuriel@gmail.com'))),
-                              DataCell(Container(child: Text('Astrazenica'))),
-                              DataCell(Container(child: Text('2nd'))),
-                              DataCell(Container(child: Text('A4'))),
-                              DataCell(Container(child: Text('Sept 23, 2021'))),
-                            ],
-                          ),
-                          DataRow(
-                            selected: true == _selectedIndex[1],
-                            onSelectChanged: (val) {
-                              setState(() {
-                                _selectedIndex[1] = !_selectedIndex[1];
-                              });
-                            },
-                            cells: <DataCell>[
-                              DataCell(Container(child: Text('19-4097-771'))),
+                              DataCell(Container(child: Text(data.uniqueId))),
+                              DataCell(Container(child: Text(data.name))),
+                              DataCell(Container(child: Text(data.email))),
+                              DataCell(Container(child: Text(data.vaccine))),
+                              DataCell(Container(child: Text(data.dosage))),
+                              DataCell(Container(child: Text(data.category))),
                               DataCell(
-                                  Container(child: Text('Mervin John Tampus'))),
-                              DataCell(Container(
-                                  child: Text('mervinjohn@gmail.com'))),
-                              DataCell(Container(child: Text('Pfizer'))),
-                              DataCell(Container(child: Text('1st'))),
-                              DataCell(Container(child: Text('A2'))),
-                              DataCell(Container(child: Text('Sept 24, 2021'))),
+                                  Container(child: Text(data.dateScheduled))),
                             ],
-                          ),
-                        ],
+                          );
+                        }).toList(),
                       ),
                     ),
                   ),
