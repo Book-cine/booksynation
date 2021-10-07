@@ -1,5 +1,7 @@
 import 'package:booksynation/loading.dart';
 import 'package:booksynation/splash.dart';
+import 'package:booksynation/weblogin.dart';
+import 'package:flutter/foundation.dart';
 
 // Import the firebase_core plugin
 import 'package:firebase_core/firebase_core.dart';
@@ -53,6 +55,14 @@ class _AppState extends State<App> {
     if (!_initialized) {
       return MaterialApp(home: Loading());
     }
-    return MaterialApp(home: SplashScreen());
+    if (kIsWeb &&
+        (defaultTargetPlatform == TargetPlatform.iOS ||
+            defaultTargetPlatform == TargetPlatform.android)) {
+      return MaterialApp(home: SplashScreen());
+    } else if (kIsWeb) {
+      return MaterialApp(home: WebLogin());
+    } else {
+      return MaterialApp(home: SplashScreen());
+    }
   }
 }
