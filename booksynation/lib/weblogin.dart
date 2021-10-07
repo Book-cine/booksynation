@@ -1,3 +1,4 @@
+import 'package:booksynation/home.dart';
 import 'package:booksynation/web_pages/webmain.dart';
 import 'package:booksynation/webregister.dart';
 import 'package:flutter/material.dart';
@@ -277,6 +278,13 @@ class _WebLoginState extends State<WebLogin> {
             ),
           ],
         ),
+      ),
+      floatingActionButton: IconButton(
+        onPressed: () {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => Homepage()));
+        },
+        icon: Icon(Icons.web),
       ),
     );
   }

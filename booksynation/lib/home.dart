@@ -1,6 +1,5 @@
 import 'package:booksynation/page/onboarding.dart';
 import 'package:booksynation/page/registerpatient.dart';
-import 'package:booksynation/weblogin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -221,12 +220,6 @@ class _HomepageState extends State<Homepage> {
             ],
           ),
         ),
-        floatingActionButton: IconButton(
-            onPressed: () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => WebLogin()));
-            },
-            icon: Icon(Icons.web)),
       ),
     );
   }
