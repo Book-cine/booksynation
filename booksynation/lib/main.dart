@@ -55,14 +55,14 @@ class _AppState extends State<App> {
     if (!_initialized) {
       return MaterialApp(home: Loading());
     }
-    if (kIsWeb &&
-        (defaultTargetPlatform == TargetPlatform.iOS ||
-            defaultTargetPlatform == TargetPlatform.android)) {
-      return MaterialApp(home: SplashScreen());
-    } else if (kIsWeb) {
-      return MaterialApp(home: WebLogin());
-    } else {
-      return MaterialApp(home: SplashScreen());
-    }
+    // if (kIsWeb &&
+    //     (defaultTargetPlatform == TargetPlatform.iOS ||
+    //         defaultTargetPlatform == TargetPlatform.android)) {
+    //   return MaterialApp(home: SplashScreen());
+    // } else if (kIsWeb) {
+    //   return MaterialApp(home: WebLogin());
+    // } else {
+    return MaterialApp(home: SplashScreen());
+    // }
   }
 }
