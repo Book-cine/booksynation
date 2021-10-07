@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -9,6 +10,9 @@ class RegisterPatient extends StatefulWidget {
 }
 
 class _RegisterPatientState extends State<RegisterPatient> {
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -89,6 +93,7 @@ class _RegisterPatientState extends State<RegisterPatient> {
                                 height: height * 0.030,
                               ),
                               TextField(
+                                controller: emailController,
                                 decoration: InputDecoration(
                                   suffixIcon: Icon(
                                     Icons.email,
@@ -125,6 +130,7 @@ class _RegisterPatientState extends State<RegisterPatient> {
                                 height: height * 0.010,
                               ),
                               TextField(
+                                controller: passwordController,
                                 obscureText: true,
                                 decoration: InputDecoration(
                                   suffixIcon: Icon(
@@ -156,7 +162,14 @@ class _RegisterPatientState extends State<RegisterPatient> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               ElevatedButton(
-                                onPressed: () {},
+                                onPressed: () async {
+                                  await FirebaseAuth.instance
+                                      .createUserWithEmailAndPassword(
+                                    email: emailController.text,
+                                    password: passwordController.text,
+                                  );
+                                  setState(() {});
+                                },
                                 style: ElevatedButton.styleFrom(
                                   primary: Color(0xFF26A98A),
                                   fixedSize: Size(
