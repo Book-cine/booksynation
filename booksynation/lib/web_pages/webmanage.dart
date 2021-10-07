@@ -1,4 +1,5 @@
 import 'package:booksynation/web_pages/web_data/web_vaccines_data.dart';
+import 'package:booksynation/web_pages/web_data/web_vax_status_data.dart';
 import 'package:flutter/material.dart';
 
 class WebManage extends StatefulWidget {
@@ -18,6 +19,8 @@ class _WebManageState extends State<WebManage> {
     VaccineData('Pfizer', '05/12/21', '05/17/21', 49, 50),
     VaccineData('Janssen', '05/17/21', '05/24/21', 49, 50),
   ];
+
+  StatusData statusData = StatusData(250, 100, 10, 5);
 
   @override
   Widget build(BuildContext context) {
@@ -117,7 +120,15 @@ class _WebManageState extends State<WebManage> {
                       child: Row(
                         children: [
                           Container(
-                            child: Text('49',
+                            child: Text(
+                                data.indexWhere((element) =>
+                                            element.vaccine == 'Pfizer') >=
+                                        0
+                                    ? data[data.indexWhere((element) =>
+                                            element.vaccine == 'Pfizer')]
+                                        .currentStock
+                                        .toString()
+                                    : '0',
                                 style: TextStyle(
                                     fontFamily: 'Poppins',
                                     fontWeight: FontWeight.w500,
@@ -125,7 +136,16 @@ class _WebManageState extends State<WebManage> {
                                     color: Color(0xFFEA3D2F))),
                           ),
                           Container(
-                            child: Text('/50',
+                            child: Text(
+                                data.indexWhere((element) =>
+                                            element.vaccine == 'Pfizer') >=
+                                        0
+                                    ? '/' +
+                                        data[data.indexWhere((element) =>
+                                                element.vaccine == 'Pfizer')]
+                                            .maxStock
+                                            .toString()
+                                    : '/0',
                                 style: TextStyle(
                                     fontFamily: 'Poppins',
                                     fontWeight: FontWeight.w500,
@@ -169,7 +189,15 @@ class _WebManageState extends State<WebManage> {
                       child: Row(
                         children: [
                           Container(
-                            child: Text('49',
+                            child: Text(
+                                data.indexWhere((element) =>
+                                            element.vaccine == 'Astrazenica') >=
+                                        0
+                                    ? data[data.indexWhere((element) =>
+                                            element.vaccine == 'Astrazenica')]
+                                        .currentStock
+                                        .toString()
+                                    : '0',
                                 style: TextStyle(
                                     fontFamily: 'Poppins',
                                     fontWeight: FontWeight.w500,
@@ -177,7 +205,17 @@ class _WebManageState extends State<WebManage> {
                                     color: Color(0xFF367BF5))),
                           ),
                           Container(
-                            child: Text('/50',
+                            child: Text(
+                                data.indexWhere((element) =>
+                                            element.vaccine == 'Astrazenica') >=
+                                        0
+                                    ? '/' +
+                                        data[data.indexWhere((element) =>
+                                                element.vaccine ==
+                                                'Astrazenica')]
+                                            .maxStock
+                                            .toString()
+                                    : '/0',
                                 style: TextStyle(
                                     fontFamily: 'Poppins',
                                     fontWeight: FontWeight.w500,
@@ -221,7 +259,15 @@ class _WebManageState extends State<WebManage> {
                       child: Row(
                         children: [
                           Container(
-                            child: Text('49',
+                            child: Text(
+                                data.indexWhere((element) =>
+                                            element.vaccine == 'Moderna') >=
+                                        0
+                                    ? data[data.indexWhere((element) =>
+                                            element.vaccine == 'Moderna')]
+                                        .currentStock
+                                        .toString()
+                                    : '0',
                                 style: TextStyle(
                                     fontFamily: 'Poppins',
                                     fontWeight: FontWeight.w500,
@@ -229,7 +275,16 @@ class _WebManageState extends State<WebManage> {
                                     color: Color(0xFF2FA84F))),
                           ),
                           Container(
-                            child: Text('/50',
+                            child: Text(
+                                data.indexWhere((element) =>
+                                            element.vaccine == 'Moderna') >=
+                                        0
+                                    ? '/' +
+                                        data[data.indexWhere((element) =>
+                                                element.vaccine == 'Moderna')]
+                                            .maxStock
+                                            .toString()
+                                    : '/0',
                                 style: TextStyle(
                                     fontFamily: 'Poppins',
                                     fontWeight: FontWeight.w500,
@@ -273,7 +328,15 @@ class _WebManageState extends State<WebManage> {
                       child: Row(
                         children: [
                           Container(
-                            child: Text('0',
+                            child: Text(
+                                data.indexWhere((element) =>
+                                            element.vaccine == 'Janssen') >=
+                                        0
+                                    ? data[data.indexWhere((element) =>
+                                            element.vaccine == 'Janssen')]
+                                        .currentStock
+                                        .toString()
+                                    : '0',
                                 style: TextStyle(
                                     fontFamily: 'Poppins',
                                     fontWeight: FontWeight.w500,
@@ -281,7 +344,16 @@ class _WebManageState extends State<WebManage> {
                                     color: Color(0xFFF3AA18))),
                           ),
                           Container(
-                            child: Text('/50',
+                            child: Text(
+                                data.indexWhere((element) =>
+                                            element.vaccine == 'Janssen') >=
+                                        0
+                                    ? '/' +
+                                        data[data.indexWhere((element) =>
+                                                element.vaccine == 'Janssen')]
+                                            .maxStock
+                                            .toString()
+                                    : '/0',
                                 style: TextStyle(
                                     fontFamily: 'Poppins',
                                     fontWeight: FontWeight.w500,
@@ -325,7 +397,15 @@ class _WebManageState extends State<WebManage> {
                       child: Row(
                         children: [
                           Container(
-                            child: Text('0',
+                            child: Text(
+                                data.indexWhere((element) =>
+                                            element.vaccine == 'Sinovac') >=
+                                        0
+                                    ? data[data.indexWhere((element) =>
+                                            element.vaccine == 'Sinovac')]
+                                        .currentStock
+                                        .toString()
+                                    : '0',
                                 style: TextStyle(
                                     fontFamily: 'Poppins',
                                     fontWeight: FontWeight.w500,
@@ -333,7 +413,16 @@ class _WebManageState extends State<WebManage> {
                                     color: Color(0xFF6E8987))),
                           ),
                           Container(
-                            child: Text('/50',
+                            child: Text(
+                                data.indexWhere((element) =>
+                                            element.vaccine == 'Sinovac') >=
+                                        0
+                                    ? '/' +
+                                        data[data.indexWhere((element) =>
+                                                element.vaccine == 'Sinovac')]
+                                            .maxStock
+                                            .toString()
+                                    : '/0',
                                 style: TextStyle(
                                     fontFamily: 'Poppins',
                                     fontWeight: FontWeight.w500,
@@ -399,7 +488,8 @@ class _WebManageState extends State<WebManage> {
                                     child: Row(
                                       children: [
                                         Container(
-                                          child: Text('50',
+                                          child: Text(
+                                              statusData.booked.toString(),
                                               style: TextStyle(
                                                   fontFamily: 'Poppins',
                                                   fontWeight: FontWeight.w500,
@@ -444,7 +534,8 @@ class _WebManageState extends State<WebManage> {
                                     child: Row(
                                       children: [
                                         Container(
-                                          child: Text('50',
+                                          child: Text(
+                                              statusData.completed.toString(),
                                               style: TextStyle(
                                                   fontFamily: 'Poppins',
                                                   fontWeight: FontWeight.w500,
@@ -505,7 +596,8 @@ class _WebManageState extends State<WebManage> {
                                     child: Row(
                                       children: [
                                         Container(
-                                          child: Text('0',
+                                          child: Text(
+                                              statusData.rescheduled.toString(),
                                               style: TextStyle(
                                                   fontFamily: 'Poppins',
                                                   fontWeight: FontWeight.w500,
@@ -550,7 +642,8 @@ class _WebManageState extends State<WebManage> {
                                     child: Row(
                                       children: [
                                         Container(
-                                          child: Text('0',
+                                          child: Text(
+                                              statusData.cancelled.toString(),
                                               style: TextStyle(
                                                   fontFamily: 'Poppins',
                                                   fontWeight: FontWeight.w500,
