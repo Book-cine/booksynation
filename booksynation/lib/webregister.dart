@@ -1,3 +1,5 @@
+import 'package:booksynation/google_button.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'dart:math' as math;
@@ -10,6 +12,8 @@ class WebRegister extends StatefulWidget {
 }
 
 class _WebRegisterState extends State<WebRegister> {
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -91,6 +95,7 @@ class _WebRegisterState extends State<WebRegister> {
                                 height: height * 0.030,
                               ),
                               TextField(
+                                controller: emailController,
                                 decoration: InputDecoration(
                                   suffixIcon: Icon(
                                     Icons.email,
@@ -127,6 +132,7 @@ class _WebRegisterState extends State<WebRegister> {
                                 height: height * 0.010,
                               ),
                               TextField(
+                                controller: passwordController,
                                 obscureText: true,
                                 decoration: InputDecoration(
                                   suffixIcon: Icon(
@@ -158,7 +164,14 @@ class _WebRegisterState extends State<WebRegister> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               ElevatedButton(
-                                onPressed: () {},
+                                onPressed: () async {
+                                  await FirebaseAuth.instance
+                                      .createUserWithEmailAndPassword(
+                                    email: emailController.text,
+                                    password: passwordController.text,
+                                  );
+                                  setState(() {});
+                                },
                                 style: ElevatedButton.styleFrom(
                                   primary: Color(0xFF26A98A),
                                   fixedSize: Size(
@@ -183,38 +196,7 @@ class _WebRegisterState extends State<WebRegister> {
                               SizedBox(
                                 height: height * 0.030,
                               ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                children: [
-                                  InkWell(
-                                    onTap: () {},
-                                    child: Text(
-                                      'Facebook',
-                                      style: TextStyle(
-                                        color: Colors.blue,
-                                        fontFamily: 'Mulish',
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: height * 0.020,
-                                        decoration: TextDecoration.none,
-                                      ),
-                                    ),
-                                  ),
-                                  InkWell(
-                                    onTap: () {},
-                                    child: Text(
-                                      'Google',
-                                      style: TextStyle(
-                                        color: Colors.green,
-                                        fontFamily: 'Mulish',
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: height * 0.020,
-                                        decoration: TextDecoration.none,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
+                              GoogleButton(),
                             ],
                           ),
                         ],

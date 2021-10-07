@@ -25,6 +25,7 @@ class _HomepageState extends State<Homepage> {
 
     return SafeArea(
       child: Scaffold(
+        resizeToAvoidBottomInset: true,
         body: Container(
           padding: EdgeInsets.all(25.0),
           decoration: BoxDecoration(

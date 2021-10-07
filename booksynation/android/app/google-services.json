@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "199255847015-44pobec5uc7mhgo7v6ddhk6ogtih55kd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.booksynation",
+            "certificate_hash": "27d25a4d008775274a1eeb8687dd70005e872cd7"
+          }
+        },
+        {
           "client_id": "199255847015-f0d4hmh7q44m0kb9rtqm9a3sgdmqvq37.apps.googleusercontent.com",
           "client_type": 3
         }

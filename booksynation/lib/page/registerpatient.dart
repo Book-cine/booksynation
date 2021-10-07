@@ -1,3 +1,4 @@
+import 'package:booksynation/google_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -20,6 +21,7 @@ class _RegisterPatientState extends State<RegisterPatient> {
 
     return SafeArea(
       child: Scaffold(
+        resizeToAvoidBottomInset: true,
         body: Container(
           decoration: BoxDecoration(
             color: Color(0xFF3DDD6A).withOpacity(0.10),
@@ -71,164 +73,135 @@ class _RegisterPatientState extends State<RegisterPatient> {
                           ),
                         ],
                       ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  InkWell(
-                                    onTap: () => Navigator.pop(context),
-                                    child: Icon(Icons.arrow_back),
-                                  ),
-                                  SizedBox(
-                                    width: width * 0.025,
-                                  ),
-                                  Text('Create Account'),
-                                ],
-                              ),
-                              SizedBox(
-                                height: height * 0.030,
-                              ),
-                              TextField(
-                                controller: emailController,
-                                decoration: InputDecoration(
-                                  suffixIcon: Icon(
-                                    Icons.email,
-                                    color: Colors.black,
-                                  ),
-                                  labelText: 'Email Address',
+                      child: SingleChildScrollView(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    InkWell(
+                                      onTap: () => Navigator.pop(context),
+                                      child: Icon(Icons.arrow_back),
+                                    ),
+                                    SizedBox(
+                                      width: width * 0.025,
+                                    ),
+                                    Text('Create Account'),
+                                  ],
                                 ),
-                              ),
-                              SizedBox(
-                                height: height * 0.010,
-                              ),
-                              TextField(
-                                decoration: InputDecoration(
-                                  suffixIcon: Icon(
-                                    Icons.person_outline_outlined,
-                                    color: Colors.black,
-                                  ),
-                                  labelText: 'First Name',
+                                SizedBox(
+                                  height: height * 0.030,
                                 ),
-                              ),
-                              SizedBox(
-                                height: height * 0.010,
-                              ),
-                              TextField(
-                                decoration: InputDecoration(
-                                  suffixIcon: Icon(
-                                    Icons.person,
-                                    color: Colors.black,
-                                  ),
-                                  labelText: 'Last Name',
-                                ),
-                              ),
-                              SizedBox(
-                                height: height * 0.010,
-                              ),
-                              TextField(
-                                controller: passwordController,
-                                obscureText: true,
-                                decoration: InputDecoration(
-                                  suffixIcon: Icon(
-                                    Icons.lock_outlined,
-                                    color: Colors.black,
-                                  ),
-                                  hintText: 'Password',
-                                ),
-                              ),
-                              SizedBox(
-                                height: height * 0.010,
-                              ),
-                              TextField(
-                                obscureText: true,
-                                decoration: InputDecoration(
-                                  suffixIcon: Icon(
-                                    Icons.lock,
-                                    color: Colors.black,
-                                  ),
-                                  hintText: 'Confirm Password',
-                                ),
-                              ),
-                              SizedBox(
-                                height: height * 0.05,
-                              ),
-                            ],
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              ElevatedButton(
-                                onPressed: () async {
-                                  await FirebaseAuth.instance
-                                      .createUserWithEmailAndPassword(
-                                    email: emailController.text,
-                                    password: passwordController.text,
-                                  );
-                                  setState(() {});
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  primary: Color(0xFF26A98A),
-                                  fixedSize: Size(
-                                    width * 0.55,
-                                    height * 0.065,
-                                  ),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(40.0),
+                                TextField(
+                                  controller: emailController,
+                                  decoration: InputDecoration(
+                                    suffixIcon: Icon(
+                                      Icons.email,
+                                      color: Colors.black,
+                                    ),
+                                    labelText: 'Email Address',
                                   ),
                                 ),
-                                child: Text(
-                                  'Register',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontFamily: 'Mulish',
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: height * 0.018,
-                                    decoration: TextDecoration.none,
+                                SizedBox(
+                                  height: height * 0.010,
+                                ),
+                                TextField(
+                                  decoration: InputDecoration(
+                                    suffixIcon: Icon(
+                                      Icons.person_outline_outlined,
+                                      color: Colors.black,
+                                    ),
+                                    labelText: 'First Name',
                                   ),
                                 ),
-                              ),
-                              SizedBox(
-                                height: height * 0.030,
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                children: [
-                                  InkWell(
-                                    onTap: () {},
-                                    child: Text(
-                                      'Facebook',
-                                      style: TextStyle(
-                                        color: Colors.blue,
-                                        fontFamily: 'Mulish',
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: height * 0.020,
-                                        decoration: TextDecoration.none,
-                                      ),
+                                SizedBox(
+                                  height: height * 0.010,
+                                ),
+                                TextField(
+                                  decoration: InputDecoration(
+                                    suffixIcon: Icon(
+                                      Icons.person,
+                                      color: Colors.black,
+                                    ),
+                                    labelText: 'Last Name',
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: height * 0.010,
+                                ),
+                                TextField(
+                                  controller: passwordController,
+                                  obscureText: true,
+                                  decoration: InputDecoration(
+                                    suffixIcon: Icon(
+                                      Icons.lock_outlined,
+                                      color: Colors.black,
+                                    ),
+                                    hintText: 'Password',
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: height * 0.010,
+                                ),
+                                TextField(
+                                  obscureText: true,
+                                  decoration: InputDecoration(
+                                    suffixIcon: Icon(
+                                      Icons.lock,
+                                      color: Colors.black,
+                                    ),
+                                    hintText: 'Confirm Password',
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: height * 0.05,
+                                ),
+                              ],
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                ElevatedButton(
+                                  onPressed: () async {
+                                    await FirebaseAuth.instance
+                                        .createUserWithEmailAndPassword(
+                                      email: emailController.text,
+                                      password: passwordController.text,
+                                    );
+                                    setState(() {});
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    primary: Color(0xFF26A98A),
+                                    fixedSize: Size(
+                                      width * 0.55,
+                                      height * 0.065,
+                                    ),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(40.0),
                                     ),
                                   ),
-                                  InkWell(
-                                    onTap: () {},
-                                    child: Text(
-                                      'Google',
-                                      style: TextStyle(
-                                        color: Colors.green,
-                                        fontFamily: 'Mulish',
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: height * 0.020,
-                                        decoration: TextDecoration.none,
-                                      ),
+                                  child: Text(
+                                    'Register',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontFamily: 'Mulish',
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: height * 0.018,
+                                      decoration: TextDecoration.none,
                                     ),
                                   ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ],
+                                ),
+                                SizedBox(
+                                  height: height * 0.030,
+                                ),
+                                GoogleButton(),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
