@@ -19,6 +19,12 @@ allprojects {
     }
 }
 
+rootProject.ext {
+  set('FlutterFire', [
+    FirebaseSDKVersion: '28.4.1'
+  ])
+}
+
 rootProject.buildDir = '../build'
 subprojects {
     project.buildDir = "${rootProject.buildDir}/${project.name}"
