@@ -3,9 +3,21 @@ import 'package:booksynation/page/registerpatient.dart';
 import 'package:booksynation/weblogin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-class Homepage extends StatelessWidget {
-  const Homepage({Key? key}) : super(key: key);
+class Homepage extends StatefulWidget {
+  Homepage({Key? key}) : super(key: key);
+
+  @override
+  State<Homepage> createState() => _HomepageState();
+}
+
+class _HomepageState extends State<Homepage> {
+  final emailController = TextEditingController();
+
+  final passwordController = TextEditingController();
+
+  final User? user = FirebaseAuth.instance.currentUser;
 
   @override
   Widget build(BuildContext context) {
@@ -85,6 +97,7 @@ class Homepage extends StatelessWidget {
                               height: height * 0.015,
                             ),
                             TextField(
+                              controller: emailController,
                               decoration: InputDecoration(
                                 icon: Icon(
                                   Icons.person_outline_outlined,
@@ -97,6 +110,7 @@ class Homepage extends StatelessWidget {
                               height: height * 0.025,
                             ),
                             TextField(
+                              controller: passwordController,
                               obscureText: true,
                               decoration: InputDecoration(
                                 icon: Icon(
@@ -115,12 +129,28 @@ class Homepage extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             ElevatedButton(
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => OnBoard()),
+                              onPressed: () async {
+                                await FirebaseAuth.instance
+                                    .signInWithEmailAndPassword(
+                                  email: emailController.text,
+                                  password: passwordController.text,
                                 );
+                                setState(() {});
+
+                                (user == null)
+                                    ? ScaffoldMessenger.of(context)
+                                        .showSnackBar(
+                                        const SnackBar(
+                                          content: Text(
+                                            'Login unsuccessful.',
+                                          ),
+                                        ),
+                                      )
+                                    : Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => OnBoard()),
+                                      );
                               },
                               style: ElevatedButton.styleFrom(
                                 primary: Color(0xFF26A98A),
