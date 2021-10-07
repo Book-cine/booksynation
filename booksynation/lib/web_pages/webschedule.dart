@@ -15,7 +15,6 @@ class _WebScheduleState extends State<WebSchedule> {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width - 260;
     final height = MediaQuery.of(context).size.height - 60;
-    int _selectedIndex = -1;
     List<ScheduleData> data = [
       ScheduleData('19-4097-770', 'Nash Uriel A. Tapayan',
           'tnashuriel@gmail.com', 'Astrazenica', '2nd', 'A4', 'Dec 12, 2021'),
@@ -23,6 +22,9 @@ class _WebScheduleState extends State<WebSchedule> {
           'Pfizer', '1st', 'A3', 'Dec 15, 2021'),
     ];
 
+    List<ScheduleData> filteredData = dropdownValue == 'All'
+        ? data
+        : data.where((data) => data.vaccine == dropdownValue).toList();
     return Container(
         height: height,
         width: width,
@@ -163,7 +165,7 @@ class _WebScheduleState extends State<WebSchedule> {
                             label: Text(''),
                           ),
                         ],
-                        rows: data.map((data) {
+                        rows: filteredData.map((data) {
                           return DataRow(
                             cells: <DataCell>[
                               DataCell(Container(child: Text(data.uniqueId))),

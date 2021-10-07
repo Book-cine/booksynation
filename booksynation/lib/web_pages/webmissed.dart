@@ -22,6 +22,10 @@ class _WebMissedState extends State<WebMissed> {
           'mervinjohn@gmail.com', 'Pfizer', '1st', 'A3', 'Dec 15, 2021'),
     ];
 
+    List<MissedData> filteredData = dropdownValue == 'All'
+        ? data
+        : data.where((data) => data.vaccine == dropdownValue).toList();
+
     return Container(
         height: height,
         width: width,
@@ -221,7 +225,7 @@ class _WebMissedState extends State<WebMissed> {
                             ),
                           ),
                         ],
-                        rows: data.map((data) {
+                        rows: filteredData.map((data) {
                           return DataRow(
                             selected: _selectedIndex.contains(data.index),
                             onSelectChanged: (val) {
