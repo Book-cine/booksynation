@@ -27,6 +27,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
     return SafeArea(
       child: Scaffold(
+        resizeToAvoidBottomInset: true,
         body: Container(
           width: width,
           height: height,
