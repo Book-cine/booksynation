@@ -1,4 +1,4 @@
-import 'package:booksynation/google_button.dart';
+import 'package:booksynation/google_button_web.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -196,7 +196,7 @@ class _WebRegisterState extends State<WebRegister> {
                               SizedBox(
                                 height: height * 0.030,
                               ),
-                              GoogleButton(),
+                              GoogleButtonWeb(),
                             ],
                           ),
                         ],

@@ -3,6 +3,7 @@ import 'package:booksynation/web_pages/webmain.dart';
 import 'package:booksynation/webregister.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:math' as math;
 
 class WebLogin extends StatefulWidget {
@@ -13,6 +14,10 @@ class WebLogin extends StatefulWidget {
 }
 
 class _WebLoginState extends State<WebLogin> {
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  final User? user = FirebaseAuth.instance.currentUser;
+
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -143,6 +148,7 @@ class _WebLoginState extends State<WebLogin> {
                                   height: height * 0.005,
                                 ),
                                 TextField(
+                                  controller: emailController,
                                   decoration: InputDecoration(
                                     enabledBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.all(
@@ -177,6 +183,7 @@ class _WebLoginState extends State<WebLogin> {
                                   height: height * 0.005,
                                 ),
                                 TextField(
+                                  controller: passwordController,
                                   obscureText: true,
                                   decoration: InputDecoration(
                                     enabledBorder: OutlineInputBorder(
@@ -203,12 +210,42 @@ class _WebLoginState extends State<WebLogin> {
                               ],
                             ),
                             ElevatedButton(
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => WebMain()),
-                                );
+                              onPressed: () async {
+                                try {
+                                  await FirebaseAuth.instance
+                                      .signInWithEmailAndPassword(
+                                    email: emailController.text,
+                                    password: passwordController.text,
+                                  )
+                                      .then((result) {
+                                    print(result);
+                                    if (result != null) {
+                                      Navigator.of(context).pop();
+                                      Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                          fullscreenDialog: true,
+                                          builder: (context) => WebMain(),
+                                        ),
+                                      );
+                                    } else {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        const SnackBar(
+                                          content: Text(
+                                            'Login unsuccessful.',
+                                          ),
+                                        ),
+                                      );
+                                    }
+                                  });
+                                } on FirebaseAuthException catch (e) {
+                                  if (e.code == 'user-not-found') {
+                                    print('No user found for that email.');
+                                  } else if (e.code == 'wrong-password') {
+                                    print(
+                                        'Wrong password provided for that user.');
+                                  }
+                                }
                               },
                               style: ElevatedButton.styleFrom(
                                 primary: Color(0xFF26A98A),

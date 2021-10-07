@@ -197,7 +197,7 @@ class _RegisterPatientState extends State<RegisterPatient> {
                                 SizedBox(
                                   height: height * 0.030,
                                 ),
-                                GoogleButton(),
+                                GoogleButtonMobile(),
                               ],
                             ),
                           ],
