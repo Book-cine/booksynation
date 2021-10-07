@@ -9,11 +9,13 @@ class GoogleButtonMobile extends StatefulWidget {
 
 class _GoogleButtonMobileState extends State<GoogleButtonMobile> {
   bool _isProcessing = false;
-  GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['email']);
+  GoogleSignIn _googleSignIn = GoogleSignIn(scopes: [
+    'email',
+  ]);
 
   @override
   Widget build(BuildContext context) {
-    // GoogleSignInAccount? user = _googleSignIn.currentUser;
+    GoogleSignInAccount? user = _googleSignIn.currentUser;
 
     return DecoratedBox(
       decoration: ShapeDecoration(
@@ -37,7 +39,6 @@ class _GoogleButtonMobileState extends State<GoogleButtonMobile> {
             _isProcessing = true;
           });
           await _googleSignIn.signIn().then((result) {
-            print(result);
             if (result != null) {
               Navigator.of(context).pop();
               Navigator.of(context).pushReplacement(
@@ -50,6 +51,32 @@ class _GoogleButtonMobileState extends State<GoogleButtonMobile> {
           }).catchError((error) {
             print('Registration Error: $error');
           });
+          // try {
+          //   await _googleSignIn.signIn();
+          //   setState(() {});
+          //   print('User: $user');
+          // } catch (error) {
+          //   print(error);
+          // }
+
+          // if (user != null) {
+          //   Navigator.of(context).pop();
+          //   Navigator.of(context).pushReplacement(
+          //     MaterialPageRoute(
+          //       fullscreenDialog: true,
+          //       builder: (context) => OnBoard(),
+          //     ),
+          //   );
+          // } else {
+          //   ScaffoldMessenger.of(context).showSnackBar(
+          //     const SnackBar(
+          //       content: Text(
+          //         'Login unsuccessful.',
+          //       ),
+          //     ),
+          //   );
+          // }
+
           setState(() {
             _isProcessing = false;
           });

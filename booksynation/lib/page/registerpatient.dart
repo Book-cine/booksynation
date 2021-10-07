@@ -184,6 +184,7 @@ class _RegisterPatientState extends State<RegisterPatient> {
                                                 .set({
                                               'UID':
                                                   docFields['uid'].toString(),
+                                              'Type': 'Patient',
                                               'FirstName':
                                                   docFields['firstname']
                                                       .toString(),
