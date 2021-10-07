@@ -92,7 +92,11 @@ class _DatePickerState extends State<DatePicker> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  (diagnosed) ? datePicked : 'N/A',
+                  (dateLabel == 'Diagnosed Date')
+                      ? (diagnosed)
+                          ? datePicked
+                          : 'N/A'
+                      : datePicked,
                   style: TextStyle(
                     fontSize: 16,
                     color: Colors.grey.shade600,
