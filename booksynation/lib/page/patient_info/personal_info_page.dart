@@ -4,7 +4,6 @@ import 'package:booksynation/page/patient_info/widgets/infoData.dart';
 import 'package:booksynation/page/patient_info/widgets/patient_profile.dart';
 import 'package:booksynation/page/patient_info/widgets/save_changes_button.dart';
 import 'package:booksynation/sidemenu.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class PersonalInfo extends StatefulWidget {
@@ -15,9 +14,6 @@ class PersonalInfo extends StatefulWidget {
 }
 
 class _PersonalInfoState extends State<PersonalInfo> {
-  final Stream<QuerySnapshot> users =
-      FirebaseFirestore.instance.collection('users').snapshots();
-
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -43,7 +39,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
           ),
         ),
         drawer: SideMenu(),
-        body: PesonalInfoBody(height: height, width: width, users: users),
+        body: PesonalInfoBody(height: height, width: width),
       ),
     );
   }
@@ -54,12 +50,10 @@ class PesonalInfoBody extends StatelessWidget {
     Key? key,
     required this.height,
     required this.width,
-    required this.users,
   }) : super(key: key);
 
   final double height;
   final double width;
-  final Stream<QuerySnapshot<Object?>> users;
 
   @override
   Widget build(BuildContext context) {
@@ -101,8 +95,7 @@ class PesonalInfoBody extends StatelessWidget {
                 SizedBox(height: height * 0.1),
                 Align(
                   alignment: Alignment.center,
-                  child:
-                      SaveChanges(width: width, users: users, height: height),
+                  child: SaveChanges(width: width, height: height),
                 ),
                 SizedBox(height: height * 0.1),
               ],

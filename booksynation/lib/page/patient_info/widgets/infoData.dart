@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 Map<String, String> docFields = {
+  'uid': '',
   'firstname': '',
   'middlename': '',
   'lastname': '',
@@ -24,6 +25,7 @@ Map<String, String> docFields = {
   'pregnant': '',
   'disability': '',
   'interactedCovid': '',
+  'diagnosed': '$diagnosed',
   'diagnoseDate': '',
   'otherallergies': '',
   'others': '',
@@ -104,6 +106,6 @@ bool initialState = true;
 
 final formKey = GlobalKey<FormState>();
 CollectionReference userCollection =
-    FirebaseFirestore.instance.collection('users');
-final Stream<QuerySnapshot> users =
-    FirebaseFirestore.instance.collection('users').snapshots();
+    FirebaseFirestore.instance.collection('user');
+
+final Stream<QuerySnapshot> users = userCollection.snapshots();

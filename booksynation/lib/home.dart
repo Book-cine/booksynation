@@ -136,7 +136,6 @@ class _HomepageState extends State<Homepage> {
                                       password: passwordController.text,
                                     )
                                         .then((result) {
-                                      print(result);
                                       if (result != null) {
                                         Navigator.of(context).pop();
                                         Navigator.of(context).push(

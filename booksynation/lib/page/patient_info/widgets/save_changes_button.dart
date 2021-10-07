@@ -1,18 +1,15 @@
 import 'package:booksynation/page/patient_info/widgets/display_data.dart';
 import 'package:booksynation/page/patient_info/widgets/infoData.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class SaveChanges extends StatelessWidget {
   const SaveChanges({
     Key? key,
     required this.width,
-    required this.users,
     required this.height,
   }) : super(key: key);
 
   final double width;
-  final Stream<QuerySnapshot<Object?>> users;
   final double height;
 
   @override
@@ -41,41 +38,44 @@ class SaveChanges extends StatelessWidget {
                 ),
               ),
             );
+
             userCollection
-                .add({
-                  'firstname': docFields['firstname'].toString(),
-                  'middlename': docFields['middlename'].toString(),
-                  'lastname': docFields['lastname'].toString(),
-                  'suffix': docFields['suffix'].toString(),
-                  'gender': docFields['gender'].toString(),
-                  'age': docFields['age'].toString(),
-                  'civstatus': docFields['civstatus'].toString(),
-                  'philhealth': docFields['philhealth'].toString(),
-                  'bday': docFields['bday'].toString(),
-                  'currentaddress': docFields['currentaddress'].toString(),
-                  'region': docFields['region'].toString(),
-                  'province': docFields['province'].toString(),
-                  'city': docFields['city'].toString(),
-                  'brgy': docFields['brgy'].toString(),
-                  'zip': docFields['zip'].toString(),
-                  'contact': docFields['contact'].toString(),
-                  'email': docFields['email'].toString(),
-                  'covclass': docFields['covclass'].toString(),
-                  'employed': docFields['employed'].toString(),
-                  'pregnant': docFields['pregnant'].toString(),
-                  'disability': docFields['disability'].toString(),
-                  'interactedCovid': docFields['interactedCovid'].toString(),
-                  'diagnoseDate': docFields['diagnoseDate'].toString(),
-                  'allergies': allergies,
-                  'comorbidities': comorbidities,
+                .doc(docFields['uid'])
+                .update({
+                  'UID': docFields['uid'].toString(),
+                  'FirstName': docFields['firstname'].toString(),
+                  'MiddleName': docFields['middlename'].toString(),
+                  'LastName': docFields['lastname'].toString(),
+                  'Suffix': docFields['suffix'].toString(),
+                  'Sex': docFields['gender'].toString(),
+                  'Age': docFields['age'].toString(),
+                  'Civil_Status': docFields['civstatus'].toString(),
+                  'Philhealth_Num': docFields['philhealth'].toString(),
+                  'Bday': docFields['bday'].toString(),
+                  'Address': docFields['currentaddress'].toString(),
+                  'Region': docFields['region'].toString(),
+                  'Province': docFields['province'].toString(),
+                  'City': docFields['city'].toString(),
+                  'Barangay': docFields['brgy'].toString(),
+                  'Zip': docFields['zip'].toString(),
+                  'Contact_Num': docFields['contact'].toString(),
+                  'Email': docFields['email'].toString(),
+                  'Cov19_Classification': docFields['covclass'].toString(),
+                  'Employment_Status': docFields['employed'].toString(),
+                  'Pregnant': docFields['pregnant'].toString(),
+                  'PWD': docFields['disability'].toString(),
+                  'Covid_Interaction': docFields['interactedCovid'].toString(),
+                  'Diagnosed_w_Covid': docFields['diagnosed'].toString(),
+                  'Diagnosed_Date': docFields['diagnoseDate'].toString(),
+                  'Allergies': allergies,
+                  'Comorbidities': comorbidities,
                 })
                 .then((value) => print('Add User'))
                 .catchError((error) => print('Failed to add user: $error'));
             Future.delayed(const Duration(seconds: 2), () {
               Navigator.push(
                 context,
-                MaterialPageRoute(
-                    builder: (context) => DisplayData(users: users)),
+                MaterialPageRoute(builder: (context) => DisplayData()),
               );
             });
           } else {

@@ -1,13 +1,11 @@
+import 'package:booksynation/page/patient_info/widgets/infoData.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class DisplayData extends StatelessWidget {
   const DisplayData({
     Key? key,
-    required this.users,
   }) : super(key: key);
-
-  final Stream<QuerySnapshot<Object?>> users;
 
   @override
   Widget build(BuildContext context) {
