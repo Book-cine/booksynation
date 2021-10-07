@@ -1,3 +1,4 @@
+import 'package:booksynation/web_pages/web_data/web_vaccines_data.dart';
 import 'package:flutter/material.dart';
 
 class WebManage extends StatefulWidget {
@@ -12,6 +13,12 @@ class _WebManageState extends State<WebManage> {
   String? dropdownValue2;
   DateTime? dateStart;
   DateTime? dateEnd;
+
+  List<VaccineData> data = [
+    VaccineData('Pfizer', '05/12/21', '05/17/21', 49, 50),
+    VaccineData('Janssen', '05/17/21', '05/24/21', 49, 50),
+  ];
+
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width - 260;
@@ -604,86 +611,49 @@ class _WebManageState extends State<WebManage> {
                 ),
               ),
             ],
-            rows: <DataRow>[
-              DataRow(
-                cells: <DataCell>[
-                  DataCell(Container(child: Text('05/12/21 - 05/17/21'))),
-                  DataCell(Container(child: Text('49/50'))),
-                  DataCell(Container(child: Text('Pfizer'))),
-                  DataCell(
-                    Container(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          ElevatedButton(
-                            onPressed: () {},
-                            style: ElevatedButton.styleFrom(
-                              primary: Color(0xFFFFFFFF),
-                              fixedSize: Size(
-                                width * 0.1,
-                                height * 0.045,
-                              ),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(4.0),
-                              ),
+            rows: data.map((data) {
+              return DataRow(cells: [
+                DataCell(Container(
+                    child: Text(data.dateStart + '-' + data.dateEnd))),
+                DataCell(Container(
+                    child: Text(data.currentStock.toString() +
+                        '/' +
+                        data.maxStock.toString()))),
+                DataCell(Container(child: Text(data.vaccine))),
+                DataCell(
+                  Container(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        ElevatedButton(
+                          onPressed: () {},
+                          style: ElevatedButton.styleFrom(
+                            primary: Color(0xFFFFFFFF),
+                            fixedSize: Size(
+                              width * 0.1,
+                              height * 0.045,
                             ),
-                            child: Text(
-                              'Edit',
-                              style: TextStyle(
-                                color: Color(0xFF242731),
-                                fontFamily: 'Mulish',
-                                fontWeight: FontWeight.w600,
-                                fontSize: height * 0.018,
-                                decoration: TextDecoration.none,
-                              ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(4.0),
                             ),
                           ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              DataRow(
-                cells: <DataCell>[
-                  DataCell(Container(child: Text('05/17/21 - 05/24/21'))),
-                  DataCell(Container(child: Text('50/50'))),
-                  DataCell(Container(child: Text('Jansseen'))),
-                  DataCell(
-                    Container(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          ElevatedButton(
-                            onPressed: () {},
-                            style: ElevatedButton.styleFrom(
-                              primary: Color(0xFFFFFFFF),
-                              fixedSize: Size(
-                                width * 0.1,
-                                height * 0.045,
-                              ),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(4.0),
-                              ),
-                            ),
-                            child: Text(
-                              'Edit',
-                              style: TextStyle(
-                                color: Color(0xFF242731),
-                                fontFamily: 'Mulish',
-                                fontWeight: FontWeight.w600,
-                                fontSize: height * 0.018,
-                                decoration: TextDecoration.none,
-                              ),
+                          child: Text(
+                            'Edit',
+                            style: TextStyle(
+                              color: Color(0xFF242731),
+                              fontFamily: 'Mulish',
+                              fontWeight: FontWeight.w600,
+                              fontSize: height * 0.018,
+                              decoration: TextDecoration.none,
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
-                ],
-              ),
-            ],
+                ),
+              ]);
+            }).toList(),
           ),
         ),
       ],
