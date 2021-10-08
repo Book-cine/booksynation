@@ -28,11 +28,17 @@ class _PatientProfileState extends State<PatientProfile> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Expanded(
-              child: PatientFormField(label: 'First Name'),
+              child: PatientFormField(
+                label: 'First Name',
+                placeholder: patient.firstName,
+              ),
             ),
             SizedBox(width: widget.width * 0.015),
             Expanded(
-              child: PatientFormField(label: 'Middle Name'),
+              child: PatientFormField(
+                label: 'Middle Name',
+                placeholder: patient.middleName,
+              ),
             ),
           ],
         ),
@@ -42,12 +48,18 @@ class _PatientProfileState extends State<PatientProfile> {
           children: [
             Expanded(
               flex: 3,
-              child: PatientFormField(label: 'Last Name'),
+              child: PatientFormField(
+                label: 'Last Name',
+                placeholder: patient.lastName,
+              ),
             ),
             SizedBox(width: widget.width * 0.015),
             Expanded(
               flex: 1,
-              child: PatientFormField(label: 'Suffix'),
+              child: PatientFormField(
+                label: 'Suffix',
+                placeholder: patient.suffix,
+              ),
             ),
           ],
         ),
@@ -57,7 +69,10 @@ class _PatientProfileState extends State<PatientProfile> {
           children: [
             Expanded(
               flex: 1,
-              child: PatientDropdown(dropList: gender, label: 'Gender'),
+              child: PatientDropdown(
+                dropList: gender,
+                label: 'Gender',
+              ),
             ),
             SizedBox(width: widget.width * 0.015),
             Expanded(
@@ -67,7 +82,10 @@ class _PatientProfileState extends State<PatientProfile> {
             SizedBox(width: widget.width * 0.015),
             Expanded(
               flex: 1,
-              child: PatientFormField(label: 'Age'),
+              child: PatientFormField(
+                label: 'Age',
+                placeholder: patient.age,
+              ),
             ),
           ],
         ),
@@ -86,7 +104,9 @@ class _PatientProfileState extends State<PatientProfile> {
             Expanded(
               flex: 2,
               child: PatientFormField(
-                  label: 'PHIC/Philhealth No. (If Applicable)'),
+                label: 'PHIC/Philhealth No. (If Applicable)',
+                placeholder: patient.philhealth,
+              ),
             ),
           ],
         ),

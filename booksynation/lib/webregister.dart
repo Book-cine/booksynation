@@ -177,11 +177,11 @@ class _WebRegisterState extends State<WebRegister> {
                                       if (result != null) {
                                         if (result
                                             .additionalUserInfo!.isNewUser) {
-                                          docFields['uid'] = result.user!.uid;
+                                          patient.uniqueId = result.user!.uid;
                                           userCollection
-                                              .doc(docFields['uid'])
+                                              .doc(patient.uniqueId)
                                               .set({
-                                            'UID': docFields['uid'].toString(),
+                                            'UID': patient.uniqueId,
                                             'type': 'Admin',
                                           });
                                         }
