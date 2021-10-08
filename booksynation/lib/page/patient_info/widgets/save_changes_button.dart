@@ -1,4 +1,4 @@
-import 'package:booksynation/page/patient_info/widgets/display_data.dart';
+import 'package:booksynation/page/booksched.dart';
 import 'package:booksynation/page/patient_info/widgets/infoData.dart';
 import 'package:flutter/material.dart';
 
@@ -42,7 +42,7 @@ class SaveChanges extends StatelessWidget {
             Future.delayed(const Duration(seconds: 2), () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => DisplayData()),
+                MaterialPageRoute(builder: (context) => BookSchedule()),
               );
             });
           } else {
