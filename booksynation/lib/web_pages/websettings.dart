@@ -13,7 +13,6 @@ class _WebSettingsState extends State<WebSettings> {
   @override
   Widget build(BuildContext context) {
     final name = 'Dr. Jose Aguinaldo';
-    final email = 'book-cine@gmail.com';
     final width = MediaQuery.of(context).size.width - 260;
     final height = MediaQuery.of(context).size.height - 60;
 
