@@ -65,11 +65,6 @@ class _MissedScreenState extends State<MissedScreen> {
                   style: _normalTextStyle,
                 ),
               ),
-              /* Text(
-                missedText3,
-                textAlign: TextAlign.center,
-                style: _normalTextStyle,
-              ), */
               Padding(
                 padding: EdgeInsets.only(top: height * 0.025),
                 child: ElevatedButton(
@@ -86,7 +81,7 @@ class _MissedScreenState extends State<MissedScreen> {
                       borderRadius: BorderRadius.circular(60.0),
                     ),
                   ),
-                  child: Text(btnText, style: _btnTextStyle),
+                  child: Text(btnTextBook, style: _btnTextStyle),
                 ),
               ),
             ],
