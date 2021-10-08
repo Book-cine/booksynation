@@ -27,19 +27,21 @@ class _DatePickerState extends State<DatePicker> {
     } else if (birthDate == null && widget.label == 'bday') {
       return '01/01/2000';
     } else if (widget.label == 'bday') {
-      docFields['bday'] =
-          '${birthDate?.month}/${birthDate?.day}/${birthDate?.year}';
-      return docFields['bday'];
+      patient.bday = '${birthDate?.month}/${birthDate?.day}/${birthDate?.year}';
+      return patient.bday;
     } else if (widget.label == 'Diagnosed Date') {
-      docFields['diagnoseDate'] =
+      patient.diagnosedDate =
           '${diagnosedDate?.month}/${diagnosedDate?.day}/${diagnosedDate?.year}';
-      return docFields['diagnoseDate'];
+      return patient.diagnosedDate;
     }
   }
 
   @override
   Widget build(BuildContext context) {
     String dateLabel = getLabel().toString();
+    String datePicked = getText().toString();
+    String error = 'Please select date';
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -66,22 +68,34 @@ class _DatePickerState extends State<DatePicker> {
             margin: (dateLabel == 'Diagnosed Date')
                 ? EdgeInsets.only(
                     top: 27,
-                    bottom: 23,
+                    bottom: 8,
                   )
                 : EdgeInsets.only(
                     top: 10,
-                    bottom: 20,
+                    bottom: 7,
                   ),
             decoration: BoxDecoration(
               border: Border(
-                bottom: BorderSide(width: 1, color: Colors.grey),
+                bottom: BorderSide(
+                  width: 1,
+                  color: (initialState)
+                      ? Colors.grey
+                      : (datePicked == '01/01/2000' ||
+                              (diagnosed && datePicked == 'N/A'))
+                          ? Colors.red
+                          : Colors.grey,
+                ),
               ),
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  getText().toString(),
+                  (dateLabel == 'Diagnosed Date')
+                      ? (diagnosed)
+                          ? datePicked
+                          : 'N/A'
+                      : datePicked,
                   style: TextStyle(
                     fontSize: 16,
                     color: Colors.grey.shade600,
@@ -94,6 +108,15 @@ class _DatePickerState extends State<DatePicker> {
               ],
             ),
           ),
+        ),
+        Text(
+          (initialState)
+              ? ''
+              : (datePicked == '01/01/2000' ||
+                      (diagnosed && datePicked == 'N/A'))
+                  ? error
+                  : '',
+          style: TextStyle(color: Colors.red.shade900, fontSize: 11),
         ),
       ],
     );

@@ -1,22 +1,32 @@
 import 'package:booksynation/page/onboarding.dart';
 import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 
-class GoogleButtonMobile extends StatefulWidget {
-  @override
-  _GoogleButtonMobileState createState() => _GoogleButtonMobileState();
+import 'package:firebase_auth/firebase_auth.dart';
+
+Future<UserCredential> signInWithGoogle() async {
+  // Create a new provider
+  GoogleAuthProvider googleProvider = GoogleAuthProvider();
+
+  googleProvider.addScope('https://www.googleapis.com/auth/contacts.readonly');
+  googleProvider.setCustomParameters({'login_hint': 'user@example.com'});
+
+  // Once signed in, return the UserCredential
+  return await FirebaseAuth.instance.signInWithPopup(googleProvider);
+
+  // Or use signInWithRedirect
+  // return await FirebaseAuth.instance.signInWithRedirect(googleProvider);
 }
 
-class _GoogleButtonMobileState extends State<GoogleButtonMobile> {
+class GoogleButtonWeb extends StatefulWidget {
+  @override
+  _GoogleButtonWebState createState() => _GoogleButtonWebState();
+}
+
+class _GoogleButtonWebState extends State<GoogleButtonWeb> {
   bool _isProcessing = false;
-  GoogleSignIn _googleSignIn = GoogleSignIn(scopes: [
-    'email',
-  ]);
 
   @override
   Widget build(BuildContext context) {
-    GoogleSignInAccount? user = _googleSignIn.currentUser;
-
     return DecoratedBox(
       decoration: ShapeDecoration(
         shape: RoundedRectangleBorder(
@@ -38,7 +48,8 @@ class _GoogleButtonMobileState extends State<GoogleButtonMobile> {
           setState(() {
             _isProcessing = true;
           });
-          await _googleSignIn.signIn().then((result) {
+          await signInWithGoogle().then((result) {
+            print(result);
             if (result != null) {
               Navigator.of(context).pop();
               Navigator.of(context).pushReplacement(
@@ -51,32 +62,6 @@ class _GoogleButtonMobileState extends State<GoogleButtonMobile> {
           }).catchError((error) {
             print('Registration Error: $error');
           });
-          // try {
-          //   await _googleSignIn.signIn();
-          //   setState(() {});
-          //   print('User: $user');
-          // } catch (error) {
-          //   print(error);
-          // }
-
-          // if (user != null) {
-          //   Navigator.of(context).pop();
-          //   Navigator.of(context).pushReplacement(
-          //     MaterialPageRoute(
-          //       fullscreenDialog: true,
-          //       builder: (context) => OnBoard(),
-          //     ),
-          //   );
-          // } else {
-          //   ScaffoldMessenger.of(context).showSnackBar(
-          //     const SnackBar(
-          //       content: Text(
-          //         'Login unsuccessful.',
-          //       ),
-          //     ),
-          //   );
-          // }
-
           setState(() {
             _isProcessing = false;
           });
@@ -100,9 +85,9 @@ class _GoogleButtonMobileState extends State<GoogleButtonMobile> {
                     Padding(
                       padding: const EdgeInsets.only(left: 20),
                       child: Text(
-                        'Google',
+                        'Continue with Google',
                         style: TextStyle(
-                          fontSize: 16,
+                          fontSize: 20,
                           color: Colors.blueGrey,
                         ),
                       ),

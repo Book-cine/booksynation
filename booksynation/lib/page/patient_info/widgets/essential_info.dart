@@ -33,7 +33,9 @@ class _EssentialInfoState extends State<EssentialInfo> {
           children: [
             Expanded(
               child: PatientDropdown(
-                  dropList: covclass, label: 'Covid-19 Classification'),
+                dropList: covclass,
+                label: 'Covid-19 Classification',
+              ),
             ),
             SizedBox(width: widget.width * 0.015),
             Expanded(
@@ -118,11 +120,15 @@ class _EssentialInfoState extends State<EssentialInfo> {
           children: [
             SizedBox(width: widget.width * 0.1),
             Expanded(
-              child: PatientFormField(label: 'Other Allergies:'),
+              child: PatientFormField(
+                label: 'Other Allergies:',
+                placeholder: patient.otherAllergies,
+              ),
             ),
             SizedBox(width: widget.width * 0.1),
             Expanded(
-              child: PatientFormField(label: 'Others:'),
+              child: PatientFormField(
+                  label: 'Others:', placeholder: patient.others),
             ),
           ],
         ),

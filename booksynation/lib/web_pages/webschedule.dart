@@ -1,3 +1,4 @@
+import 'package:booksynation/web_pages/web_data/web_schedules_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -14,7 +15,16 @@ class _WebScheduleState extends State<WebSchedule> {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width - 260;
     final height = MediaQuery.of(context).size.height - 60;
+    List<ScheduleData> data = [
+      ScheduleData('19-4097-770', 'Nash Uriel A. Tapayan',
+          'tnashuriel@gmail.com', 'Astrazenica', '2nd', 'A4', 'Dec 12, 2021'),
+      ScheduleData('19-40970-771', 'Mervin John Tampus', 'mervinjohn@gmail.com',
+          'Pfizer', '1st', 'A3', 'Dec 15, 2021'),
+    ];
 
+    List<ScheduleData> filteredData = dropdownValue == 'All'
+        ? data
+        : data.where((data) => data.vaccine == dropdownValue).toList();
     return Container(
         height: height,
         width: width,
@@ -155,18 +165,17 @@ class _WebScheduleState extends State<WebSchedule> {
                             label: Text(''),
                           ),
                         ],
-                        rows: <DataRow>[
-                          DataRow(
+                        rows: filteredData.map((data) {
+                          return DataRow(
                             cells: <DataCell>[
-                              DataCell(Container(child: Text('19-4097-770'))),
-                              DataCell(Container(
-                                  child: Text('Nash Uriel A. Tapayan'))),
-                              DataCell(Container(
-                                  child: Text('tnashuriel@gmail.com'))),
-                              DataCell(Container(child: Text('Astrazenica'))),
-                              DataCell(Container(child: Text('2nd'))),
-                              DataCell(Container(child: Text('A4'))),
-                              DataCell(Container(child: Text('Sept 23, 2021'))),
+                              DataCell(Container(child: Text(data.uniqueId))),
+                              DataCell(Container(child: Text(data.name))),
+                              DataCell(Container(child: Text(data.email))),
+                              DataCell(Container(child: Text(data.vaccine))),
+                              DataCell(Container(child: Text(data.dosage))),
+                              DataCell(Container(child: Text(data.category))),
+                              DataCell(
+                                  Container(child: Text(data.dateScheduled))),
                               DataCell(
                                 Container(
                                   child: Row(
@@ -197,50 +206,8 @@ class _WebScheduleState extends State<WebSchedule> {
                                 ),
                               ),
                             ],
-                          ),
-                          DataRow(
-                            cells: <DataCell>[
-                              DataCell(Container(child: Text('19-4097-771'))),
-                              DataCell(
-                                  Container(child: Text('Mervin John Tampus'))),
-                              DataCell(Container(
-                                  child: Text('mervinjohn@gmail.com'))),
-                              DataCell(Container(child: Text('Pfizer'))),
-                              DataCell(Container(child: Text('1st'))),
-                              DataCell(Container(child: Text('A2'))),
-                              DataCell(Container(child: Text('Sept 24, 2021'))),
-                              DataCell(
-                                Container(
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      IconButton(
-                                        icon: SvgPicture.asset(
-                                          'images/check_icon.svg',
-                                          color: Color(0xFF4ECB71),
-                                          height: 25,
-                                          width: 25,
-                                        ),
-                                        tooltip: 'Mark as finished',
-                                        onPressed: () {},
-                                      ),
-                                      IconButton(
-                                        icon: SvgPicture.asset(
-                                          'images/reject_icon.svg',
-                                          color: Color(0xFFF11010),
-                                          height: 25,
-                                          width: 25,
-                                        ),
-                                        tooltip: 'Mark as missed',
-                                        onPressed: () {},
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
+                          );
+                        }).toList(),
                       ),
                     ),
                   ),

@@ -1,4 +1,6 @@
-import 'package:booksynation/google_button.dart';
+import 'package:booksynation/google_button_web.dart';
+import 'package:booksynation/page/patient_info/widgets/infoData.dart';
+import 'package:booksynation/weblogin.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -165,12 +167,45 @@ class _WebRegisterState extends State<WebRegister> {
                             children: [
                               ElevatedButton(
                                 onPressed: () async {
-                                  await FirebaseAuth.instance
-                                      .createUserWithEmailAndPassword(
-                                    email: emailController.text,
-                                    password: passwordController.text,
-                                  );
-                                  setState(() {});
+                                  try {
+                                    await FirebaseAuth.instance
+                                        .createUserWithEmailAndPassword(
+                                      email: emailController.text,
+                                      password: passwordController.text,
+                                    )
+                                        .then((result) {
+                                      if (result != null) {
+                                        if (result
+                                            .additionalUserInfo!.isNewUser) {
+                                          patient.uniqueId = result.user!.uid;
+                                          userCollection
+                                              .doc(patient.uniqueId)
+                                              .set({
+                                            'UID': patient.uniqueId,
+                                            'type': 'Admin',
+                                          });
+                                        }
+                                        Navigator.of(context).pop();
+                                        Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                            fullscreenDialog: true,
+                                            builder: (context) => WebLogin(),
+                                          ),
+                                        );
+                                      } else {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          const SnackBar(
+                                            content: Text(
+                                              'Registration unsuccessful.',
+                                            ),
+                                          ),
+                                        );
+                                      }
+                                    });
+                                  } on FirebaseAuthException catch (e) {
+                                    print(e);
+                                  }
                                 },
                                 style: ElevatedButton.styleFrom(
                                   primary: Color(0xFF26A98A),
@@ -196,7 +231,7 @@ class _WebRegisterState extends State<WebRegister> {
                               SizedBox(
                                 height: height * 0.030,
                               ),
-                              GoogleButton(),
+                              GoogleButtonWeb(),
                             ],
                           ),
                         ],
