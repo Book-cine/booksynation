@@ -54,7 +54,26 @@ class PesonalInfoBody extends StatelessWidget {
 
   final double height;
   final double width;
+  @override
+  Widget build(BuildContext context) {
+    bool fillStatus = false;
+    if (fillStatus) {
+      return LockedPersonalInfo(height: height, width: width);
+    } else {
+      return UnlockedPersonalInfo(height: height, width: width);
+    }
+  }
+}
 
+class UnlockedPersonalInfo extends StatelessWidget {
+  const UnlockedPersonalInfo({
+    Key? key,
+    required this.height,
+    required this.width,
+  }) : super(key: key);
+
+  final double height;
+  final double width;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -100,6 +119,32 @@ class PesonalInfoBody extends StatelessWidget {
                 SizedBox(height: height * 0.1),
               ],
             ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+//TODO: Please ko Mervin sa kani na part if makaya pa kay murag list lang sa personal info from the forms mao nani katong locked mode sa forms.
+class LockedPersonalInfo extends StatelessWidget {
+  const LockedPersonalInfo({
+    Key? key,
+    required this.height,
+    required this.width,
+  }) : super(key: key);
+
+  final double height;
+  final double width;
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Scaffold(
+        //TODO: Please ko Mervin sa kani na part if makaya pa kay murag list lang sa personal info from the forms mao nani katong locked mode sa forms.
+        drawer: SideMenu(),
+        body: Builder(
+          builder: (context) => Center(
+            child: Column(),
           ),
         ),
       ),

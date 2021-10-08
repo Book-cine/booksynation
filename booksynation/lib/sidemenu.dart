@@ -1,6 +1,6 @@
 import 'package:booksynation/main.dart';
 import 'package:booksynation/page/appointment.dart';
-import 'package:booksynation/page/patient_info/personal_info_page.dart';
+import 'package:booksynation/page/patient_info/covid_19_info.dart';
 import 'package:booksynation/page/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -211,7 +211,7 @@ class _SideMenuState extends State<SideMenu> {
     switch (index) {
       case 0:
         Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => PersonalInfo(),
+          builder: (context) => CovidInfo(),
         ));
         break;
       case 1:
@@ -221,7 +221,7 @@ class _SideMenuState extends State<SideMenu> {
         break;
       case 2:
         Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => PatientSettings(),
+          builder: (context) => CovidInfo(),
         ));
         break;
     }

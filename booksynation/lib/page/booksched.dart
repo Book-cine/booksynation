@@ -1,5 +1,5 @@
-import 'package:booksynation/page/appointment.dart';
-import 'package:booksynation/page/patient_info/personal_info_page.dart';
+import 'package:booksynation/page/patient_info/covid_19_info.dart';
+import 'package:booksynation/page/vaccine_information.dart';
 import 'package:booksynation/strings.dart';
 import 'package:flutter/material.dart';
 
@@ -64,7 +64,7 @@ class BookSchedule extends StatelessWidget {
                     onPressed: () {
                       Navigator.of(context).push(
                         MaterialPageRoute(
-                          builder: (context) => MyAppointment(),
+                          builder: (context) => VaccineInfo(),
                         ),
                       ); //TODO:change button action
                     },
@@ -87,7 +87,7 @@ class BookSchedule extends StatelessWidget {
         ),
       );
     } else {
-      return PersonalInfo();
+      return CovidInfo();
     }
   }
 }

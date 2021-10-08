@@ -1,6 +1,5 @@
 import 'package:booksynation/page/booksched.dart';
 import 'package:booksynation/page/missed.dart';
-import 'package:booksynation/page/pending.dart';
 import 'package:booksynation/page/schedule.dart';
 import 'package:booksynation/sidemenu.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +11,7 @@ class MyAppointment extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String schedule =
-        ''; //Schedule of User's vaccine from firestore/ Book button pressed if not empty
+        '2021-10-11'; //Schedule of User's vaccine from firestore/ Book button pressed if not empty
     bool status =
         true; //Status of Vaccination of User from firestore (false when vaccine is missed, true otherwise)
     bool fillStatus = true; //Status of Fill up Form of User from firestore
