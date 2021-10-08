@@ -1,3 +1,4 @@
+import 'package:booksynation/strings.dart';
 import 'package:flutter/material.dart';
 
 class PendingScreen extends StatelessWidget {
@@ -7,8 +8,12 @@ class PendingScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
-    String _pendingText =
-        'Your booking is being processed. You shall be notified of your vaccination schedule when it is available.';
+    final TextStyle _normalTextStyle = TextStyle(
+        color: Colors.black,
+        fontFamily: 'Antic Didone',
+        decoration: TextDecoration.none,
+        fontSize: height * 0.02,
+        height: 1.5);
 
     return SafeArea(
       child: Scaffold(
@@ -27,14 +32,9 @@ class PendingScreen extends StatelessWidget {
                     right: width * 0.14),
                 alignment: Alignment.bottomCenter,
                 child: Text(
-                  _pendingText, //TODO: add or change text
+                  pendingText, //TODO: add or change text
                   textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontFamily: 'Antic Didone',
-                    decoration: TextDecoration.none,
-                    fontSize: height * 0.02,
-                  ),
+                  style: _normalTextStyle,
                 ),
               ),
             ],
