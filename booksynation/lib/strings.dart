@@ -3,7 +3,6 @@ const String pendingText =
     'Your booking is being processed. You shall be notified of your vaccination schedule when it is available.';
 
 //Missed Appointment Screen
-const String btnTextBack = 'BACK';
 const String missedText1 = 'You have missed your vaccination schedule.';
 const String missedText2 =
     'Please let us know why by reaching us through our contact details:';

@@ -1,3 +1,4 @@
+import 'package:booksynation/page/booksched.dart';
 import 'package:booksynation/page/missed.dart';
 import 'package:booksynation/page/pending.dart';
 import 'package:booksynation/page/schedule.dart';
@@ -10,8 +11,11 @@ class MyAppointment extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String schedule = '2021-10-08';
-    bool status = false;
+    String schedule =
+        ''; //Schedule of User's vaccine from firestore/ Book button pressed if not empty
+    bool status =
+        true; //Status of Vaccination of User from firestore (false when vaccine is missed, true otherwise)
+    bool fillStatus = true; //Status of Fill up Form of User from firestore
     var now = new DateTime.now();
     var formatter = new DateFormat('yyyy-MM-dd');
     String date = formatter.format(now);
@@ -30,7 +34,12 @@ class MyAppointment extends StatelessWidget {
           return MissedScreen();
         }
       } else {
-        return PendingScreen();
+        if (!fillStatus) {
+          Future.delayed(Duration.zero, () {
+            showFormAlert(context);
+          });
+        }
+        return BookSchedule();
       }
     }
 
@@ -46,21 +55,43 @@ class MyAppointment extends StatelessWidget {
       barrierDismissible: false,
       builder: (context) {
         return AlertDialog(
-          title: const Text('AlertDialog Title'),
+          title: const Text('Today is your Vaccination Day'),
           content: SingleChildScrollView(
             child: ListBody(
               children: const <Widget>[
-                Text('Today is your Vaccination Day'),
                 Text('Please visit your respective vaccination site'),
               ],
             ),
           ),
           actions: <Widget>[
             TextButton(
+              onPressed: () => Navigator.pop(context, 'Okay'),
               child: const Text('Okay'),
-              onPressed: () {
-                Navigator.of(context).popUntil((route) => false);
-              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void showFormAlert(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('No Appointment Issued'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: const <Widget>[
+                Text('Please fill out the form first!'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () => Navigator.pop(context, 'Okay'),
+              child: const Text('Okay'),
             ),
           ],
         );

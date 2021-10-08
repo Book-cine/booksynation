@@ -1,3 +1,4 @@
+import 'package:booksynation/main.dart';
 import 'package:booksynation/page/appointment.dart';
 import 'package:booksynation/page/patient_info/personal_info_page.dart';
 import 'package:booksynation/page/settings.dart';
@@ -69,6 +70,8 @@ class _SideMenuState extends State<SideMenu> {
                           icon: Icons.settings_outlined,
                           onClicked: () => selectedItem(context, 2),
                         ),
+                        const SizedBox(height: 12),
+                        buildSignOutItem(),
                       ],
                     ),
                   ),
@@ -181,6 +184,27 @@ class _SideMenuState extends State<SideMenu> {
     );
   }
 
+  Widget buildSignOutItem() {
+    final color = Colors.black;
+    final hoverColor = Colors.grey.withOpacity(0.5);
+
+    return ListTile(
+      title: Text('Sign-out', style: TextStyle(color: color)),
+      leading: SvgPicture.asset(
+        'images/signout_icon.svg',
+        color: color,
+        width: 18,
+        alignment: Alignment.center,
+      ),
+      hoverColor: hoverColor,
+      onTap: () => {
+        Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => App(),
+        ))
+      },
+    );
+  }
+
   void selectedItem(BuildContext context, int index) {
     Navigator.of(context).pop();
 
@@ -201,6 +225,20 @@ class _SideMenuState extends State<SideMenu> {
         ));
         break;
     }
+  }
+
+  Widget signOutMenu({
+    required String text,
+    required SvgPicture icon,
+    VoidCallback? onClicked,
+  }) {
+    final color = Colors.black;
+    return ListTile(
+      leading: icon,
+      horizontalTitleGap: 3,
+      title: Text(text, style: TextStyle(color: color)),
+      onTap: onClicked,
+    );
   }
 
   DropdownMenuItem<String> buildDropItem(String item) => DropdownMenuItem(

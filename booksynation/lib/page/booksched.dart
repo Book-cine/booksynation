@@ -1,3 +1,5 @@
+import 'package:booksynation/page/appointment.dart';
+import 'package:booksynation/page/patient_info/personal_info_page.dart';
 import 'package:booksynation/strings.dart';
 import 'package:flutter/material.dart';
 
@@ -6,6 +8,8 @@ class BookSchedule extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool fillStatus = true;
+
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
     final TextStyle _normalTextStyle = TextStyle(
@@ -23,59 +27,67 @@ class BookSchedule extends StatelessWidget {
     );
     String _name = 'Juan Alfonso Dela Cruz'; //TODO: name dynamic implementation
 
-    return SafeArea(
-      child: Scaffold(
-        body: Center(
-          child: Column(
-            children: <Widget>[
-              Padding(
-                padding: EdgeInsets.only(
-                  top: height * 0.1,
-                  left: width * 0.14,
-                  right: width * 0.14,
-                ),
-                child: RichText(
-                    text: TextSpan(
-                        text: bookSchedText1,
-                        style: _normalTextStyle,
-                        children: <TextSpan>[
-                      TextSpan(
-                          text: _name +
-                              '!', //TODO: apply name dynamic implementation
-                          style: const TextStyle(fontWeight: FontWeight.bold))
-                    ])),
-              ),
-              Text(bookSchedText2,
-                  textAlign: TextAlign.center, style: _normalTextStyle),
-              Text(bookSchedText3,
-                  textAlign: TextAlign.center, style: _normalTextStyle),
-              Padding(
-                padding: EdgeInsets.only(top: height * 0.075),
-                child: Image.asset('images/bookimg1.png', scale: 2),
-              ),
-              Padding(
-                padding: EdgeInsets.only(top: height * 0.065),
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.pop(context); //TODO:change button action
-                  },
-                  style: ElevatedButton.styleFrom(
-                    primary: Color(0xFF26A98A),
-                    fixedSize: Size(
-                      width * 0.35,
-                      height * 0.065,
-                    ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(60.0),
-                    ),
+    if (fillStatus) {
+      return SafeArea(
+        child: Scaffold(
+          body: Center(
+            child: Column(
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.only(
+                    top: height * 0.1,
+                    left: width * 0.14,
+                    right: width * 0.14,
                   ),
-                  child: Text(btnTextBook, style: _btnTextStyle),
+                  child: RichText(
+                      text: TextSpan(
+                          text: bookSchedText1,
+                          style: _normalTextStyle,
+                          children: <TextSpan>[
+                        TextSpan(
+                            text: _name +
+                                '!', //TODO: apply name dynamic implementation
+                            style: const TextStyle(fontWeight: FontWeight.bold))
+                      ])),
                 ),
-              ),
-            ],
+                Text(bookSchedText2,
+                    textAlign: TextAlign.center, style: _normalTextStyle),
+                Text(bookSchedText3,
+                    textAlign: TextAlign.center, style: _normalTextStyle),
+                Padding(
+                  padding: EdgeInsets.only(top: height * 0.075),
+                  child: Image.asset('images/bookimg1.png', scale: 2),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: height * 0.065),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => MyAppointment(),
+                        ),
+                      ); //TODO:change button action
+                    },
+                    style: ElevatedButton.styleFrom(
+                      primary: Color(0xFF26A98A),
+                      fixedSize: Size(
+                        width * 0.35,
+                        height * 0.065,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(60.0),
+                      ),
+                    ),
+                    child: Text(btnTextBook, style: _btnTextStyle),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
-      ),
-    );
+      );
+    } else {
+      return PersonalInfo();
+    }
   }
 }
