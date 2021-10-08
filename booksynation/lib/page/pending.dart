@@ -8,7 +8,7 @@ class PendingScreen extends StatelessWidget {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
     String _pendingText =
-        'Your booking is being processed. You shall be notified of your vaccination schedule shortly.';
+        'Your booking is being processed. You shall be notified of your vaccination schedule when it is available.';
 
     return SafeArea(
       child: Scaffold(
@@ -37,34 +37,6 @@ class PendingScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              Container(
-                padding: EdgeInsets.only(top: height * 0.05),
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.pop(context); //TODO: change action
-                  },
-                  style: ElevatedButton.styleFrom(
-                    primary: Color(0xFF26A98A),
-                    fixedSize: Size(
-                      width * 0.35,
-                      height * 0.065,
-                    ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(60.0),
-                    ),
-                  ),
-                  child: Text(
-                    'PROCEED', //TODO: change button name
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontFamily: 'Mulish',
-                      fontWeight: FontWeight.w600,
-                      fontSize: height * 0.018,
-                      decoration: TextDecoration.none,
-                    ),
-                  ),
-                ),
-              )
             ],
           ),
         ),
