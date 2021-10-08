@@ -178,75 +178,8 @@ class _RegisterPatientState extends State<RegisterPatient> {
                                         if (result != null) {
                                           if (result
                                               .additionalUserInfo!.isNewUser) {
-                                            docFields['uid'] = result.user!.uid;
-                                            userCollection
-                                                .doc(docFields['uid'])
-                                                .set({
-                                              'UID':
-                                                  docFields['uid'].toString(),
-                                              'Type': 'Patient',
-                                              'FirstName':
-                                                  docFields['firstname']
-                                                      .toString(),
-                                              'MiddleName':
-                                                  docFields['middlename']
-                                                      .toString(),
-                                              'LastName': docFields['lastname']
-                                                  .toString(),
-                                              'Suffix': docFields['suffix']
-                                                  .toString(),
-                                              'Sex': docFields['gender']
-                                                  .toString(),
-                                              'Age':
-                                                  docFields['age'].toString(),
-                                              'Civil_Status':
-                                                  docFields['civstatus']
-                                                      .toString(),
-                                              'Philhealth_Num':
-                                                  docFields['philhealth']
-                                                      .toString(),
-                                              'Bday':
-                                                  docFields['bday'].toString(),
-                                              'Address':
-                                                  docFields['currentaddress']
-                                                      .toString(),
-                                              'Region': docFields['region']
-                                                  .toString(),
-                                              'Province': docFields['province']
-                                                  .toString(),
-                                              'City':
-                                                  docFields['city'].toString(),
-                                              'Barangay':
-                                                  docFields['brgy'].toString(),
-                                              'Zip':
-                                                  docFields['zip'].toString(),
-                                              'Contact_Num':
-                                                  docFields['contact']
-                                                      .toString(),
-                                              'Email':
-                                                  docFields['email'].toString(),
-                                              'Cov19_Classification':
-                                                  docFields['covclass']
-                                                      .toString(),
-                                              'Employment_Status':
-                                                  docFields['employed']
-                                                      .toString(),
-                                              'Pregnant': docFields['pregnant']
-                                                  .toString(),
-                                              'PWD': docFields['disability']
-                                                  .toString(),
-                                              'Covid_Interaction':
-                                                  docFields['interactedCovid']
-                                                      .toString(),
-                                              'Diagnosed_w_Covid':
-                                                  docFields['diagnosed']
-                                                      .toString(),
-                                              'Diagnosed_Date':
-                                                  docFields['diagnoseDate']
-                                                      .toString(),
-                                              'Allergies': allergies,
-                                              'Comorbidities': comorbidities,
-                                            });
+                                            patient.uniqueId = result.user!.uid;
+                                            createPatientData();
                                           }
                                           Navigator.of(context).pop();
                                           Navigator.of(context).push(

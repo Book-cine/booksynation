@@ -23,7 +23,10 @@ class _ContactDetailsState extends State<ContactDetails> {
     return Column(
       children: [
         SizedBox(height: widget.height * 0.010),
-        PatientFormField(label: 'Current Address'),
+        PatientFormField(
+          label: 'Current Address',
+          placeholder: patient.address,
+        ),
         SizedBox(height: widget.height * 0.025),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -65,7 +68,10 @@ class _ContactDetailsState extends State<ContactDetails> {
             SizedBox(width: widget.width * 0.015),
             Expanded(
               flex: 1,
-              child: PatientFormField(label: 'Zip'),
+              child: PatientFormField(
+                label: 'Zip',
+                placeholder: patient.zip,
+              ),
             ),
           ],
         ),
@@ -75,12 +81,18 @@ class _ContactDetailsState extends State<ContactDetails> {
           children: [
             Expanded(
               flex: 2,
-              child: PatientFormField(label: 'Contact No.'),
+              child: PatientFormField(
+                label: 'Contact No.',
+                placeholder: patient.contact,
+              ),
             ),
             SizedBox(width: widget.width * 0.015),
             Expanded(
               flex: 3,
-              child: PatientFormField(label: 'Email Address'),
+              child: PatientFormField(
+                label: 'Email Address',
+                placeholder: patient.email,
+              ),
             ),
           ],
         ),
