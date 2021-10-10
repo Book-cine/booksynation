@@ -20,3 +20,11 @@ class MissedData {
     this.dateScheduled = dateScheduled;
   }
 }
+
+// getAdminData(User? _admin) async {
+//   var coll = FirebaseFirestore.instance.collection('admin');
+//   await coll.doc(_admin!.uid).get().then((result) {
+//     Map<String, dynamic>? value = result.data();
+//     admin.uniqueId = value?['UID'];
+//   });
+// }

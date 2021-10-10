@@ -2,7 +2,7 @@ import 'package:booksynation/web_pages/webmanage.dart';
 import 'package:booksynation/web_pages/webmissed.dart';
 import 'package:booksynation/web_pages/webschedule.dart';
 import 'package:booksynation/web_pages/websettings.dart';
-import 'package:booksynation/weblogin.dart';
+import 'package:booksynation/web_pages/weblogin.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';

@@ -206,7 +206,6 @@ class _RegisterPatientState extends State<RegisterPatient> {
                                               patient.uniqueId =
                                                   result.user!.uid;
                                               createPatientData();
-                                              print('patient created');
                                             }
 
                                             Navigator.of(context).pop();

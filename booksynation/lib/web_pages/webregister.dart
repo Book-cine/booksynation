@@ -1,6 +1,6 @@
 import 'package:booksynation/google_button_web.dart';
 import 'package:booksynation/page/patient_info/widgets/infoData.dart';
-import 'package:booksynation/weblogin.dart';
+import 'package:booksynation/web_pages/weblogin.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
