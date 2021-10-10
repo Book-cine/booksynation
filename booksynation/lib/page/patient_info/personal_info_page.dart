@@ -137,46 +137,48 @@ class LockedPersonalInfo extends StatelessWidget {
   final double width;
   @override
   Widget build(BuildContext context) {
+    List patientData = [
+      Text('First Name: ' + patient.firstName),
+      Text('Middle Name: ' + patient.middleName),
+      Text('Last Name: ' + patient.lastName),
+      Text('Suffix: ' + patient.suffix),
+      Text('Sex: ' + patient.sex),
+      Text('Bday: ' + patient.bday),
+      Text('Age: ' + patient.age),
+      Text('Civil Status: ' + patient.civStatus),
+      Text('Philhealth: ' + patient.philhealth),
+      Text('Address: ' + patient.address),
+      Text('Region: ' + patient.region),
+      Text('Province: ' + patient.province),
+      Text('City: ' + patient.city),
+      Text('Barangay: ' + patient.brgy),
+      Text('Zip: ' + patient.zip),
+      Text('Contact Num: ' + patient.contact),
+      Text('Email Address: ' + patient.email),
+      Text('Cov19 Classification: ' + patient.covclass),
+      Text('Employed? : ' + patient.employed),
+      Text('Pregnant? : ' + patient.pregnant),
+      Text('PWD: ' + patient.disability),
+      Text('Interacted Covid: ' + patient.interactedCovid),
+      Text('Diagnosed with Covid: ' + patient.isDiagnosed),
+      Text('Diagnosed Date: ' + patient.diagnosedDate),
+      Text('Allergies: ' + patient.allergies.toString()),
+      Text('Comorbidities: ' + patient.comorbidities.toString()),
+      Text('Other Allergies: ' + patient.otherAllergies),
+      Text('Other Comorbidities: ' + patient.others),
+    ];
+
     return SafeArea(
       child: Scaffold(
         //TODO: Please ko Mervin sa kani na part if makaya pa kay murag list lang sa personal info from the forms mao nani katong locked mode sa forms.
         drawer: SideMenu(),
-        body: Builder(
-          builder: (context) => Center(
-            child: Column(
-              children: [
-                Text(patient.firstName),
-                Text(patient.middleName),
-                Text(patient.lastName),
-                Text(patient.suffix),
-                Text(patient.sex),
-                Text(patient.bday),
-                Text(patient.age),
-                Text(patient.civStatus),
-                Text(patient.philhealth),
-                Text(patient.address),
-                Text(patient.region),
-                Text(patient.province),
-                Text(patient.city),
-                Text(patient.brgy),
-                Text(patient.zip),
-                Text(patient.contact),
-                Text(patient.email),
-                Text(patient.covclass),
-                Text(patient.employed),
-                Text(patient.pregnant),
-                Text(patient.disability),
-                Text(patient.interactedCovid),
-                Text(patient.isDiagnosed),
-                Text(patient.diagnosedDate),
-                Text(patient.allergies.toString()),
-                Text(patient.comorbidities.toString()),
-                Text(patient.otherAllergies),
-                Text(patient.others),
-              ],
-            ),
-          ),
-        ),
+        body: ListView.builder(
+            itemCount: patientData.length,
+            itemBuilder: (context, index) {
+              return ListTile(
+                title: patientData[index],
+              );
+            }),
       ),
     );
   }

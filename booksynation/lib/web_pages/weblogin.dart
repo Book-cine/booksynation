@@ -1,6 +1,6 @@
 import 'package:booksynation/home.dart';
 import 'package:booksynation/web_pages/webmain.dart';
-import 'package:booksynation/webregister.dart';
+import 'package:booksynation/web_pages/webregister.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:firebase_auth/firebase_auth.dart';

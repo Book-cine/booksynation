@@ -222,7 +222,7 @@ class _SideMenuState extends State<SideMenu> {
         break;
       case 2:
         Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => CovidInfo(),
+          builder: (context) => PatientSettings(),
         ));
         break;
     }

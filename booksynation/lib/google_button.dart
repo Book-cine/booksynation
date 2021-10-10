@@ -1,4 +1,5 @@
 import 'package:booksynation/page/onboarding.dart';
+import 'package:booksynation/page/patient_info/widgets/infoData.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -15,7 +16,7 @@ class _GoogleButtonMobileState extends State<GoogleButtonMobile> {
 
   @override
   Widget build(BuildContext context) {
-    GoogleSignInAccount? user = _googleSignIn.currentUser;
+    GoogleSignInAccount? userGoogle = _googleSignIn.currentUser;
 
     return DecoratedBox(
       decoration: ShapeDecoration(
@@ -40,6 +41,12 @@ class _GoogleButtonMobileState extends State<GoogleButtonMobile> {
           });
           await _googleSignIn.signIn().then((result) {
             if (result != null) {
+              print('Google UID: ' + result.id);
+              isGoogleUser = true;
+              
+              patient.uniqueId = result.id;
+              // getPatientDataGoogle(userGoogle);
+              // createPatientData();
               Navigator.of(context).pop();
               Navigator.of(context).pushReplacement(
                 MaterialPageRoute(

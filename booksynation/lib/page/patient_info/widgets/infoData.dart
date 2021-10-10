@@ -1,9 +1,8 @@
-import 'dart:convert';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 List<String> allergies = [];
 
@@ -78,6 +77,7 @@ DateTime? diagnosedDate;
 bool diagnosed = false;
 bool fillStatus = false; //dapat false
 bool initialState = true;
+bool isGoogleUser = false;
 String fullname = patient.firstName +
     ' ' +
     patient.middleName +
@@ -97,6 +97,7 @@ CollectionReference patientCollection =
 
 class PatientProfileData {
   late bool fillStatus;
+  late bool isGoogleUser;
 
   //Profile Information
   late String uniqueId;
@@ -136,6 +137,7 @@ class PatientProfileData {
 
   PatientProfileData({
     required this.fillStatus,
+    required this.isGoogleUser,
     required this.uniqueId,
     required this.type,
     required this.firstName,
@@ -167,45 +169,12 @@ class PatientProfileData {
     required this.otherAllergies,
     required this.others,
   });
-
-  // factory PatientProfileData.fromJson(Map<String, dynamic> json) {
-  //   return PatientProfileData(
-  //     uniqueId: json['UID'],
-  //     type: json['Type'],
-  //     firstName: json['FirstName'],
-  //     middleName: json['MiddleName'],
-  //     lastName: json['LastName'],
-  //     suffix: json['Suffix'],
-  //     sex: json['Sex'],
-  //     bday: json['Bday'],
-  //     age: json['Age'],
-  //     civStatus: json['Civil_Status'],
-  //     philhealth: json['Philhealth_Num'],
-  //     address: json['Address'],
-  //     region: json['Region'],
-  //     province: json['Province'],
-  //     city: json['City'],
-  //     brgy: json['Barangay'],
-  //     zip: json['Zip'],
-  //     contact: json['Contact_Num'],
-  //     email: json['Email'],
-  //     covclass: json['Cov19_Classification'],
-  //     employed: json['Employment_Status'],
-  //     pregnant: json['Pregnant'],
-  //     disability: json['PWD'],
-  //     interactedCovid: json['Covid_Interaction'],
-  //     isDiagnosed: json['Diagnosed_w_Covid'],
-  //     diagnosedDate: json['Diagnosed_Date'],
-  //     allergies: json['Allergies'],
-  //     comorbidities: json['Comorbidities'],
-  //     otherAllergies: json['Other_Allergies'],
-  //     others: json['Other_Comorbidities'],
-  //   );
-
 }
 
+//Initial Patient Data (placeholder)
 PatientProfileData patient = PatientProfileData(
   uniqueId: '',
+  isGoogleUser: isGoogleUser,
   fillStatus: fillStatus,
   type: '',
   firstName: 'Juan',
@@ -238,11 +207,50 @@ PatientProfileData patient = PatientProfileData(
   others: 'Click to Edit',
 );
 
-getPatientData(User? user) async {
+getPatientData(User? _patient) async {
   var coll = FirebaseFirestore.instance.collection('patient');
-  await coll.doc(user!.uid).get().then((result) {
+  await coll.doc(_patient!.uid).get().then((result) {
     Map<String, dynamic>? value = result.data();
     patient.uniqueId = value?['UID'];
+    patient.fillStatus = value?['Fill_Status'];
+    patient.type = value?['Type'];
+    patient.firstName = value?['FirstName'];
+    patient.middleName = value?['MiddleName'];
+    patient.lastName = value?['LastName'];
+    patient.suffix = value?['Suffix'];
+    patient.sex = value?['Sex'];
+    patient.age = value?['Age'];
+    patient.civStatus = value?['Civil_Status'];
+    patient.philhealth = value?['Philhealth_Num'];
+    patient.bday = value?['Bday'];
+    patient.address = value?['Address'];
+    patient.region = value?['Region'];
+    patient.province = value?['Province'];
+    patient.city = value?['City'];
+    patient.brgy = value?['Barangay'];
+    patient.zip = value?['Zip'];
+    patient.contact = value?['Contact_Num'];
+    patient.email = value?['Email'];
+    patient.covclass = value?['Cov19_Classification'];
+    patient.employed = value?['Employment_Status'];
+    patient.pregnant = value?['Pregnant'];
+    patient.disability = value?['PWD'];
+    patient.interactedCovid = value?['Covid_Interaction'];
+    patient.isDiagnosed = value?['Diagnosed_w_Covid'];
+    patient.diagnosedDate = value?['Diagnosed_Date'];
+    patient.allergies = value?['Allergies'];
+    patient.comorbidities = value?['Comorbidities'];
+    patient.allergies = value?['Other_Allergies'];
+    patient.comorbidities = value?['Other_Comorbidities'];
+  });
+}
+
+getPatientDataGoogle(GoogleSignInAccount? user) async {
+  var coll = FirebaseFirestore.instance.collection('patient');
+  await coll.doc(user!.id).get().then((result) {
+    Map<String, dynamic>? value = result.data();
+    patient.uniqueId = value?['UID'];
+    patient.isGoogleUser = value?['Google_User'];
     patient.fillStatus = value?['Fill_Status'];
     patient.type = value?['Type'];
     patient.firstName = value?['FirstName'];
@@ -281,6 +289,7 @@ createPatientData() async {
       .doc(patient.uniqueId)
       .set({
         'UID': patient.uniqueId,
+        'Google_User': isGoogleUser,
         'Fill_Status': patient.fillStatus,
         'Type': patient.type,
         'FirstName': patient.firstName,

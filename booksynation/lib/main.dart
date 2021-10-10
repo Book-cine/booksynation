@@ -1,6 +1,6 @@
 import 'package:booksynation/loading.dart';
 import 'package:booksynation/splash.dart';
-import 'package:booksynation/weblogin.dart';
+import 'package:booksynation/web_pages/weblogin.dart';
 import 'package:flutter/foundation.dart';
 
 // Import the firebase_core plugin
