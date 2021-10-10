@@ -15,6 +15,11 @@ class RegisterPatient extends StatefulWidget {
 class _RegisterPatientState extends State<RegisterPatient> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  String? cpasswordController;
+  String? password;
+  final firstNameController = TextEditingController();
+  final lastNameController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -48,189 +53,214 @@ class _RegisterPatientState extends State<RegisterPatient> {
                 SizedBox(
                   height: height * 0.05,
                 ),
-                Container(
-                  height: height * 0.70,
-                  width: width * 0.85,
-                  alignment: Alignment.center,
-                  child: AspectRatio(
-                    aspectRatio: 2 / 3,
-                    child: Container(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 25.0,
-                        vertical: 25.0,
-                      ),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(25.0),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.25),
-                            blurRadius: 5,
-                            offset: Offset(3, 4), // changes position of shadow
-                          ),
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.25),
-                            blurRadius: 5,
-                            offset: Offset(3, 4), // changes position of shadow
-                          ),
-                        ],
-                      ),
-                      child: SingleChildScrollView(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  children: [
-                                    InkWell(
-                                      onTap: () => Navigator.pop(context),
-                                      child: Icon(Icons.arrow_back),
-                                    ),
-                                    SizedBox(
-                                      width: width * 0.025,
-                                    ),
-                                    Text('Create Account'),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: height * 0.030,
-                                ),
-                                TextField(
-                                  controller: emailController,
-                                  decoration: InputDecoration(
-                                    suffixIcon: Icon(
-                                      Icons.email,
-                                      color: Colors.black,
-                                    ),
-                                    labelText: 'Email Address',
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: height * 0.010,
-                                ),
-                                TextField(
-                                  decoration: InputDecoration(
-                                    suffixIcon: Icon(
-                                      Icons.person_outline_outlined,
-                                      color: Colors.black,
-                                    ),
-                                    labelText: 'First Name',
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: height * 0.010,
-                                ),
-                                TextField(
-                                  decoration: InputDecoration(
-                                    suffixIcon: Icon(
-                                      Icons.person,
-                                      color: Colors.black,
-                                    ),
-                                    labelText: 'Last Name',
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: height * 0.010,
-                                ),
-                                TextField(
-                                  controller: passwordController,
-                                  obscureText: true,
-                                  decoration: InputDecoration(
-                                    suffixIcon: Icon(
-                                      Icons.lock_outlined,
-                                      color: Colors.black,
-                                    ),
-                                    hintText: 'Password',
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: height * 0.010,
-                                ),
-                                TextField(
-                                  obscureText: true,
-                                  decoration: InputDecoration(
-                                    suffixIcon: Icon(
-                                      Icons.lock,
-                                      color: Colors.black,
-                                    ),
-                                    hintText: 'Confirm Password',
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: height * 0.05,
-                                ),
-                              ],
+                Form(
+                  key: _formKey,
+                  child: Container(
+                    height: height * 0.70,
+                    width: width * 0.85,
+                    alignment: Alignment.center,
+                    child: AspectRatio(
+                      aspectRatio: 2 / 3,
+                      child: Container(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 25.0,
+                          vertical: 25.0,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(25.0),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.25),
+                              blurRadius: 5,
+                              offset:
+                                  Offset(3, 4), // changes position of shadow
                             ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                ElevatedButton(
-                                  onPressed: () async {
-                                    try {
-                                      await FirebaseAuth.instance
-                                          .createUserWithEmailAndPassword(
-                                        email: emailController.text,
-                                        password: passwordController.text,
-                                      )
-                                          .then((result) {
-                                        if (result != null) {
-                                          if (result
-                                              .additionalUserInfo!.isNewUser) {
-                                            patient.uniqueId = result.user!.uid;
-                                            createPatientData();
-                                          }
-                                          Navigator.of(context).pop();
-                                          Navigator.of(context).push(
-                                            MaterialPageRoute(
-                                              fullscreenDialog: true,
-                                              builder: (context) => Homepage(),
-                                            ),
-                                          );
-                                        } else {
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(
-                                            const SnackBar(
-                                              content: Text(
-                                                'Registration unsuccessful.',
-                                              ),
-                                            ),
-                                          );
-                                        }
-                                      });
-                                    } on FirebaseAuthException catch (e) {
-                                      print(e);
-                                    }
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                    primary: Color(0xFF26A98A),
-                                    fixedSize: Size(
-                                      width * 0.55,
-                                      height * 0.065,
-                                    ),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(40.0),
-                                    ),
-                                  ),
-                                  child: Text(
-                                    'Register',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontFamily: 'Mulish',
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: height * 0.018,
-                                      decoration: TextDecoration.none,
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: height * 0.030,
-                                ),
-                                GoogleButtonMobile(),
-                              ],
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.25),
+                              blurRadius: 5,
+                              offset:
+                                  Offset(3, 4), // changes position of shadow
                             ),
                           ],
+                        ),
+                        child: SingleChildScrollView(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    children: [
+                                      InkWell(
+                                        onTap: () => Navigator.pop(context),
+                                        child: Icon(Icons.arrow_back),
+                                      ),
+                                      SizedBox(
+                                        width: width * 0.025,
+                                      ),
+                                      Text('Create Account'),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: height * 0.030,
+                                  ),
+                                  TextFormField(
+                                    controller: emailController,
+                                    decoration: InputDecoration(
+                                      suffixIcon: Icon(
+                                        Icons.email,
+                                        color: Colors.black,
+                                      ),
+                                      labelText: 'Email Address',
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: height * 0.010,
+                                  ),
+                                  TextFormField(
+                                    controller: firstNameController,
+                                    decoration: InputDecoration(
+                                      suffixIcon: Icon(
+                                        Icons.person_outline_outlined,
+                                        color: Colors.black,
+                                      ),
+                                      labelText: 'First Name',
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: height * 0.010,
+                                  ),
+                                  TextFormField(
+                                    controller: lastNameController,
+                                    decoration: InputDecoration(
+                                      suffixIcon: Icon(
+                                        Icons.person,
+                                        color: Colors.black,
+                                      ),
+                                      labelText: 'Last Name',
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: height * 0.010,
+                                  ),
+                                  TextFormField(
+                                    controller: passwordController,
+                                    obscureText: true,
+                                    decoration: InputDecoration(
+                                      suffixIcon: Icon(
+                                        Icons.lock_outlined,
+                                        color: Colors.black,
+                                      ),
+                                      hintText: 'Password',
+                                    ),
+                                    onChanged: (value) =>
+                                        setState(() => password = value),
+                                  ),
+                                  SizedBox(
+                                    height: height * 0.010,
+                                  ),
+                                  TextFormField(
+                                    // controller: cpasswordController,
+                                    obscureText: true,
+                                    decoration: InputDecoration(
+                                      suffixIcon: Icon(
+                                        Icons.lock,
+                                        color: Colors.black,
+                                      ),
+                                      hintText: 'Confirm Password',
+                                    ),
+                                    validator: (value) {
+                                      if (value != password) {
+                                        return 'Wrong password';
+                                      } else {
+                                        return null;
+                                      }
+                                    },
+                                    onChanged: (value) => setState(
+                                        () => cpasswordController = value),
+                                  ),
+                                  SizedBox(
+                                    height: height * 0.05,
+                                  ),
+                                ],
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  ElevatedButton(
+                                    onPressed: () async {
+                                      final isValid =
+                                          _formKey.currentState!.validate();
+                                      try {
+                                        await FirebaseAuth.instance
+                                            .createUserWithEmailAndPassword(
+                                          email: emailController.text,
+                                          password: passwordController.text,
+                                        )
+                                            .then((result) {
+                                          if (result != null) {
+                                            if (result.additionalUserInfo!
+                                                .isNewUser) {
+                                              createPatientData();
+                                              patient.uniqueId =
+                                                  result.user!.uid;
+                                            }
+
+                                            Navigator.of(context).pop();
+                                            Navigator.of(context).push(
+                                              MaterialPageRoute(
+                                                fullscreenDialog: true,
+                                                builder: (context) =>
+                                                    Homepage(),
+                                              ),
+                                            );
+                                          } else {
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              const SnackBar(
+                                                content: Text(
+                                                  'Registration unsuccessful.',
+                                                ),
+                                              ),
+                                            );
+                                          }
+                                        });
+                                      } on FirebaseAuthException catch (e) {
+                                        print(e);
+                                      }
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      primary: Color(0xFF26A98A),
+                                      fixedSize: Size(
+                                        width * 0.55,
+                                        height * 0.065,
+                                      ),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(40.0),
+                                      ),
+                                    ),
+                                    child: Text(
+                                      'Register',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontFamily: 'Mulish',
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: height * 0.018,
+                                        decoration: TextDecoration.none,
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: height * 0.030,
+                                  ),
+                                  GoogleButtonMobile(),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),

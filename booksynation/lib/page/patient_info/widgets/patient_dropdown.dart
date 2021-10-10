@@ -60,47 +60,36 @@ class _PatientDropdownState extends State<PatientDropdown> {
                 });
                 switch (widget.label) {
                   case 'Gender':
-                    // docFields['gender'] = value.toString();
                     patient.sex = value.toString();
                     break;
                   case 'Civil Status':
-                    // docFields['civstatus'] = value.toString();
                     patient.civStatus = value.toString();
                     break;
                   case 'Region':
-                    // docFields['region'] = value.toString();
                     patient.region = value.toString();
                     break;
                   case 'Province':
-                    // docFields['province'] = value.toString();
                     patient.province = value.toString();
                     break;
                   case 'City':
-                    // docFields['city'] = value.toString();
                     patient.city = value.toString();
                     break;
                   case 'Barangay':
-                    // docFields['brgy'] = value.toString();
                     patient.brgy = value.toString();
                     break;
                   case 'Covid-19 Classification':
-                    // docFields['covclass'] = value.toString();
                     patient.covclass = value.toString();
                     break;
                   case 'Are you Employed?':
-                    // docFields['employed'] = value.toString();
                     patient.employed = value.toString();
                     break;
                   case 'Are you Pregnant?':
-                    // docFields['pregnant'] = value.toString();
                     patient.pregnant = value.toString();
                     break;
                   case 'Person with Disability?':
-                    // docFields['disability'] = value.toString();
                     patient.disability = value.toString();
                     break;
                   case 'Directly interacted with Covid-19 Patient?':
-                    // docFields['interactedCovid'] = value.toString();
                     patient.interactedCovid = value.toString();
                     break;
                   case 'Are you diagnosed with Covid-19?':
@@ -109,7 +98,6 @@ class _PatientDropdownState extends State<PatientDropdown> {
                     } else {
                       diagnosed = false;
                     }
-                    // docFields['isDiagnosed'] = value.toString();
                     patient.isDiagnosed = value.toString();
                     break;
                 }
