@@ -25,13 +25,19 @@ class _SplashScreenState extends State<SplashScreen> {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
 
+    final TextStyle _titleTextStyle = TextStyle(
+      fontFamily: 'Antic Didone',
+      fontWeight: FontWeight.bold,
+      fontSize: height * 0.036,
+    );
+
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: true,
         body: Container(
           width: width,
           height: height,
-          padding: EdgeInsets.symmetric(horizontal: 30, vertical: 100),
+          padding: EdgeInsets.symmetric(horizontal: 30, vertical: 95),
           child: Column(
             children: [
               Column(
@@ -39,11 +45,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 children: <Widget>[
                   Text(
                     'BookSyNation',
-                    style: TextStyle(
-                      fontFamily: 'Antic Didone',
-                      fontWeight: FontWeight.bold,
-                      fontSize: height * 0.036,
-                    ),
+                    style: _titleTextStyle,
                   ),
                   SizedBox(
                     height: height * 0.10,
@@ -57,21 +59,11 @@ class _SplashScreenState extends State<SplashScreen> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.only(
-                      top: 5,
-                      bottom: 5,
-                    ),
-                    child: Text(
-                      'National',
-                      style: TextStyle(
-                        color: Colors.black.withOpacity(0.6),
-                        fontFamily: 'Antic Didone',
-                        fontWeight: FontWeight.bold,
-                        fontSize: height * 0.036,
-                      ),
-                    ),
-                  ),
+                  Text('National\nVaccination\nBooking System',
+                      style: _titleTextStyle.copyWith(
+                          color: Colors.black.withOpacity(0.6))),
+                  /*
+                  ),                  
                   Padding(
                     padding: EdgeInsets.only(
                       top: 5,
@@ -101,7 +93,7 @@ class _SplashScreenState extends State<SplashScreen> {
                         fontSize: height * 0.036,
                       ),
                     ),
-                  ),
+                  ),*/
                 ],
               ),
             ],

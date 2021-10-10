@@ -2,6 +2,7 @@ import 'package:booksynation/page/booksched.dart';
 import 'package:booksynation/page/missed.dart';
 import 'package:booksynation/page/schedule.dart';
 import 'package:booksynation/sidemenu.dart';
+import 'package:booksynation/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -54,18 +55,18 @@ class MyAppointment extends StatelessWidget {
       barrierDismissible: false,
       builder: (context) {
         return AlertDialog(
-          title: const Text('Today is your Vaccination Day'),
+          title: Text(appointAlertTitle1),
           content: SingleChildScrollView(
             child: ListBody(
               children: const <Widget>[
-                Text('Please visit your respective vaccination site'),
+                Text(appointAlertText1),
               ],
             ),
           ),
           actions: <Widget>[
             TextButton(
-              onPressed: () => Navigator.pop(context, 'Okay'),
-              child: const Text('Okay'),
+              onPressed: () => Navigator.pop(context, okayText),
+              child: const Text(okayText),
             ),
           ],
         );
@@ -79,18 +80,18 @@ class MyAppointment extends StatelessWidget {
       barrierDismissible: false,
       builder: (context) {
         return AlertDialog(
-          title: const Text('No Appointment Issued'),
+          title: const Text(appointAlertTitle2),
           content: SingleChildScrollView(
             child: ListBody(
               children: const <Widget>[
-                Text('Please fill out the form first!'),
+                Text(appointAlertText2),
               ],
             ),
           ),
           actions: <Widget>[
             TextButton(
-              onPressed: () => Navigator.pop(context, 'Okay'),
-              child: const Text('Okay'),
+              onPressed: () => Navigator.pop(context, okayText),
+              child: const Text(okayText),
             ),
           ],
         );

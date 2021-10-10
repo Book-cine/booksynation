@@ -1,3 +1,4 @@
+import 'package:booksynation/page/health_declaration.dart';
 import 'package:booksynation/page/patient_info/covid_19_info.dart';
 import 'package:booksynation/page/vaccine_information.dart';
 import 'package:booksynation/strings.dart';
@@ -64,7 +65,7 @@ class BookSchedule extends StatelessWidget {
                     onPressed: () {
                       Navigator.of(context).push(
                         MaterialPageRoute(
-                          builder: (context) => VaccineInfo(),
+                          builder: (context) => HealthDeclaration(),
                         ),
                       ); //TODO:change button action
                     },
