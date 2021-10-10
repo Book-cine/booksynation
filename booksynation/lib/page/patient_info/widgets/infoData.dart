@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
+import 'package:firebase_auth/firebase_auth.dart';
 
 List<String> allergies = [];
 
@@ -73,57 +76,28 @@ DateTime? birthDate;
 DateTime? diagnosedDate;
 
 bool diagnosed = false;
+bool fillStatus = false; //dapat false
 bool initialState = true;
+String fullname = patient.firstName +
+    ' ' +
+    patient.middleName +
+    ' ' +
+    patient.lastName +
+    ' ' +
+    ((patient.suffix == 'N/A') ? '' : patient.suffix);
 
 final formKey = GlobalKey<FormState>();
 CollectionReference userCollection =
     FirebaseFirestore.instance.collection('user');
 
-final Stream<QuerySnapshot> users = userCollection.snapshots();
+final Stream<QuerySnapshot> users = patientCollection.snapshots();
 
-// getPatientData(User? user) async {
-//   Stream documentStream =
-//       FirebaseFirestore.instance.collection('user').doc(user!.uid).snapshots();
-// }
-
-// class UserInformation extends StatefulWidget {
-//   @override
-//   _UserInformationState createState() => _UserInformationState();
-// }
-
-// class _UserInformationState extends State<UserInformation> {
-//   final Stream<QuerySnapshot> _usersStream =
-//       FirebaseFirestore.instance.collection('users').snapshots();
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return StreamBuilder<QuerySnapshot>(
-//       stream: _usersStream,
-//       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-//         if (snapshot.hasError) {
-//           return Text('Something went wrong');
-//         }
-
-//         if (snapshot.connectionState == ConnectionState.waiting) {
-//           return Text("Loading");
-//         }
-
-//         return ListView(
-//           children: snapshot.data!.docs.map((DocumentSnapshot document) {
-//             Map<String, dynamic> data =
-//                 document.data()! as Map<String, dynamic>;
-//             return ListTile(
-//               title: Text(data['full_name']),
-//               subtitle: Text(data['company']),
-//             );
-//           }).toList(),
-//         );
-//       },
-//     );
-//   }
-// }
+CollectionReference patientCollection =
+    FirebaseFirestore.instance.collection('patient');
 
 class PatientProfileData {
+  late bool fillStatus;
+
   //Profile Information
   late String uniqueId;
   late String type;
@@ -161,6 +135,7 @@ class PatientProfileData {
   late String others;
 
   PatientProfileData({
+    required this.fillStatus,
     required this.uniqueId,
     required this.type,
     required this.firstName,
@@ -192,10 +167,46 @@ class PatientProfileData {
     required this.otherAllergies,
     required this.others,
   });
+
+  // factory PatientProfileData.fromJson(Map<String, dynamic> json) {
+  //   return PatientProfileData(
+  //     uniqueId: json['UID'],
+  //     type: json['Type'],
+  //     firstName: json['FirstName'],
+  //     middleName: json['MiddleName'],
+  //     lastName: json['LastName'],
+  //     suffix: json['Suffix'],
+  //     sex: json['Sex'],
+  //     bday: json['Bday'],
+  //     age: json['Age'],
+  //     civStatus: json['Civil_Status'],
+  //     philhealth: json['Philhealth_Num'],
+  //     address: json['Address'],
+  //     region: json['Region'],
+  //     province: json['Province'],
+  //     city: json['City'],
+  //     brgy: json['Barangay'],
+  //     zip: json['Zip'],
+  //     contact: json['Contact_Num'],
+  //     email: json['Email'],
+  //     covclass: json['Cov19_Classification'],
+  //     employed: json['Employment_Status'],
+  //     pregnant: json['Pregnant'],
+  //     disability: json['PWD'],
+  //     interactedCovid: json['Covid_Interaction'],
+  //     isDiagnosed: json['Diagnosed_w_Covid'],
+  //     diagnosedDate: json['Diagnosed_Date'],
+  //     allergies: json['Allergies'],
+  //     comorbidities: json['Comorbidities'],
+  //     otherAllergies: json['Other_Allergies'],
+  //     others: json['Other_Comorbidities'],
+  //   );
+
 }
 
 PatientProfileData patient = PatientProfileData(
   uniqueId: '',
+  fillStatus: fillStatus,
   type: '',
   firstName: 'Juan',
   middleName: 'Alfonso',
@@ -227,11 +238,50 @@ PatientProfileData patient = PatientProfileData(
   others: 'Click to Edit',
 );
 
+getPatientData(User? user) async {
+  var coll = FirebaseFirestore.instance.collection('patient');
+  await coll.doc(user!.uid).get().then((result) {
+    Map<String, dynamic>? value = result.data();
+    patient.uniqueId = value?['UID'];
+    patient.fillStatus = value?['Fill_Status'];
+    patient.type = value?['Type'];
+    patient.firstName = value?['FirstName'];
+    patient.middleName = value?['MiddleName'];
+    patient.lastName = value?['LastName'];
+    patient.suffix = value?['Suffix'];
+    patient.sex = value?['Sex'];
+    patient.age = value?['Age'];
+    patient.civStatus = value?['Civil_Status'];
+    patient.philhealth = value?['Philhealth_Num'];
+    patient.bday = value?['Bday'];
+    patient.address = value?['Address'];
+    patient.region = value?['Region'];
+    patient.province = value?['Province'];
+    patient.city = value?['City'];
+    patient.brgy = value?['Barangay'];
+    patient.zip = value?['Zip'];
+    patient.contact = value?['Contact_Num'];
+    patient.email = value?['Email'];
+    patient.covclass = value?['Cov19_Classification'];
+    patient.employed = value?['Employment_Status'];
+    patient.pregnant = value?['Pregnant'];
+    patient.disability = value?['PWD'];
+    patient.interactedCovid = value?['Covid_Interaction'];
+    patient.isDiagnosed = value?['Diagnosed_w_Covid'];
+    patient.diagnosedDate = value?['Diagnosed_Date'];
+    patient.allergies = value?['Allergies'];
+    patient.comorbidities = value?['Comorbidities'];
+    patient.allergies = value?['Other_Allergies'];
+    patient.comorbidities = value?['Other_Comorbidities'];
+  });
+}
+
 createPatientData() async {
-  userCollection
+  patientCollection
       .doc(patient.uniqueId)
       .set({
         'UID': patient.uniqueId,
+        'Fill_Status': patient.fillStatus,
         'Type': patient.type,
         'FirstName': patient.firstName,
         'MiddleName': patient.middleName,
@@ -259,16 +309,19 @@ createPatientData() async {
         'Diagnosed_Date': patient.diagnosedDate,
         'Allergies': patient.allergies,
         'Comorbidities': patient.comorbidities,
+        'Other_Allergies': patient.otherAllergies,
+        'Other_Comorbidities': patient.others,
       })
       .then((value) => print('Add User'))
       .catchError((error) => print('Failed to add user: $error'));
 }
 
 updatePatientData() async {
-  userCollection
+  patientCollection
       .doc(patient.uniqueId)
       .update({
         'UID': patient.uniqueId,
+        'Fill_Status': patient.fillStatus,
         'Type': patient.type,
         'FirstName': patient.firstName,
         'MiddleName': patient.middleName,
@@ -296,6 +349,8 @@ updatePatientData() async {
         'Diagnosed_Date': patient.diagnosedDate,
         'Allergies': patient.allergies,
         'Comorbidities': patient.comorbidities,
+        'Other_Allergies': patient.otherAllergies,
+        'Other_Comorbidities': patient.others,
       })
       .then((value) => print('Update User'))
       .catchError((error) => print('Failed to update user: $error'));

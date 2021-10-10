@@ -1,10 +1,10 @@
 import 'package:booksynation/page/onboarding.dart';
 import 'package:booksynation/page/patient_info/widgets/infoData.dart';
+
 import 'package:booksynation/page/registerpatient.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Homepage extends StatefulWidget {
   Homepage({Key? key}) : super(key: key);
@@ -139,7 +139,8 @@ class _HomepageState extends State<Homepage> {
                                     )
                                         .then((result) {
                                       if (result != null) {
-                                        // getPatientData(user);
+                                        patient.uniqueId = user!.uid;
+                                        getPatientData(user);
                                         Navigator.of(context).pop();
                                         Navigator.of(context).push(
                                           MaterialPageRoute(
@@ -166,9 +167,6 @@ class _HomepageState extends State<Homepage> {
                                           'Wrong password provided for that user.');
                                     }
                                   }
-                                  // var docSnapshot =
-                                  //     await userCollection.doc('doc_id').get();
-                                  //     Map<String, dynamic>? data = docSnapshot.data();
                                 },
                                 style: ElevatedButton.styleFrom(
                                   primary: Color(0xFF26A98A),

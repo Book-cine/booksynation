@@ -191,8 +191,8 @@ class _RegisterPatientState extends State<RegisterPatient> {
                                 children: [
                                   ElevatedButton(
                                     onPressed: () async {
-                                      final isValid =
-                                          _formKey.currentState!.validate();
+                                      // final isValid = && isValid
+                                      //     _formKey.currentState!.validate();
                                       try {
                                         await FirebaseAuth.instance
                                             .createUserWithEmailAndPassword(
@@ -203,9 +203,10 @@ class _RegisterPatientState extends State<RegisterPatient> {
                                           if (result != null) {
                                             if (result.additionalUserInfo!
                                                 .isNewUser) {
-                                              createPatientData();
                                               patient.uniqueId =
                                                   result.user!.uid;
+                                              createPatientData();
+                                              print('patient created');
                                             }
 
                                             Navigator.of(context).pop();

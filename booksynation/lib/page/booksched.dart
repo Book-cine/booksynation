@@ -1,4 +1,5 @@
 import 'package:booksynation/page/patient_info/covid_19_info.dart';
+import 'package:booksynation/page/patient_info/widgets/infoData.dart';
 import 'package:booksynation/page/vaccine_information.dart';
 import 'package:booksynation/strings.dart';
 import 'package:flutter/material.dart';
@@ -8,8 +9,6 @@ class BookSchedule extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool fillStatus = true;
-
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
     final TextStyle _normalTextStyle = TextStyle(
@@ -25,9 +24,10 @@ class BookSchedule extends StatelessWidget {
       fontSize: height * 0.018,
       decoration: TextDecoration.none,
     );
-    String _name = 'Juan Alfonso Dela Cruz'; //TODO: name dynamic implementation
 
-    if (fillStatus) {
+    //TODO: name dynamic implementation
+
+    if (patient.fillStatus) {
       return SafeArea(
         child: Scaffold(
           body: Center(
@@ -45,7 +45,7 @@ class BookSchedule extends StatelessWidget {
                           style: _normalTextStyle,
                           children: <TextSpan>[
                         TextSpan(
-                            text: _name +
+                            text: fullname +
                                 '!', //TODO: apply name dynamic implementation
                             style: const TextStyle(fontWeight: FontWeight.bold))
                       ])),
