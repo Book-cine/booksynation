@@ -38,6 +38,9 @@ class SaveChanges extends StatelessWidget {
                 ),
               ),
             );
+
+            fillStatus = true;
+            patient.fillStatus = fillStatus;
             updatePatientData();
             Future.delayed(const Duration(seconds: 2), () {
               Navigator.push(

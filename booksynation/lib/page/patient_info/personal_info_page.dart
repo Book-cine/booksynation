@@ -56,8 +56,7 @@ class PesonalInfoBody extends StatelessWidget {
   final double width;
   @override
   Widget build(BuildContext context) {
-    bool fillStatus = false;
-    if (fillStatus) {
+    if (patient.fillStatus) {
       return LockedPersonalInfo(height: height, width: width);
     } else {
       return UnlockedPersonalInfo(height: height, width: width);
@@ -144,7 +143,38 @@ class LockedPersonalInfo extends StatelessWidget {
         drawer: SideMenu(),
         body: Builder(
           builder: (context) => Center(
-            child: Column(),
+            child: Column(
+              children: [
+                Text(patient.firstName),
+                Text(patient.middleName),
+                Text(patient.lastName),
+                Text(patient.suffix),
+                Text(patient.sex),
+                Text(patient.bday),
+                Text(patient.age),
+                Text(patient.civStatus),
+                Text(patient.philhealth),
+                Text(patient.address),
+                Text(patient.region),
+                Text(patient.province),
+                Text(patient.city),
+                Text(patient.brgy),
+                Text(patient.zip),
+                Text(patient.contact),
+                Text(patient.email),
+                Text(patient.covclass),
+                Text(patient.employed),
+                Text(patient.pregnant),
+                Text(patient.disability),
+                Text(patient.interactedCovid),
+                Text(patient.isDiagnosed),
+                Text(patient.diagnosedDate),
+                Text(patient.allergies.toString()),
+                Text(patient.comorbidities.toString()),
+                Text(patient.otherAllergies),
+                Text(patient.others),
+              ],
+            ),
           ),
         ),
       ),

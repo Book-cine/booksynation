@@ -53,7 +53,7 @@ class PatientSettings extends StatelessWidget {
                       CircleAvatar(
                         radius: 80,
                         backgroundColor: Colors.white,
-                        backgroundImage: AssetImage('images/nashimg.png'),
+                        backgroundImage: AssetImage('images/user.png'),
                       ),
                       Positioned(
                         right: 0,
