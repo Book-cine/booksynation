@@ -16,8 +16,22 @@ class _WebManageState extends State<WebManage> {
   DateTime? dateEnd;
 
   List<VaccineData> data = [
-    VaccineData('Pfizer', '05/12/21', '05/17/21', 49, 50),
-    VaccineData('Janssen', '05/17/21', '05/24/21', 49, 50),
+    VaccineData(
+      uniqueId: '',
+      vaccine: 'Pfizer',
+      dateStart: '05/12/21',
+      dateEnd: '05/17/21',
+      currentStock: 49,
+      maxStock: 50,
+    ),
+    VaccineData(
+      uniqueId: '',
+      vaccine: 'Janssen',
+      dateStart: '05/17/21',
+      dateEnd: '05/24/21',
+      currentStock: 49,
+      maxStock: 50,
+    ),
   ];
 
   StatusData statusData = StatusData(250, 100, 10, 5);
@@ -844,6 +858,10 @@ class _WebManageState extends State<WebManage> {
                         Container(
                           padding: EdgeInsets.only(top: 10),
                           child: TextFormField(
+                            onChanged: (value) {
+                              vaccineData.maxStock = int.parse(value);
+                              vaccineData.currentStock = int.parse(value);
+                            },
                             style: TextStyle(
                               color: Color(0xFF333333),
                               fontFamily: 'Poppins',
@@ -905,6 +923,7 @@ class _WebManageState extends State<WebManage> {
                               onChanged: (String? newValue) {
                                 setState(() {
                                   dropdownValue = newValue!;
+                                  vaccineData.vaccine = dropdownValue!;
                                 });
                               },
                               items: <String>[
@@ -1006,7 +1025,9 @@ class _WebManageState extends State<WebManage> {
               children: [
                 Spacer(),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () async {
+                    createVaccineData();
+                  },
                   style: ElevatedButton.styleFrom(
                     primary: Color(0xFF26A98A),
                     fixedSize: Size(
@@ -1100,6 +1121,8 @@ class _WebManageState extends State<WebManage> {
     if (dateStart == null) {
       return 'mm/dd/yy';
     } else {
+      vaccineData.dateStart =
+          '${dateStart?.month}/${dateStart?.day}/${dateStart?.year}';
       return '${dateStart?.month}/${dateStart?.day}/${dateStart?.year}';
     }
   }
@@ -1108,6 +1131,8 @@ class _WebManageState extends State<WebManage> {
     if (dateEnd == null) {
       return 'mm/dd/yy';
     } else {
+      vaccineData.dateEnd =
+          '${dateEnd?.month}/${dateEnd?.day}/${dateEnd?.year}';
       return '${dateEnd?.month}/${dateEnd?.day}/${dateEnd?.year}';
     }
   }

@@ -2,6 +2,22 @@
 const String pendingText =
     'Your booking is being processed. You shall be notified of your vaccination schedule when it is available.';
 
+//C19 Info Screen
+const String c19TitleText1 = 'Scheduling';
+const String c19DescText1 =
+    'After filling up the form in the app, you will be assigned a schedule date. The scheduling will depend on the current supply of vaccines as well as the daily slots. You may experience delay in receiving a schedule when supplies are scarce.';
+const String c19TitleText2 = 'Vaccination';
+const String c19DescText2 =
+    'On your vaccination date, proceed to the vaccination site and bring valid ID. Present the QR Code to the receiving area for faster transaction. After verifying your identification and health status, you are now ready to be vaccinated.';
+const String c19TitleText3 = 'Monitoring';
+const String c19DescText3 =
+    'Possible side effects of a vaccine may include fever, muscle pain, headache, or dizzines among others. Experiencing these symptoms is normal. You will also be monitored 30 minutes after your vaccination in case symptoms of severe allergic reaction takes place.';
+const String c19TitleText4 = 'Protection';
+const String c19DescText4 =
+    'After vaccination, your immune system will have an increased resitance to the virus. This does not mean you cannot contract the virus anymore. COVID-19 Vaccines help significantly reduce the severity of symptoms and lessen the likelihood of needing hospitalization.';
+const String skipText = 'Skip';
+const String btnTextUnderstand = 'I UNDERSTAND';
+
 //Appointment Screen
 const String appointAlertTitle1 = 'Today is your Vaccination Day';
 const String appointAlertText1 =
