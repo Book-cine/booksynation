@@ -1,4 +1,10 @@
 import 'package:booksynation/home.dart';
+import 'package:booksynation/page/onboarding.dart';
+import 'package:booksynation/page/patient_info/widgets/patientData.dart';
+import 'package:booksynation/userData.dart';
+import 'package:booksynation/web_pages/web_data/adminData.dart';
+import 'package:booksynation/web_pages/webmain.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -97,6 +103,95 @@ class _SplashScreenState extends State<SplashScreen> {
                 ],
               ),
             ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class LoadScreen extends StatefulWidget {
+  const LoadScreen({
+    Key? key,
+    @required this.device,
+    @required this.currentUser,
+  }) : super(key: key);
+  final device;
+  final currentUser;
+  @override
+  _LoadScreenState createState() => _LoadScreenState();
+}
+
+class _LoadScreenState extends State<LoadScreen> {
+  @override
+  void initState() {
+    super.initState();
+    _navigatetonext();
+  }
+
+  _navigatetonext() async {
+    await Future.delayed(Duration(milliseconds: 2000), () {});
+    Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+            builder: (context) =>
+                (widget.device == 'web') ? WebMain() : OnBoard()));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
+
+    Future.delayed(Duration(seconds: 0), () async {
+      //sign in and set data.then
+      if (widget.device == 'web') {
+        setAdminUserData(widget.currentUser);
+        setAdminData(widget.currentUser).then((value) {
+          _navigatetonext();
+        });
+      } else {
+        setPatientUserData(widget.currentUser);
+        setPatientData(widget.currentUser).then((value) {
+          _navigatetonext();
+        });
+      }
+    });
+
+    return SafeArea(
+      child: Scaffold(
+        resizeToAvoidBottomInset: true,
+        body: Container(
+          width: width,
+          height: height,
+          padding: EdgeInsets.symmetric(horizontal: 30, vertical: 95),
+          child: Container(
+            alignment: Alignment.center,
+            child: Stack(
+              children: [
+                Align(
+                  alignment: Alignment.center,
+                  child: SvgPicture.asset(
+                    'images/Logo_BSN.svg',
+                    width: width * 0.15,
+                    height: height * 0.15,
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.center,
+                  child: SizedBox(
+                    width: width * 0.25,
+                    height: height * 0.25,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 10,
+                      valueColor: AlwaysStoppedAnimation<Color>(
+                        Colors.greenAccent.withOpacity(0.5),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

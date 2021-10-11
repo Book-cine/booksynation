@@ -1,4 +1,5 @@
 import 'package:booksynation/home.dart';
+import 'package:booksynation/splash.dart';
 import 'package:booksynation/userData.dart';
 import 'package:booksynation/web_pages/web_data/adminData.dart';
 import 'package:booksynation/web_pages/webmain.dart';
@@ -18,7 +19,7 @@ class WebLogin extends StatefulWidget {
 class _WebLoginState extends State<WebLogin> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-  final User? user = FirebaseAuth.instance.currentUser;
+  FirebaseAuth auth = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -214,36 +215,34 @@ class _WebLoginState extends State<WebLogin> {
                             ElevatedButton(
                               onPressed: () async {
                                 try {
-                                  await FirebaseAuth.instance
+                                  await auth
                                       .signInWithEmailAndPassword(
                                     email: emailController.text,
                                     password: passwordController.text,
                                   )
                                       .then((result) {
-                                    if (result != null) {
-                                      admin.uniqueId = user!.uid;
-                                      setAdminUserData(user);
-                                      setAdminData(user);
-                                      // .then((value) {});
-                                      Navigator.of(context).pop();
-                                      Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                          fullscreenDialog: true,
-                                          builder: (context) => WebMain(),
+                                    User? user = auth.currentUser;
+                                    admin.uniqueId = user!.uid;
+                                    Navigator.of(context).pop();
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        fullscreenDialog: true,
+                                        builder: (context) => LoadScreen(
+                                          currentUser: user,
+                                          device: 'web',
                                         ),
-                                      );
-                                    } else {
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
-                                        const SnackBar(
-                                          content: Text(
-                                            'Login unsuccessful.',
-                                          ),
-                                        ),
-                                      );
-                                    }
+                                      ),
+                                    );
                                   });
                                 } on FirebaseAuthException catch (e) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text(
+                                        'Login unsuccessful.',
+                                      ),
+                                    ),
+                                  );
+
                                   if (e.code == 'user-not-found') {
                                     print('No user found for that email.');
                                   } else if (e.code == 'wrong-password') {
