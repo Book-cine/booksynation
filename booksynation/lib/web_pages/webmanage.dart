@@ -10,27 +10,31 @@ class WebManage extends StatefulWidget {
 }
 
 class _WebManageState extends State<WebManage> {
-  String? dropdownValue;
-  String? dropdownValue2;
   DateTime? dateStart;
   DateTime? dateEnd;
+  String? dropdownValue;
+  String? dropdownValue2;
+  bool edit = false;
+  TextEditingController stockController = TextEditingController();
 
   List<VaccineData> data = [
     VaccineData(
       uniqueId: '',
       vaccine: 'Pfizer',
-      dateStart: '05/12/21',
-      dateEnd: '05/17/21',
+      dateStart: DateTime(2021, 05, 12),
+      dateEnd: DateTime(2021, 05, 17),
       currentStock: 49,
       maxStock: 50,
+      category: 'A5',
     ),
     VaccineData(
       uniqueId: '',
       vaccine: 'Janssen',
-      dateStart: '05/17/21',
-      dateEnd: '05/24/21',
+      dateStart: DateTime(2021, 05, 17),
+      dateEnd: DateTime(2021, 05, 24),
       currentStock: 49,
       maxStock: 50,
+      category: 'A5',
     ),
   ];
 
@@ -721,7 +725,9 @@ class _WebManageState extends State<WebManage> {
             rows: data.map((data) {
               return DataRow(cells: [
                 DataCell(Container(
-                    child: Text(data.dateStart + '-' + data.dateEnd))),
+                    child: Text(data.dateStart.toString() +
+                        '-' +
+                        data.dateEnd.toString()))),
                 DataCell(Container(
                     child: Text(data.currentStock.toString() +
                         '/' +
@@ -733,7 +739,17 @@ class _WebManageState extends State<WebManage> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            setState(() {
+                              edit = true;
+                              dateStart = vaccineData.dateStart;
+                              dateEnd = vaccineData.dateEnd;
+                              dropdownValue = vaccineData.vaccine;
+                              dropdownValue2 = vaccineData.category;
+                              stockController.text =
+                                  vaccineData.maxStock.toString();
+                            });
+                          },
                           style: ElevatedButton.styleFrom(
                             primary: Color(0xFFFFFFFF),
                             fixedSize: Size(
@@ -858,6 +874,7 @@ class _WebManageState extends State<WebManage> {
                         Container(
                           padding: EdgeInsets.only(top: 10),
                           child: TextFormField(
+                            controller: stockController,
                             onChanged: (value) {
                               vaccineData.maxStock = int.parse(value);
                               vaccineData.currentStock = int.parse(value);
@@ -1026,7 +1043,23 @@ class _WebManageState extends State<WebManage> {
                 Spacer(),
                 ElevatedButton(
                   onPressed: () async {
-                    createVaccineData();
+                    setState(
+                      () {
+                        edit = false;
+                        data.add(
+                          VaccineData(
+                            uniqueId: vaccineData.uniqueId,
+                            vaccine: vaccineData.vaccine,
+                            dateStart: vaccineData.dateStart,
+                            dateEnd: vaccineData.dateEnd,
+                            currentStock: vaccineData.currentStock,
+                            maxStock: vaccineData.maxStock,
+                            category: vaccineData.category,
+                          ),
+                        );
+                      },
+                    );
+                    edit ? updateVaccineData() : createVaccineData();
                   },
                   style: ElevatedButton.styleFrom(
                     primary: Color(0xFF26A98A),
@@ -1121,8 +1154,7 @@ class _WebManageState extends State<WebManage> {
     if (dateStart == null) {
       return 'mm/dd/yy';
     } else {
-      vaccineData.dateStart =
-          '${dateStart?.month}/${dateStart?.day}/${dateStart?.year}';
+      vaccineData.dateStart = dateStart!;
       return '${dateStart?.month}/${dateStart?.day}/${dateStart?.year}';
     }
   }
@@ -1131,8 +1163,7 @@ class _WebManageState extends State<WebManage> {
     if (dateEnd == null) {
       return 'mm/dd/yy';
     } else {
-      vaccineData.dateEnd =
-          '${dateEnd?.month}/${dateEnd?.day}/${dateEnd?.year}';
+      vaccineData.dateEnd = dateEnd!;
       return '${dateEnd?.month}/${dateEnd?.day}/${dateEnd?.year}';
     }
   }
