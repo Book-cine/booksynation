@@ -183,7 +183,7 @@ class _WebMainState extends State<WebMain> {
                                           width: 10,
                                         ),
                                         CircleAvatar(
-                                          radius: 25,
+                                          radius: 23,
                                           backgroundColor: Colors.white,
                                           backgroundImage: AssetImage(urlImage),
                                         ),
@@ -200,7 +200,7 @@ class _WebMainState extends State<WebMain> {
                                                 style: TextStyle(
                                                     fontFamily: 'Poppins',
                                                     fontWeight: FontWeight.w600,
-                                                    fontSize: 14,
+                                                    fontSize: 13,
                                                     color: Color(0xFF192A3E))),
                                             const SizedBox(
                                               height: 2,
