@@ -10,12 +10,12 @@ class WebManage extends StatefulWidget {
 }
 
 class _WebManageState extends State<WebManage> {
-  DateTime? dateStart;
-  DateTime? dateEnd;
+  String? uid;
+  int? stock;
   String? dropdownValue;
   String? dropdownValue2;
-  bool edit = false;
-  TextEditingController stockController = TextEditingController();
+  DateTime? dateStart;
+  DateTime? dateEnd;
 
   List<VaccineData> data = [
     VaccineData(
@@ -711,6 +711,12 @@ class _WebManageState extends State<WebManage> {
               ),
               DataColumn(
                 label: Text(
+                  'Category',
+                  style: TextStyle(fontStyle: FontStyle.italic),
+                ),
+              ),
+              DataColumn(
+                label: Text(
                   'Vaccine',
                   style: TextStyle(fontStyle: FontStyle.italic),
                 ),
@@ -725,13 +731,15 @@ class _WebManageState extends State<WebManage> {
             rows: data.map((data) {
               return DataRow(cells: [
                 DataCell(Container(
-                    child: Text(data.dateStart.toString() +
-                        '-' +
-                        data.dateEnd.toString()))),
+                    child: Text(
+                        '${data.dateStart.month}/${data.dateStart.day}/${data.dateStart.year}' +
+                            ' - ' +
+                            '${data.dateEnd.month}/${data.dateEnd.day}/${data.dateEnd.year}'))),
                 DataCell(Container(
                     child: Text(data.currentStock.toString() +
                         '/' +
                         data.maxStock.toString()))),
+                DataCell(Container(child: Text(data.category))),
                 DataCell(Container(child: Text(data.vaccine))),
                 DataCell(
                   Container(
@@ -739,17 +747,14 @@ class _WebManageState extends State<WebManage> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         ElevatedButton(
-                          onPressed: () {
-                            setState(() {
-                              edit = true;
-                              dateStart = vaccineData.dateStart;
-                              dateEnd = vaccineData.dateEnd;
-                              dropdownValue = vaccineData.vaccine;
-                              dropdownValue2 = vaccineData.category;
-                              stockController.text =
-                                  vaccineData.maxStock.toString();
-                            });
-                          },
+                          onPressed: () => editVaccineSched(
+                              data.uniqueId,
+                              data.dateStart,
+                              data.dateEnd,
+                              data.vaccine,
+                              data.category,
+                              data.currentStock,
+                              data.maxStock),
                           style: ElevatedButton.styleFrom(
                             primary: Color(0xFFFFFFFF),
                             fixedSize: Size(
@@ -874,11 +879,11 @@ class _WebManageState extends State<WebManage> {
                         Container(
                           padding: EdgeInsets.only(top: 10),
                           child: TextFormField(
-                            controller: stockController,
                             onChanged: (value) {
                               vaccineData.maxStock = int.parse(value);
-                              vaccineData.currentStock = int.parse(value);
                             },
+                            controller:
+                                TextEditingController(text: stock.toString()),
                             style: TextStyle(
                               color: Color(0xFF333333),
                               fontFamily: 'Poppins',
@@ -1005,6 +1010,7 @@ class _WebManageState extends State<WebManage> {
                               onChanged: (String? newValue) {
                                 setState(() {
                                   dropdownValue2 = newValue!;
+                                  vaccineData.category = newValue;
                                 });
                               },
                               items: <String>[
@@ -1043,9 +1049,9 @@ class _WebManageState extends State<WebManage> {
                 Spacer(),
                 ElevatedButton(
                   onPressed: () async {
+                    createVaccineData();
                     setState(
                       () {
-                        edit = false;
                         data.add(
                           VaccineData(
                             uniqueId: vaccineData.uniqueId,
@@ -1059,7 +1065,6 @@ class _WebManageState extends State<WebManage> {
                         );
                       },
                     );
-                    edit ? updateVaccineData() : createVaccineData();
                   },
                   style: ElevatedButton.styleFrom(
                     primary: Color(0xFF26A98A),
@@ -1154,7 +1159,6 @@ class _WebManageState extends State<WebManage> {
     if (dateStart == null) {
       return 'mm/dd/yy';
     } else {
-      vaccineData.dateStart = dateStart!;
       return '${dateStart?.month}/${dateStart?.day}/${dateStart?.year}';
     }
   }
@@ -1163,7 +1167,6 @@ class _WebManageState extends State<WebManage> {
     if (dateEnd == null) {
       return 'mm/dd/yy';
     } else {
-      vaccineData.dateEnd = dateEnd!;
       return '${dateEnd?.month}/${dateEnd?.day}/${dateEnd?.year}';
     }
   }
@@ -1180,6 +1183,7 @@ class _WebManageState extends State<WebManage> {
 
     setState(() {
       dateStart = newDate;
+      vaccineData.dateStart = newDate;
     });
   }
 
@@ -1195,6 +1199,26 @@ class _WebManageState extends State<WebManage> {
 
     setState(() {
       dateEnd = newDate;
+      vaccineData.dateEnd = newDate;
+    });
+  }
+
+  editVaccineSched(String currUid, DateTime currDateStart, DateTime currDateEnd,
+      String currVaccine, String currCategory, int currStock, int maxStock) {
+    setState(() {
+      vaccineData.uniqueId = currUid;
+      vaccineData.dateStart = currDateStart;
+      vaccineData.dateEnd = currDateEnd;
+      vaccineData.vaccine = currVaccine;
+      vaccineData.category = currCategory;
+      vaccineData.currentStock = currStock;
+      vaccineData.maxStock = maxStock;
+
+      dateEnd = currDateEnd;
+      dateStart = currDateStart;
+      stock = maxStock;
+      dropdownValue = currVaccine;
+      dropdownValue2 = currCategory;
     });
   }
 }
