@@ -3,10 +3,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class VaccineData {
   late String uniqueId;
   late String vaccine;
-  late String dateStart;
-  late String dateEnd;
+  late DateTime dateStart;
+  late DateTime dateEnd;
   late int currentStock;
   late int maxStock;
+  late String category;
 
   VaccineData({
     required this.uniqueId,
@@ -15,6 +16,7 @@ class VaccineData {
     required this.dateEnd,
     required this.currentStock,
     required this.maxStock,
+    required this.category,
   });
 }
 
@@ -23,10 +25,11 @@ var vaccineCollection = FirebaseFirestore.instance.collection('vaccine');
 VaccineData vaccineData = VaccineData(
   uniqueId: '',
   vaccine: '',
-  dateStart: '',
-  dateEnd: '',
+  dateStart: DateTime(2021, 1, 1),
+  dateEnd: DateTime(2021, 1, 1),
   currentStock: 0,
   maxStock: 0,
+  category: '',
 );
 
 createVaccineData() async {
@@ -40,6 +43,7 @@ createVaccineData() async {
       'DateEnd': vaccineData.dateEnd,
       'CurrentStock': vaccineData.currentStock,
       'MaxStock': vaccineData.maxStock,
+      'Category': vaccineData.category,
     });
   });
 }
@@ -47,11 +51,13 @@ createVaccineData() async {
 Future readVaccineData() async {
   await vaccineCollection.doc().get().then((result) {
     Map<String, dynamic>? value = result.data();
+    vaccineData.vaccine = value?['UID'];
     vaccineData.vaccine = value?['Vaccine'];
     vaccineData.dateStart = value?['DateStart'];
     vaccineData.dateEnd = value?['DateEnd'];
     vaccineData.currentStock = value?['CurrentStock'];
     vaccineData.maxStock = value?['MaxStock'];
+    vaccineData.category = value?['Category'];
   });
 }
 
@@ -65,6 +71,7 @@ updateVaccineData() async {
         'DateEnd': vaccineData.dateEnd,
         'CurrentStock': vaccineData.currentStock,
         'MaxStock': vaccineData.maxStock,
+        'Category': vaccineData.category,
       })
       .then((value) => print('Vaccine Updated'))
       .catchError((error) => print('Failed to update vaccine: $error'));
