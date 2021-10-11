@@ -5,18 +5,32 @@ import 'package:booksynation/web_pages/webmissed.dart';
 import 'package:booksynation/web_pages/webschedule.dart';
 import 'package:booksynation/web_pages/websettings.dart';
 import 'package:booksynation/web_pages/weblogin.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class WebMain extends StatefulWidget {
-  WebMain({Key? key}) : super(key: key);
+  WebMain({
+    Key? key,
+    required this.auth,
+    @required this.currentUser,
+  }) : super(key: key);
+  final FirebaseAuth auth;
+  final currentUser;
 
   @override
-  _WebMainState createState() => _WebMainState();
+  _WebMainState createState() =>
+      _WebMainState(auth: auth, currentUser: currentUser);
 }
 
 class _WebMainState extends State<WebMain> {
+  _WebMainState({
+    required this.auth,
+    @required this.currentUser,
+  });
+  final FirebaseAuth auth;
+  final currentUser;
   final padding = EdgeInsets.symmetric(horizontal: 20);
 
   final emails = [

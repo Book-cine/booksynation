@@ -1,6 +1,5 @@
 import 'package:booksynation/page/onboarding.dart';
 import 'package:booksynation/page/patient_info/widgets/patientData.dart';
-
 import 'package:booksynation/page/registerpatient.dart';
 import 'package:booksynation/splash.dart';
 import 'package:booksynation/userData.dart';
@@ -147,6 +146,7 @@ class _HomepageState extends State<Homepage> {
                                         MaterialPageRoute(
                                           fullscreenDialog: true,
                                           builder: (context) => LoadScreen(
+                                            auth: auth,
                                             currentUser: user,
                                             device: 'mobile',
                                           ),
@@ -154,18 +154,26 @@ class _HomepageState extends State<Homepage> {
                                       );
                                     });
                                   } on FirebaseAuthException catch (e) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                        content: Text(
-                                          'Login unsuccessful.',
-                                        ),
-                                      ),
-                                    );
                                     if (e.code == 'user-not-found') {
-                                      print('No user found for that email.');
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        const SnackBar(
+                                          content: Text(
+                                            'No user found for that email.',
+                                          ),
+                                        ),
+                                      );
                                     } else if (e.code == 'wrong-password') {
-                                      print(
-                                          'Wrong password provided for that user.');
+                                      if (e.code == 'user-not-found') {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          const SnackBar(
+                                            content: Text(
+                                              'Wrong password provided for that user.',
+                                            ),
+                                          ),
+                                        );
+                                      }
                                     }
                                   }
                                 },
@@ -198,8 +206,10 @@ class _HomepageState extends State<Homepage> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) =>
-                                            RegisterPatient()),
+                                        builder: (context) => RegisterPatient(
+                                              auth: auth,
+                                              currentUser: auth.currentUser,
+                                            )),
                                   );
                                 },
                                 child: Text(

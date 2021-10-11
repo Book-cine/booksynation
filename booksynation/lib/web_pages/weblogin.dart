@@ -228,6 +228,7 @@ class _WebLoginState extends State<WebLogin> {
                                       MaterialPageRoute(
                                         fullscreenDialog: true,
                                         builder: (context) => LoadScreen(
+                                          auth: auth,
                                           currentUser: user,
                                           device: 'web',
                                         ),
@@ -293,7 +294,9 @@ class _WebLoginState extends State<WebLogin> {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => WebRegister()),
+                                          builder: (context) => WebRegister(
+                                              auth: auth,
+                                              currentUser: auth.currentUser)),
                                     );
                                   },
                                   child: Text(

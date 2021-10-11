@@ -1,14 +1,29 @@
 import 'package:booksynation/page/onboarding.dart';
 import 'package:booksynation/page/patient_info/widgets/patientData.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class GoogleButtonMobile extends StatefulWidget {
+  const GoogleButtonMobile({
+    Key? key,
+    required this.auth,
+    @required this.currentUser,
+  }) : super(key: key);
+  final FirebaseAuth auth;
+  final currentUser;
   @override
-  _GoogleButtonMobileState createState() => _GoogleButtonMobileState();
+  _GoogleButtonMobileState createState() =>
+      _GoogleButtonMobileState(auth: auth, currentUser: currentUser);
 }
 
 class _GoogleButtonMobileState extends State<GoogleButtonMobile> {
+  _GoogleButtonMobileState({
+    required this.auth,
+    @required this.currentUser,
+  });
+  final FirebaseAuth auth;
+  final currentUser;
   bool _isProcessing = false;
   GoogleSignIn _googleSignIn = GoogleSignIn(scopes: [
     'email',
@@ -51,7 +66,8 @@ class _GoogleButtonMobileState extends State<GoogleButtonMobile> {
               Navigator.of(context).pushReplacement(
                 MaterialPageRoute(
                   fullscreenDialog: true,
-                  builder: (context) => OnBoard(),
+                  builder: (context) =>
+                      OnBoard(auth: auth, currentUser: currentUser),
                 ),
               );
             }

@@ -18,11 +18,25 @@ Future<UserCredential> signInWithGoogle() async {
 }
 
 class GoogleButtonWeb extends StatefulWidget {
+  const GoogleButtonWeb({
+    Key? key,
+    required this.auth,
+    @required this.currentUser,
+  }) : super(key: key);
+  final FirebaseAuth auth;
+  final currentUser;
   @override
-  _GoogleButtonWebState createState() => _GoogleButtonWebState();
+  _GoogleButtonWebState createState() =>
+      _GoogleButtonWebState(auth: auth, currentUser: currentUser);
 }
 
 class _GoogleButtonWebState extends State<GoogleButtonWeb> {
+  _GoogleButtonWebState({
+    required this.auth,
+    @required this.currentUser,
+  });
+  final FirebaseAuth auth;
+  final currentUser;
   bool _isProcessing = false;
 
   @override
@@ -55,7 +69,8 @@ class _GoogleButtonWebState extends State<GoogleButtonWeb> {
               Navigator.of(context).pushReplacement(
                 MaterialPageRoute(
                   fullscreenDialog: true,
-                  builder: (context) => OnBoard(),
+                  builder: (context) =>
+                      OnBoard(auth: auth, currentUser: currentUser),
                 ),
               );
             }
