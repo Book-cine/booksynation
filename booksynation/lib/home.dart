@@ -164,16 +164,14 @@ class _HomepageState extends State<Homepage> {
                                         ),
                                       );
                                     } else if (e.code == 'wrong-password') {
-                                      if (e.code == 'user-not-found') {
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          const SnackBar(
-                                            content: Text(
-                                              'Wrong password provided for that user.',
-                                            ),
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        const SnackBar(
+                                          content: Text(
+                                            'Wrong password provided for that user.',
                                           ),
-                                        );
-                                      }
+                                        ),
+                                      );
                                     }
                                   }
                                 },

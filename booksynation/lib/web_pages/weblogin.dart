@@ -236,19 +236,22 @@ class _WebLoginState extends State<WebLogin> {
                                     );
                                   });
                                 } on FirebaseAuthException catch (e) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text(
-                                        'Login unsuccessful.',
-                                      ),
-                                    ),
-                                  );
-
                                   if (e.code == 'user-not-found') {
-                                    print('No user found for that email.');
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text(
+                                          'No user found for that email.',
+                                        ),
+                                      ),
+                                    );
                                   } else if (e.code == 'wrong-password') {
-                                    print(
-                                        'Wrong password provided for that user.');
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text(
+                                          'Wrong password provided for that user.',
+                                        ),
+                                      ),
+                                    );
                                   }
                                 }
                               },

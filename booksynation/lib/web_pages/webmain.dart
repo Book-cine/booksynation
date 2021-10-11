@@ -291,6 +291,7 @@ class _WebMainState extends State<WebMain> {
                               icon: SvgPicture.asset('images/signout_icon.svg',
                                   height: 15),
                               onClicked: () => {
+                                auth.signOut(),
                                 Navigator.of(context).push(MaterialPageRoute(
                                   builder: (context) => WebLogin(),
                                 ))
