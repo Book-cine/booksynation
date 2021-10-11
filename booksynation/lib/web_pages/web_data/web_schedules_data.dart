@@ -1,20 +1,92 @@
-class ScheduleData {
-  String uniqueId = '';
-  String name = '';
-  String email = '';
-  String vaccine = '';
-  String dosage = '';
-  String category = '';
-  String dateScheduled = '';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-  ScheduleData(
-      uniqueId, name, email, vaccine, dosage, category, dateScheduled) {
-    this.uniqueId = uniqueId;
-    this.name = name;
-    this.email = email;
-    this.vaccine = vaccine;
-    this.dosage = dosage;
-    this.category = category;
-    this.dateScheduled = dateScheduled;
-  }
+class ScheduleData {
+  late String uniqueId;
+  late String name;
+  late String email;
+  late String vaccine;
+  late String dosage;
+  late String category;
+  late DateTime dateScheduled;
+
+  ScheduleData({
+    required this.uniqueId,
+    required this.name,
+    required this.email,
+    required this.vaccine,
+    required this.dosage,
+    required this.category,
+    required this.dateScheduled,
+  });
 }
+
+CollectionReference patientCollection =
+    FirebaseFirestore.instance.collection('patient');
+
+ScheduleData scheduleData = ScheduleData(
+    uniqueId: '',
+    name: '',
+    email: '',
+    vaccine: '',
+    dosage: 'First',
+    category: '',
+    dateScheduled: DateTime.now());
+
+CollectionReference schedCollection =
+    FirebaseFirestore.instance.collection('schedule');
+
+DateTime assignASchedule(vaccine) {
+  //current stock 99 : maxStock 100 : perDay 20 since 5 days
+  int perDay = vaccine.maxStock %
+      (vaccine.dateEnd.difference(vaccine.dateStart)); // 100 % 5 = 20
+  int counter = 0;
+  if (vaccine.currentStock % perDay > 0) {
+    //today & vaccine.currentStock -= 1
+    counter = counter;
+  } else {
+    //tomorrow
+    counter += 1;
+  }
+  vaccine.currentStock -= 1;
+  return vaccine.dateStart.add(Duration(days: counter));
+}
+
+createSchedData(User? _patient) async {
+  await FirebaseFirestore.instance
+      .collection('patient')
+      .doc(_patient!.uid) //change this to patient's UID
+      .get()
+      .then((result) {
+    Map<String, dynamic>? value = result.data();
+    scheduleData.uniqueId = value?['UID'];
+    scheduleData.name = value?['FirstName'] +
+        ' ' +
+        value?['MiddleName'] +
+        ' ' +
+        value?['LastName'];
+    scheduleData.email = value?['Email'];
+    // scheduleData.vaccine = value?['UID']; //needs to be set by
+    // scheduleData.dosage = value?['']; //needs to be set not here
+    scheduleData.category = value?['Category'];
+  });
+  schedCollection.doc(_patient.uid).set({
+    'uniqueId': scheduleData.uniqueId,
+    'name': scheduleData.name,
+    'email': scheduleData.email,
+    'vaccine': scheduleData.vaccine, //still needs to be assigned
+    'dosage': scheduleData.dosage, //still needs to be assigned
+    'category': scheduleData.category,
+    'dateScheduled': assignASchedule(scheduleData.vaccine),
+  })
+      // .then((value) => print('Added Sched'))
+      .catchError((error) => print('Failed to add schedule: $error'));
+}
+
+
+
+// var patient = FirebaseFirestore.instance.collection('patient');
+//   await patient.doc(_patient!.uid).get().then((result) {
+//     Map<String, dynamic>? value = result.data();
+//     scheduleData.uniqueId = value?['UID'];
+//   }
