@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class VaccineData {
-<<<<<<< Updated upstream
   late String uniqueId;
   late String vaccine;
   late String dateStart;
@@ -77,24 +76,4 @@ deleteVaccineData() async {
       .delete()
       .then((value) => print('Vaccine Deleted'))
       .catchError((error) => print('Failed to delete vaccine: $error'));
-=======
-  String uid = '';
-  String vaccine = '';
-  String category = '';
-  DateTime dateStart = DateTime(0, 0, 0);
-  DateTime dateEnd = DateTime(0, 0, 0);
-  int currentStock = 0;
-  int maxStock = 0;
-
-  VaccineData(
-      uid, vaccine, category, dateStart, dateEnd, currentStock, maxStock) {
-    this.uid = uid;
-    this.vaccine = vaccine;
-    this.category = category;
-    this.dateStart = dateStart;
-    this.dateEnd = dateEnd;
-    this.currentStock = currentStock;
-    this.maxStock = maxStock;
-  }
->>>>>>> Stashed changes
 }

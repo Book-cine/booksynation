@@ -41,7 +41,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
     );
 
     String uid = 'MvqEtaUdGVxIEsgwNVf4';
-    String date = 'October 08, 2021';
+    String date = '2021-10-08';
     return SafeArea(
       child: Scaffold(
         extendBodyBehindAppBar: true,

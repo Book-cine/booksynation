@@ -24,7 +24,7 @@ class MyAppointment extends StatelessWidget {
         true; //Status of Vaccination of User from firestore (false when vaccine is missed, true otherwise)
     bool fillStatus = true; //Status of Fill up Form of User from firestore
     var now = new DateTime.now();
-    var formatter = new DateFormat.yMMMMd('en_US');
+    var formatter = new DateFormat('yyyy-MM-dd');
     String date = formatter.format(now);
 
     Future.delayed(Duration.zero, () {
