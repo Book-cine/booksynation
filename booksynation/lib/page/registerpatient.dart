@@ -202,7 +202,12 @@ class _RegisterPatientState extends State<RegisterPatient> {
                                                   .isNewUser) {
                                                 patient.uniqueId =
                                                     result.user!.uid;
-
+                                                patient.firstName =
+                                                    firstNameController.text;
+                                                patient.lastName =
+                                                    lastNameController.text;
+                                                patient.email =
+                                                    emailController.text;
                                                 createPatientUserData(
                                                   result.user!.uid,
                                                   emailController.text,

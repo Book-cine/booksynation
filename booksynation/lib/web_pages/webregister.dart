@@ -202,6 +202,10 @@ class _WebRegisterState extends State<WebRegister> {
                                                   .isNewUser) {
                                                 admin.uniqueId =
                                                     result.user!.uid;
+                                                admin.firstName =
+                                                    firstNameController.text;
+                                                admin.lastName =
+                                                    lastNameController.text;
                                                 createAdminUserData(
                                                   result.user!.uid,
                                                   emailController.text,

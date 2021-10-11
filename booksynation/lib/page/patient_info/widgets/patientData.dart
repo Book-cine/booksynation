@@ -78,9 +78,8 @@ bool diagnosed = false;
 bool fillStatus = false; //dapat false
 bool initialState = true;
 bool isGoogleUser = false;
+
 String fullname = patient.firstName +
-    ' ' +
-    patient.middleName +
     ' ' +
     patient.lastName +
     ' ' +
