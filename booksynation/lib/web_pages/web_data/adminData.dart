@@ -51,21 +51,19 @@ createAdminData() async {
       .catchError((error) => print('Failed to add admin: $error'));
 }
 
-getAdminData(User? _admin) async {
+setAdminData(User? _admin) async {
   var coll = FirebaseFirestore.instance.collection('admin');
   await coll.doc(_admin!.uid).get().then((result) {
     Map<String, dynamic>? value = result.data();
     admin.uniqueId = value?['UID'];
-    print('UID: ' + admin.uniqueId);
     admin.affiliation = value?['Affiliation'];
     admin.profilePic = value?['ProfilePic'];
     admin.firstName = value?['FirstName'];
-    print('First Name: ' + admin.firstName);
     admin.lastName = value?['LastName'];
   });
 }
 
-// getPatientDataGoogle(GoogleSignInAccount? user) async {
+// setPatientDataGoogle(GoogleSignInAccount? user) async {
 //   var coll = FirebaseFirestore.instance.collection('patient');
 //   await coll.doc(user!.id).get().then((result) {
 //     Map<String, dynamic>? value = result.data();

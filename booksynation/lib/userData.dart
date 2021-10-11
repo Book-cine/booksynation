@@ -65,7 +65,7 @@ createPatientUserData(
       .catchError((error) => print('Failed to add Patient user: $error'));
 }
 
-getPatientUserData(User? _patient) async {
+setPatientUserData(User? _patient) async {
   var coll = FirebaseFirestore.instance.collection('user');
   await coll.doc(_patient!.uid).get().then((result) {
     Map<String, dynamic>? value = result.data();
@@ -106,7 +106,7 @@ createAdminUserData(
       .catchError((error) => print('Failed to add Admin user: $error'));
 }
 
-getAdminUserData(User? _admin) async {
+setAdminUserData(User? _admin) async {
   var coll = FirebaseFirestore.instance.collection('user');
   await coll.doc(_admin!.uid).get().then((result) {
     Map<String, dynamic>? value = result.data();

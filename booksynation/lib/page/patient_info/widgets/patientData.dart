@@ -206,7 +206,7 @@ PatientProfileData patient = PatientProfileData(
   others: 'Click to Edit',
 );
 
-getPatientData(User? _patient) async {
+setPatientData(User? _patient) async {
   var coll = FirebaseFirestore.instance.collection('patient');
   await coll.doc(_patient!.uid).get().then((result) {
     Map<String, dynamic>? value = result.data();
@@ -244,7 +244,7 @@ getPatientData(User? _patient) async {
   });
 }
 
-getPatientDataGoogle(GoogleSignInAccount? user) async {
+setPatientDataGoogle(GoogleSignInAccount? user) async {
   var coll = FirebaseFirestore.instance.collection('patient');
   await coll.doc(user!.id).get().then((result) {
     Map<String, dynamic>? value = result.data();

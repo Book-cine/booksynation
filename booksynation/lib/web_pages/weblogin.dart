@@ -220,13 +220,11 @@ class _WebLoginState extends State<WebLogin> {
                                     password: passwordController.text,
                                   )
                                       .then((result) {
-                                    print(result);
                                     if (result != null) {
                                       admin.uniqueId = user!.uid;
-                                      getAdminData(user);
-                                      getAdminUserData(user);
-                                      print(
-                                          'First Name(o): ' + admin.firstName);
+                                      setAdminUserData(user);
+                                      setAdminData(user);
+                                      // .then((value) {});
                                       Navigator.of(context).pop();
                                       Navigator.of(context).push(
                                         MaterialPageRoute(

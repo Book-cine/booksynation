@@ -141,8 +141,8 @@ class _HomepageState extends State<Homepage> {
                                         .then((result) {
                                       if (result != null) {
                                         patient.uniqueId = user!.uid;
-                                        getPatientData(user);
-                                        getPatientUserData(user);
+                                        setPatientUserData(user);
+                                        setPatientData(user);
                                         Navigator.of(context).pop();
                                         Navigator.of(context).push(
                                           MaterialPageRoute(
