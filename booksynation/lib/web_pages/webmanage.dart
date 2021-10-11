@@ -10,12 +10,15 @@ class WebManage extends StatefulWidget {
 }
 
 class _WebManageState extends State<WebManage> {
+  String? uid;
+  int? stock;
   String? dropdownValue;
   String? dropdownValue2;
   DateTime? dateStart;
   DateTime? dateEnd;
 
   List<VaccineData> data = [
+<<<<<<< Updated upstream
     VaccineData(
       uniqueId: '',
       vaccine: 'Pfizer',
@@ -32,6 +35,12 @@ class _WebManageState extends State<WebManage> {
       currentStock: 49,
       maxStock: 50,
     ),
+=======
+    VaccineData('qwerty123', 'Pfizer', 'A4', DateTime.parse('2021-10-15'),
+        DateTime.parse('2021-10-22'), 49, 50),
+    VaccineData('asdfgh456', 'Janssen', 'A3', DateTime.parse('2021-10-23'),
+        DateTime.parse('2021-10-30'), 49, 50),
+>>>>>>> Stashed changes
   ];
 
   StatusData statusData = StatusData(250, 100, 10, 5);
@@ -707,6 +716,12 @@ class _WebManageState extends State<WebManage> {
               ),
               DataColumn(
                 label: Text(
+                  'Category',
+                  style: TextStyle(fontStyle: FontStyle.italic),
+                ),
+              ),
+              DataColumn(
+                label: Text(
                   'Vaccine',
                   style: TextStyle(fontStyle: FontStyle.italic),
                 ),
@@ -721,11 +736,15 @@ class _WebManageState extends State<WebManage> {
             rows: data.map((data) {
               return DataRow(cells: [
                 DataCell(Container(
-                    child: Text(data.dateStart + '-' + data.dateEnd))),
+                    child: Text(
+                        '${data.dateStart.month}/${data.dateStart.day}/${data.dateStart.year}' +
+                            ' - ' +
+                            '${data.dateEnd.month}/${data.dateEnd.day}/${data.dateEnd.year}'))),
                 DataCell(Container(
                     child: Text(data.currentStock.toString() +
                         '/' +
                         data.maxStock.toString()))),
+                DataCell(Container(child: Text(data.category))),
                 DataCell(Container(child: Text(data.vaccine))),
                 DataCell(
                   Container(
@@ -733,7 +752,13 @@ class _WebManageState extends State<WebManage> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () => editVaccineSched(
+                              data.uid,
+                              data.dateStart,
+                              data.dateEnd,
+                              data.vaccine,
+                              data.category,
+                              data.maxStock),
                           style: ElevatedButton.styleFrom(
                             primary: Color(0xFFFFFFFF),
                             fixedSize: Size(
@@ -858,10 +883,15 @@ class _WebManageState extends State<WebManage> {
                         Container(
                           padding: EdgeInsets.only(top: 10),
                           child: TextFormField(
+<<<<<<< Updated upstream
                             onChanged: (value) {
                               vaccineData.maxStock = int.parse(value);
                               vaccineData.currentStock = int.parse(value);
                             },
+=======
+                            controller:
+                                TextEditingController(text: stock.toString()),
+>>>>>>> Stashed changes
                             style: TextStyle(
                               color: Color(0xFF333333),
                               fontFamily: 'Poppins',
@@ -1164,6 +1194,17 @@ class _WebManageState extends State<WebManage> {
 
     setState(() {
       dateEnd = newDate;
+    });
+  }
+
+  editVaccineSched(String currUid, DateTime currDateStart, DateTime currDateEnd,
+      String currVaccine, String currCategory, int currStock) {
+    setState(() {
+      dateEnd = currDateEnd;
+      dateStart = currDateStart;
+      stock = currStock;
+      dropdownValue = currVaccine;
+      dropdownValue2 = currCategory;
     });
   }
 }

@@ -15,6 +15,7 @@ class _WebScheduleState extends State<WebSchedule> {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width - 260;
     final height = MediaQuery.of(context).size.height - 60;
+
     List<ScheduleData> data = [
       ScheduleData('19-4097-770', 'Nash Uriel A. Tapayan',
           'tnashuriel@gmail.com', 'Astrazenica', '2nd', 'A4', 'Dec 12, 2021'),
