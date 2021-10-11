@@ -1,6 +1,6 @@
 import 'package:booksynation/page/patient_info/widgets/contact_details.dart';
 import 'package:booksynation/page/patient_info/widgets/essential_info.dart';
-import 'package:booksynation/page/patient_info/widgets/infoData.dart';
+import 'package:booksynation/page/patient_info/widgets/patientData.dart';
 import 'package:booksynation/page/patient_info/widgets/patient_profile.dart';
 import 'package:booksynation/page/patient_info/widgets/save_changes_button.dart';
 import 'package:booksynation/sidemenu.dart';
@@ -162,12 +162,13 @@ class LockedPersonalInfo extends StatelessWidget {
       Text('Interacted Covid: ' + patient.interactedCovid),
       Text('Diagnosed with Covid: ' + patient.isDiagnosed),
       Text('Diagnosed Date: ' + patient.diagnosedDate),
-      Text('Allergies: ' + patient.allergies.toString()),
-      Text('Comorbidities: ' + patient.comorbidities.toString()),
-      Text('Other Allergies: ' + patient.otherAllergies),
-      Text('Other Comorbidities: ' + patient.others),
+      Text('Allergies: '),
+      for (var item in patient.allergies) Text(item),
+      Text('Comorbidities: '),
+      for (var item in patient.comorbidities) Text(item),
+      // Text('Other Allergies: ' + patient.otherAllergies),
+      // Text('Other Comorbidities: ' + patient.others),
     ];
-
     return SafeArea(
       child: Scaffold(
         //TODO: Please ko Mervin sa kani na part if makaya pa kay murag list lang sa personal info from the forms mao nani katong locked mode sa forms.

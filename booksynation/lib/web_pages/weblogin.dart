@@ -1,4 +1,6 @@
 import 'package:booksynation/home.dart';
+import 'package:booksynation/userData.dart';
+import 'package:booksynation/web_pages/web_data/adminData.dart';
 import 'package:booksynation/web_pages/webmain.dart';
 import 'package:booksynation/web_pages/webregister.dart';
 import 'package:flutter/material.dart';
@@ -220,6 +222,11 @@ class _WebLoginState extends State<WebLogin> {
                                       .then((result) {
                                     print(result);
                                     if (result != null) {
+                                      admin.uniqueId = user!.uid;
+                                      getAdminData(user);
+                                      getAdminUserData(user);
+                                      print(
+                                          'First Name(o): ' + admin.firstName);
                                       Navigator.of(context).pop();
                                       Navigator.of(context).push(
                                         MaterialPageRoute(

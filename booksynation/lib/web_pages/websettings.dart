@@ -109,8 +109,8 @@ class _WebSettingsState extends State<WebSettings> {
                                 CircleAvatar(
                                   radius: 50,
                                   backgroundColor: Colors.white,
-                                  backgroundImage:
-                                      AssetImage('images/nashimg.png'),
+                                  backgroundImage: AssetImage(
+                                      'images/user.png'), //check google pic
                                 ),
                                 Positioned(
                                   right: 0,
