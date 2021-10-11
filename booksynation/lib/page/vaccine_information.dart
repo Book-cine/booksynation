@@ -1,15 +1,29 @@
 import 'package:booksynation/page/health_declaration_screening.dart';
 import 'package:booksynation/strings.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class VaccineInfo extends StatefulWidget {
-  VaccineInfo({Key? key}) : super(key: key);
+  VaccineInfo({
+    Key? key,
+    required this.auth,
+    @required this.currentUser,
+  }) : super(key: key);
+  final FirebaseAuth auth;
+  final currentUser;
 
   @override
-  _VaccineInfoState createState() => _VaccineInfoState();
+  _VaccineInfoState createState() =>
+      _VaccineInfoState(auth: auth, currentUser: currentUser);
 }
 
 class _VaccineInfoState extends State<VaccineInfo> {
+  _VaccineInfoState({
+    required this.auth,
+    @required this.currentUser,
+  });
+  final FirebaseAuth auth;
+  final currentUser;
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -34,7 +48,10 @@ class _VaccineInfoState extends State<VaccineInfo> {
                   onPressed: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(
-                        builder: (context) => HealthScreening(),
+                        builder: (context) => HealthScreening(
+                          auth: auth,
+                          currentUser: currentUser,
+                        ),
                       ),
                     ); //TODO:change button action
                   },

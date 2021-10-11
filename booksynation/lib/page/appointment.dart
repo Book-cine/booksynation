@@ -3,11 +3,18 @@ import 'package:booksynation/page/missed.dart';
 import 'package:booksynation/page/schedule.dart';
 import 'package:booksynation/sidemenu.dart';
 import 'package:booksynation/strings.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class MyAppointment extends StatelessWidget {
-  const MyAppointment({Key? key}) : super(key: key);
+  const MyAppointment({
+    Key? key,
+    required this.auth,
+    @required this.currentUser,
+  }) : super(key: key);
+  final FirebaseAuth auth;
+  final currentUser;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +36,10 @@ class MyAppointment extends StatelessWidget {
     Widget getStatus(String schedule, bool status) {
       if (schedule.isNotEmpty) {
         if (status) {
-          return ScheduleScreen();
+          return ScheduleScreen(
+            auth: auth,
+            currentUser: currentUser,
+          );
         } else {
           return MissedScreen();
         }
@@ -39,12 +49,18 @@ class MyAppointment extends StatelessWidget {
             showFormAlert(context);
           });
         }
-        return BookSchedule();
+        return BookSchedule(
+          auth: auth,
+          currentUser: currentUser,
+        );
       }
     }
 
     return Scaffold(
-      drawer: SideMenu(),
+      drawer: SideMenu(
+        auth: auth,
+        currentUser: currentUser,
+      ),
       body: getStatus(schedule, status),
     );
   }

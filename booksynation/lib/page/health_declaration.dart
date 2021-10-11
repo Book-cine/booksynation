@@ -1,20 +1,37 @@
 import 'package:booksynation/page/appointment.dart';
 import 'package:booksynation/strings.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 
 class HealthDeclaration extends StatefulWidget {
-  const HealthDeclaration({Key? key}) : super(key: key);
+  const HealthDeclaration({
+    Key? key,
+    required this.auth,
+    @required this.currentUser,
+  }) : super(key: key);
+  final FirebaseAuth auth;
+  final currentUser;
 
   @override
-  State<HealthDeclaration> createState() => _HealthDeclarationState();
+  State<HealthDeclaration> createState() =>
+      _HealthDeclarationState(auth: auth, currentUser: currentUser);
 }
 
 class _HealthDeclarationState extends State<HealthDeclaration> {
+  _HealthDeclarationState({
+    required this.auth,
+    @required this.currentUser,
+  });
+  final FirebaseAuth auth;
+  final currentUser;
   bool _consent = false;
   bool _confirm = false;
   void goToAppointment(context) => Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => MyAppointment(),
+        builder: (context) => MyAppointment(
+          auth: auth,
+          currentUser: currentUser,
+        ),
       ));
 
   @override

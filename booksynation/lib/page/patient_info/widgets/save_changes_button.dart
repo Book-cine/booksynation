@@ -6,10 +6,13 @@ import 'package:flutter/material.dart';
 class SaveChanges extends StatelessWidget {
   const SaveChanges({
     Key? key,
+    required this.auth,
+    @required this.currentUser,
     required this.width,
     required this.height,
   }) : super(key: key);
-
+  final FirebaseAuth auth;
+  final currentUser;
   final double width;
   final double height;
 
@@ -46,7 +49,11 @@ class SaveChanges extends StatelessWidget {
             Future.delayed(const Duration(seconds: 2), () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => BookSchedule()),
+                MaterialPageRoute(
+                    builder: (context) => BookSchedule(
+                          auth: auth,
+                          currentUser: currentUser,
+                        )),
               );
             });
           } else {

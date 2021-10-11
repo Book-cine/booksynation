@@ -4,16 +4,30 @@ import 'package:booksynation/page/patient_info/widgets/patientData.dart';
 import 'package:booksynation/page/patient_info/widgets/patient_profile.dart';
 import 'package:booksynation/page/patient_info/widgets/save_changes_button.dart';
 import 'package:booksynation/sidemenu.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class PersonalInfo extends StatefulWidget {
-  const PersonalInfo({Key? key}) : super(key: key);
+  const PersonalInfo({
+    Key? key,
+    required this.auth,
+    @required this.currentUser,
+  }) : super(key: key);
+  final FirebaseAuth auth;
+  final currentUser;
 
   @override
-  State<PersonalInfo> createState() => _PersonalInfoState();
+  State<PersonalInfo> createState() =>
+      _PersonalInfoState(auth: auth, currentUser: currentUser);
 }
 
 class _PersonalInfoState extends State<PersonalInfo> {
+  _PersonalInfoState({
+    required this.auth,
+    @required this.currentUser,
+  });
+  final FirebaseAuth auth;
+  final currentUser;
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -38,8 +52,12 @@ class _PersonalInfoState extends State<PersonalInfo> {
             icon: Icon(Icons.arrow_back, color: Colors.black87),
           ),
         ),
-        drawer: SideMenu(),
-        body: PesonalInfoBody(height: height, width: width),
+        drawer: SideMenu(
+          auth: auth,
+          currentUser: currentUser,
+        ),
+        body: PesonalInfoBody(
+            auth: auth, currentUser: currentUser, height: height, width: width),
       ),
     );
   }
@@ -48,18 +66,23 @@ class _PersonalInfoState extends State<PersonalInfo> {
 class PesonalInfoBody extends StatelessWidget {
   const PesonalInfoBody({
     Key? key,
+    required this.auth,
+    @required this.currentUser,
     required this.height,
     required this.width,
   }) : super(key: key);
-
+  final FirebaseAuth auth;
+  final currentUser;
   final double height;
   final double width;
   @override
   Widget build(BuildContext context) {
     if (patient.fillStatus) {
-      return LockedPersonalInfo(height: height, width: width);
+      return LockedPersonalInfo(
+          auth: auth, currentUser: currentUser, height: height, width: width);
     } else {
-      return UnlockedPersonalInfo(height: height, width: width);
+      return UnlockedPersonalInfo(
+          auth: auth, currentUser: currentUser, height: height, width: width);
     }
   }
 }
@@ -67,10 +90,13 @@ class PesonalInfoBody extends StatelessWidget {
 class UnlockedPersonalInfo extends StatelessWidget {
   const UnlockedPersonalInfo({
     Key? key,
+    required this.auth,
+    @required this.currentUser,
     required this.height,
     required this.width,
   }) : super(key: key);
-
+  final FirebaseAuth auth;
+  final currentUser;
   final double height;
   final double width;
   @override
@@ -113,7 +139,11 @@ class UnlockedPersonalInfo extends StatelessWidget {
                 SizedBox(height: height * 0.1),
                 Align(
                   alignment: Alignment.center,
-                  child: SaveChanges(width: width, height: height),
+                  child: SaveChanges(
+                      auth: auth,
+                      currentUser: currentUser,
+                      width: width,
+                      height: height),
                 ),
                 SizedBox(height: height * 0.1),
               ],
@@ -129,10 +159,14 @@ class UnlockedPersonalInfo extends StatelessWidget {
 class LockedPersonalInfo extends StatelessWidget {
   const LockedPersonalInfo({
     Key? key,
+    required this.auth,
+    @required this.currentUser,
     required this.height,
     required this.width,
   }) : super(key: key);
 
+  final FirebaseAuth auth;
+  final currentUser;
   final double height;
   final double width;
   @override
@@ -172,7 +206,10 @@ class LockedPersonalInfo extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         //TODO: Please ko Mervin sa kani na part if makaya pa kay murag list lang sa personal info from the forms mao nani katong locked mode sa forms.
-        drawer: SideMenu(),
+        drawer: SideMenu(
+          auth: auth,
+          currentUser: currentUser,
+        ),
         body: ListView.builder(
             itemCount: patientData.length,
             itemBuilder: (context, index) {

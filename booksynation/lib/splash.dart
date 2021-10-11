@@ -113,16 +113,26 @@ class _SplashScreenState extends State<SplashScreen> {
 class LoadScreen extends StatefulWidget {
   const LoadScreen({
     Key? key,
+    required this.auth,
     @required this.device,
     @required this.currentUser,
   }) : super(key: key);
   final device;
+  final FirebaseAuth auth;
   final currentUser;
   @override
-  _LoadScreenState createState() => _LoadScreenState();
+  _LoadScreenState createState() =>
+      _LoadScreenState(auth: auth, currentUser: currentUser);
 }
 
 class _LoadScreenState extends State<LoadScreen> {
+  _LoadScreenState({
+    required this.auth,
+    @required this.currentUser,
+  });
+  final FirebaseAuth auth;
+  final currentUser;
+
   @override
   void initState() {
     super.initState();
@@ -134,8 +144,9 @@ class _LoadScreenState extends State<LoadScreen> {
     Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-            builder: (context) =>
-                (widget.device == 'web') ? WebMain() : OnBoard()));
+            builder: (context) => (widget.device == 'web')
+                ? WebMain(auth: auth, currentUser: currentUser)
+                : OnBoard(auth: auth, currentUser: currentUser)));
   }
 
   @override

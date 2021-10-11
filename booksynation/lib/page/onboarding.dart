@@ -1,8 +1,15 @@
 import 'package:booksynation/sidemenu.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class OnBoard extends StatelessWidget {
-  const OnBoard({Key? key}) : super(key: key);
+  const OnBoard({
+    Key? key,
+    required this.auth,
+    @required this.currentUser,
+  }) : super(key: key);
+  final FirebaseAuth auth;
+  final currentUser;
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +20,7 @@ class OnBoard extends StatelessWidget {
       child: Scaffold(
         extendBodyBehindAppBar: true,
         backgroundColor: Colors.white,
-        drawer: SideMenu(),
+        drawer: SideMenu(auth: auth, currentUser: currentUser),
         body: Builder(
           builder: (context) => Container(
             alignment: Alignment.center,

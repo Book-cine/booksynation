@@ -1,16 +1,33 @@
 import 'package:booksynation/sidemenu.dart';
 import 'package:booksynation/strings.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 class ScheduleScreen extends StatefulWidget {
-  ScheduleScreen({Key? key}) : super(key: key);
+  ScheduleScreen({
+    Key? key,
+    required this.auth,
+    @required this.currentUser,
+  }) : super(key: key);
+  final FirebaseAuth auth;
+  final currentUser;
 
   @override
-  _ScheduleScreenState createState() => _ScheduleScreenState();
+  _ScheduleScreenState createState() => _ScheduleScreenState(
+        auth: auth,
+        currentUser: currentUser,
+      );
 }
 
 class _ScheduleScreenState extends State<ScheduleScreen> {
+  _ScheduleScreenState({
+    Key? key,
+    required this.auth,
+    @required this.currentUser,
+  });
+  final FirebaseAuth auth;
+  final currentUser;
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -29,7 +46,10 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
       child: Scaffold(
         extendBodyBehindAppBar: true,
         backgroundColor: Colors.white,
-        drawer: SideMenu(),
+        drawer: SideMenu(
+          auth: auth,
+          currentUser: currentUser,
+        ),
         body: Builder(
           builder: (context) => Container(
             alignment: Alignment.center,

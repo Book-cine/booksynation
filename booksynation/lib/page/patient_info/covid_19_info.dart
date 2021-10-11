@@ -1,14 +1,28 @@
 import 'package:booksynation/page/patient_info/personal_info_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class CovidInfo extends StatefulWidget {
-  const CovidInfo({Key? key}) : super(key: key);
+  const CovidInfo({
+    Key? key,
+    required this.auth,
+    @required this.currentUser,
+  }) : super(key: key);
+  final FirebaseAuth auth;
+  final currentUser;
 
   @override
-  State<CovidInfo> createState() => _CovidInfoState();
+  State<CovidInfo> createState() =>
+      _CovidInfoState(auth: auth, currentUser: currentUser);
 }
 
 class _CovidInfoState extends State<CovidInfo> {
+  _CovidInfoState({
+    required this.auth,
+    @required this.currentUser,
+  });
+  final FirebaseAuth auth;
+  final currentUser;
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -30,7 +44,10 @@ class _CovidInfoState extends State<CovidInfo> {
               ElevatedButton(
                 onPressed: () {
                   Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => PersonalInfo(),
+                    builder: (context) => PersonalInfo(
+                      auth: auth,
+                      currentUser: currentUser,
+                    ),
                   ));
                 },
                 style: ElevatedButton.styleFrom(
