@@ -1,6 +1,4 @@
-import 'dart:developer';
-
-import 'package:booksynation/page/patient_info/widgets/infoData.dart';
+import 'package:booksynation/page/patient_info/widgets/patientData.dart';
 import 'package:flutter/material.dart';
 
 class PatientDropdown extends StatefulWidget {
@@ -18,7 +16,7 @@ class PatientDropdown extends StatefulWidget {
 
 class _PatientDropdownState extends State<PatientDropdown> {
   String? dropdownValue;
-  String error = 'Select a value';
+  String error = 'Select option';
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +38,7 @@ class _PatientDropdownState extends State<PatientDropdown> {
                     ? Colors.grey
                     : (dropdownValue == null)
                         ? Colors.red
-                        : Colors.green,
+                        : Colors.grey,
               ),
             ),
           ),

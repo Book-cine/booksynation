@@ -83,7 +83,7 @@ class OnBoard extends StatelessWidget {
                     Image.asset('images/onb2.png'),
                     SizedBox(height: height * 0.10),
                     Text(
-                      'Get notified when schedule is near.',
+                      'Get notified when your schedule is near.',
                       textAlign: TextAlign.justify,
                       style: TextStyle(
                         color: Colors.black,

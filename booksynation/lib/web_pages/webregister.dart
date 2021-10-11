@@ -1,19 +1,19 @@
-import 'package:booksynation/google_button.dart';
-import 'package:booksynation/home.dart';
-import 'package:booksynation/page/patient_info/widgets/patientData.dart';
+import 'package:booksynation/google_button_web.dart';
 import 'package:booksynation/userData.dart';
+import 'package:booksynation/web_pages/web_data/adminData.dart';
+import 'package:booksynation/web_pages/weblogin.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class RegisterPatient extends StatefulWidget {
-  const RegisterPatient({Key? key}) : super(key: key);
+class WebRegister extends StatefulWidget {
+  const WebRegister({Key? key}) : super(key: key);
 
   @override
-  _RegisterPatientState createState() => _RegisterPatientState();
+  _WebRegisterState createState() => _WebRegisterState();
 }
 
-class _RegisterPatientState extends State<RegisterPatient> {
+class _WebRegisterState extends State<WebRegister> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final cpasswordController = TextEditingController();
@@ -197,26 +197,23 @@ class _RegisterPatientState extends State<RegisterPatient> {
                                             password: passwordController.text,
                                           )
                                               .then((result) {
-                                            if (result != null && isValid) {
+                                            if (result != null) {
                                               if (result.additionalUserInfo!
                                                   .isNewUser) {
-                                                patient.uniqueId =
+                                                admin.uniqueId =
                                                     result.user!.uid;
-                                                patient.firstName =
+                                                admin.firstName =
                                                     firstNameController.text;
-                                                patient.lastName =
+                                                admin.lastName =
                                                     lastNameController.text;
-                                                patient.email =
-                                                    emailController.text;
-                                                createPatientUserData(
+                                                createAdminUserData(
                                                   result.user!.uid,
                                                   emailController.text,
                                                   firstNameController.text,
                                                   lastNameController.text,
                                                   passwordController.text,
                                                 );
-                                                createPatientData();
-
+                                                createAdminData();
                                                 ScaffoldMessenger.of(context)
                                                     .showSnackBar(
                                                   const SnackBar(
@@ -226,13 +223,12 @@ class _RegisterPatientState extends State<RegisterPatient> {
                                                   ),
                                                 );
                                               }
-
                                               Navigator.of(context).pop();
                                               Navigator.of(context).push(
                                                 MaterialPageRoute(
                                                   fullscreenDialog: true,
                                                   builder: (context) =>
-                                                      Homepage(),
+                                                      WebLogin(),
                                                 ),
                                               );
                                             } else {
@@ -254,12 +250,12 @@ class _RegisterPatientState extends State<RegisterPatient> {
                                     style: ElevatedButton.styleFrom(
                                       primary: Color(0xFF26A98A),
                                       fixedSize: Size(
-                                        width * 0.55,
-                                        height * 0.065,
+                                        width * 0.28,
+                                        height * 0.045,
                                       ),
                                       shape: RoundedRectangleBorder(
                                         borderRadius:
-                                            BorderRadius.circular(40.0),
+                                            BorderRadius.circular(10.0),
                                       ),
                                     ),
                                     child: Text(
@@ -276,7 +272,7 @@ class _RegisterPatientState extends State<RegisterPatient> {
                                   SizedBox(
                                     height: height * 0.030,
                                   ),
-                                  GoogleButtonMobile(),
+                                  GoogleButtonWeb(),
                                 ],
                               ),
                             ],
@@ -285,9 +281,6 @@ class _RegisterPatientState extends State<RegisterPatient> {
                       ),
                     ),
                   ),
-                ),
-                SizedBox(
-                  height: height * 0.10,
                 ),
               ],
             ),

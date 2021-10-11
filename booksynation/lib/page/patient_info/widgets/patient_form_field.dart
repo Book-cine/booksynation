@@ -1,4 +1,4 @@
-import 'package:booksynation/page/patient_info/widgets/infoData.dart';
+import 'package:booksynation/page/patient_info/widgets/patientData.dart';
 import 'package:flutter/material.dart';
 
 class PatientFormField extends StatelessWidget {

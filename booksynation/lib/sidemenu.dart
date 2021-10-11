@@ -1,6 +1,7 @@
 import 'package:booksynation/main.dart';
 import 'package:booksynation/page/appointment.dart';
 import 'package:booksynation/page/patient_info/covid_19_info.dart';
+import 'package:booksynation/page/patient_info/widgets/patientData.dart';
 import 'package:booksynation/page/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -27,9 +28,9 @@ class _SideMenuState extends State<SideMenu> {
 
   @override
   Widget build(BuildContext context) {
-    final name = 'Juan Dela Cruz';
-    final email = 'book-cine@gmail.com';
-    final image = 'images/nashimg.png';
+    final name = fullname;
+    final email = patient.email;
+    final image = 'images/user.png';
     // final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
 
@@ -221,7 +222,7 @@ class _SideMenuState extends State<SideMenu> {
         break;
       case 2:
         Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => CovidInfo(),
+          builder: (context) => PatientSettings(),
         ));
         break;
     }

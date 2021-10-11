@@ -1,8 +1,10 @@
+import 'package:booksynation/userData.dart';
+import 'package:booksynation/web_pages/web_data/adminData.dart';
 import 'package:booksynation/web_pages/webmanage.dart';
 import 'package:booksynation/web_pages/webmissed.dart';
 import 'package:booksynation/web_pages/webschedule.dart';
 import 'package:booksynation/web_pages/websettings.dart';
-import 'package:booksynation/weblogin.dart';
+import 'package:booksynation/web_pages/weblogin.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -30,9 +32,9 @@ class _WebMainState extends State<WebMain> {
 
   @override
   Widget build(BuildContext context) {
-    final name = 'Dr. Jose Aguinaldo';
-    final email = 'book-cine@gmail.com';
-    final urlImage = 'images/nashimg.png';
+    final name = 'Dr.' + admin.firstName + ' ' + admin.lastName;
+    final email = userdata.email;
+    final urlImage = 'images/user.png';
     // final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;

@@ -1,4 +1,4 @@
-import 'package:booksynation/page/patient_info/widgets/infoData.dart';
+import 'package:booksynation/page/patient_info/widgets/patientData.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -38,11 +38,13 @@ class DisplayData extends StatelessWidget {
                             height: 15,
                           ),
                           Text(
-                              'My name is ${data.docs[index]['firstname']} ${data.docs[index]['middlename']} ${data.docs[index]['lastname']} ${data.docs[index]['suffix']}'),
-                          Text('Gender: ${data.docs[index]['gender']}'),
+                              'My name is ${data.docs[index]['FirstName']} ${data.docs[index]['MiddleName']} ${data.docs[index]['LastName']} ${data.docs[index]['Suffix']}'),
+                          Text('Gender: ${data.docs[index]['Sex']}'),
+                          Text('Bdate: ${data.docs[index]['Bday']}'),
                           Text(
-                              'Civil Status:${data.docs[index]['civstatus']} '),
-                          Text('Philhealth:${data.docs[index]['philhealth']}'),
+                              'Civil Status:${data.docs[index]['Civil_Status']} '),
+                          Text(
+                              'Philhealth:${data.docs[index]['Philhealth_Num']}'),
                         ],
                       );
                     });

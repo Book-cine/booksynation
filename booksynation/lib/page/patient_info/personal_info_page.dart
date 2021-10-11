@@ -1,6 +1,6 @@
 import 'package:booksynation/page/patient_info/widgets/contact_details.dart';
 import 'package:booksynation/page/patient_info/widgets/essential_info.dart';
-import 'package:booksynation/page/patient_info/widgets/infoData.dart';
+import 'package:booksynation/page/patient_info/widgets/patientData.dart';
 import 'package:booksynation/page/patient_info/widgets/patient_profile.dart';
 import 'package:booksynation/page/patient_info/widgets/save_changes_button.dart';
 import 'package:booksynation/sidemenu.dart';
@@ -56,8 +56,7 @@ class PesonalInfoBody extends StatelessWidget {
   final double width;
   @override
   Widget build(BuildContext context) {
-    bool fillStatus = false;
-    if (fillStatus) {
+    if (patient.fillStatus) {
       return LockedPersonalInfo(height: height, width: width);
     } else {
       return UnlockedPersonalInfo(height: height, width: width);
@@ -138,15 +137,49 @@ class LockedPersonalInfo extends StatelessWidget {
   final double width;
   @override
   Widget build(BuildContext context) {
+    List patientData = [
+      Text('First Name: ' + patient.firstName),
+      Text('Middle Name: ' + patient.middleName),
+      Text('Last Name: ' + patient.lastName),
+      Text('Suffix: ' + patient.suffix),
+      Text('Sex: ' + patient.sex),
+      Text('Bday: ' + patient.bday),
+      Text('Age: ' + patient.age),
+      Text('Civil Status: ' + patient.civStatus),
+      Text('Philhealth: ' + patient.philhealth),
+      Text('Address: ' + patient.address),
+      Text('Region: ' + patient.region),
+      Text('Province: ' + patient.province),
+      Text('City: ' + patient.city),
+      Text('Barangay: ' + patient.brgy),
+      Text('Zip: ' + patient.zip),
+      Text('Contact Num: ' + patient.contact),
+      Text('Email Address: ' + patient.email),
+      Text('Cov19 Classification: ' + patient.covclass),
+      Text('Employed? : ' + patient.employed),
+      Text('Pregnant? : ' + patient.pregnant),
+      Text('PWD: ' + patient.disability),
+      Text('Interacted Covid: ' + patient.interactedCovid),
+      Text('Diagnosed with Covid: ' + patient.isDiagnosed),
+      Text('Diagnosed Date: ' + patient.diagnosedDate),
+      Text('Allergies: '),
+      for (var item in patient.allergies) Text(item),
+      Text('Comorbidities: '),
+      for (var item in patient.comorbidities) Text(item),
+      // Text('Other Allergies: ' + patient.otherAllergies),
+      // Text('Other Comorbidities: ' + patient.others),
+    ];
     return SafeArea(
       child: Scaffold(
         //TODO: Please ko Mervin sa kani na part if makaya pa kay murag list lang sa personal info from the forms mao nani katong locked mode sa forms.
         drawer: SideMenu(),
-        body: Builder(
-          builder: (context) => Center(
-            child: Column(),
-          ),
-        ),
+        body: ListView.builder(
+            itemCount: patientData.length,
+            itemBuilder: (context, index) {
+              return ListTile(
+                title: patientData[index],
+              );
+            }),
       ),
     );
   }

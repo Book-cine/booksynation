@@ -1,4 +1,4 @@
-import 'package:booksynation/page/patient_info/widgets/infoData.dart';
+import 'package:booksynation/page/patient_info/widgets/patientData.dart';
 import 'package:booksynation/page/patient_info/widgets/patient_dropdown.dart';
 import 'package:booksynation/page/patient_info/widgets/patient_form_field.dart';
 import 'package:flutter/material.dart';

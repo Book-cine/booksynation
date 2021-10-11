@@ -1,5 +1,6 @@
 import 'package:booksynation/page/booksched.dart';
-import 'package:booksynation/page/patient_info/widgets/infoData.dart';
+import 'package:booksynation/page/patient_info/widgets/patientData.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class SaveChanges extends StatelessWidget {
@@ -38,6 +39,9 @@ class SaveChanges extends StatelessWidget {
                 ),
               ),
             );
+
+            fillStatus = true;
+            patient.fillStatus = fillStatus;
             updatePatientData();
             Future.delayed(const Duration(seconds: 2), () {
               Navigator.push(

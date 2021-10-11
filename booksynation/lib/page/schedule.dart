@@ -1,4 +1,5 @@
 import 'package:booksynation/sidemenu.dart';
+import 'package:booksynation/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
@@ -14,6 +15,14 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
+
+    final TextStyle _normalTextStyle = TextStyle(
+      color: Colors.black,
+      fontFamily: 'Average',
+      fontWeight: FontWeight.bold,
+      fontSize: height * 0.035,
+    );
+
     String uid = 'MvqEtaUdGVxIEsgwNVf4';
     String date = '2021-10-08';
     return SafeArea(
@@ -26,21 +35,20 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
             alignment: Alignment.center,
             child: Container(
               color: Colors.white,
-              padding: EdgeInsets.all(35.0),
+              padding: EdgeInsets.fromLTRB(
+                  width * 0.08, height * 0.02, width * 0.08, height * 0.02),
               child: SingleChildScrollView(
                 child: Column(
                   children: [
                     SizedBox(height: height * 0.20),
                     Text(
-                      'Your schedule for vaccination is set',
-                      textAlign: TextAlign.justify,
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontFamily: 'Average',
-                        fontWeight: FontWeight.bold,
-                        fontSize: height * 0.035,
-                      ),
+                      scheduleText1 + date,
+                      textAlign: TextAlign.center,
+                      style: _normalTextStyle.copyWith(
+                          fontSize: height * 0.035,
+                          fontWeight: FontWeight.bold),
                     ),
+                    /*
                     Text(
                       'on ' + date,
                       textAlign: TextAlign.justify,
@@ -50,7 +58,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                         fontWeight: FontWeight.bold,
                         fontSize: height * 0.035,
                       ),
-                    ),
+                    ), */
                     SizedBox(height: height * 0.10),
                     Image.asset('images/calendar.png'),
                     SizedBox(height: height * 0.10),
@@ -58,15 +66,9 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                       width: width * 0.65,
                       alignment: Alignment.center,
                       padding: EdgeInsets.symmetric(horizontal: 10.0),
-                      child: Text(
-                        'Please proceed to your vaccination site as scheduled and bring a valid ID.',
-                        textAlign: TextAlign.justify,
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontFamily: 'Average',
-                          fontSize: height * 0.024,
-                        ),
-                      ),
+                      child: Text(scheduleText2,
+                          textAlign: TextAlign.justify,
+                          style: _normalTextStyle),
                     ),
                     SizedBox(height: height * 0.020),
                     Container(
@@ -74,13 +76,9 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                       alignment: Alignment.center,
                       padding: EdgeInsets.symmetric(horizontal: 10.0),
                       child: Text(
-                        'Don\'t forget to wear at all times your SURGICAL FACEMASK & faceshield.',
+                        scheduleText3,
                         textAlign: TextAlign.justify,
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontFamily: 'Average',
-                          fontSize: height * 0.024,
-                        ),
+                        style: _normalTextStyle,
                       ),
                     ),
                     SizedBox(height: height * 0.10),
@@ -118,7 +116,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                             ),
                           ),
                           child: Text(
-                            'BACK',
+                            btnTextBack,
                             style: TextStyle(
                               color: Colors.white,
                               fontFamily: 'Mulish',
