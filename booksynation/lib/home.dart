@@ -172,6 +172,15 @@ class _HomepageState extends State<Homepage> {
                                           ),
                                         ),
                                       );
+                                    } else {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        const SnackBar(
+                                          content: Text(
+                                            'Login Error',
+                                          ),
+                                        ),
+                                      );
                                     }
                                   }
                                 },

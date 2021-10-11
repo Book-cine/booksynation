@@ -252,6 +252,14 @@ class _WebLoginState extends State<WebLogin> {
                                         ),
                                       ),
                                     );
+                                  } else {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text(
+                                          'Login Error',
+                                        ),
+                                      ),
+                                    );
                                   }
                                 }
                               },
