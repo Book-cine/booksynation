@@ -1,5 +1,5 @@
 import 'package:booksynation/page/patient_info/widgets/date_picker.dart';
-import 'package:booksynation/page/patient_info/widgets/infoData.dart';
+import 'package:booksynation/page/patient_info/widgets/patientData.dart';
 import 'package:booksynation/page/patient_info/widgets/patient_check_box.dart';
 import 'package:booksynation/page/patient_info/widgets/patient_dropdown.dart';
 import 'package:booksynation/page/patient_info/widgets/patient_form_field.dart';

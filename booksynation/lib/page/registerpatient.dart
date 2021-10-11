@@ -1,6 +1,7 @@
 import 'package:booksynation/google_button.dart';
 import 'package:booksynation/home.dart';
-import 'package:booksynation/page/patient_info/widgets/infoData.dart';
+import 'package:booksynation/page/patient_info/widgets/patientData.dart';
+import 'package:booksynation/userData.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -15,8 +16,7 @@ class RegisterPatient extends StatefulWidget {
 class _RegisterPatientState extends State<RegisterPatient> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-  String? cpasswordController;
-  String? password;
+  final cpasswordController = TextEditingController();
   final firstNameController = TextEditingController();
   final lastNameController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
@@ -155,14 +155,12 @@ class _RegisterPatientState extends State<RegisterPatient> {
                                       ),
                                       hintText: 'Password',
                                     ),
-                                    onChanged: (value) =>
-                                        setState(() => password = value),
                                   ),
                                   SizedBox(
                                     height: height * 0.010,
                                   ),
                                   TextFormField(
-                                    // controller: cpasswordController,
+                                    controller: cpasswordController,
                                     obscureText: true,
                                     decoration: InputDecoration(
                                       suffixIcon: Icon(
@@ -172,14 +170,12 @@ class _RegisterPatientState extends State<RegisterPatient> {
                                       hintText: 'Confirm Password',
                                     ),
                                     validator: (value) {
-                                      if (value != password) {
+                                      if (value != passwordController.text) {
                                         return 'Wrong password';
                                       } else {
                                         return null;
                                       }
                                     },
-                                    onChanged: (value) => setState(
-                                        () => cpasswordController = value),
                                   ),
                                   SizedBox(
                                     height: height * 0.05,
@@ -191,44 +187,63 @@ class _RegisterPatientState extends State<RegisterPatient> {
                                 children: [
                                   ElevatedButton(
                                     onPressed: () async {
-                                      // final isValid = && isValid
-                                      //     _formKey.currentState!.validate();
-                                      try {
-                                        await FirebaseAuth.instance
-                                            .createUserWithEmailAndPassword(
-                                          email: emailController.text,
-                                          password: passwordController.text,
-                                        )
-                                            .then((result) {
-                                          if (result != null) {
-                                            if (result.additionalUserInfo!
-                                                .isNewUser) {
-                                              patient.uniqueId =
-                                                  result.user!.uid;
-                                              createPatientData();
-                                            }
+                                      final isValid =
+                                          _formKey.currentState!.validate();
+                                      if (isValid) {
+                                        try {
+                                          await FirebaseAuth.instance
+                                              .createUserWithEmailAndPassword(
+                                            email: emailController.text,
+                                            password: passwordController.text,
+                                          )
+                                              .then((result) {
+                                            if (result != null && isValid) {
+                                              if (result.additionalUserInfo!
+                                                  .isNewUser) {
+                                                patient.uniqueId =
+                                                    result.user!.uid;
 
-                                            Navigator.of(context).pop();
-                                            Navigator.of(context).push(
-                                              MaterialPageRoute(
-                                                fullscreenDialog: true,
-                                                builder: (context) =>
-                                                    Homepage(),
-                                              ),
-                                            );
-                                          } else {
-                                            ScaffoldMessenger.of(context)
-                                                .showSnackBar(
-                                              const SnackBar(
-                                                content: Text(
-                                                  'Registration unsuccessful.',
+                                                createPatientUserData(
+                                                  result.user!.uid,
+                                                  emailController.text,
+                                                  firstNameController.text,
+                                                  lastNameController.text,
+                                                  passwordController.text,
+                                                );
+                                                createPatientData();
+
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(
+                                                  const SnackBar(
+                                                    content: Text(
+                                                      'Registration successful.',
+                                                    ),
+                                                  ),
+                                                );
+                                              }
+
+                                              Navigator.of(context).pop();
+                                              Navigator.of(context).push(
+                                                MaterialPageRoute(
+                                                  fullscreenDialog: true,
+                                                  builder: (context) =>
+                                                      Homepage(),
                                                 ),
-                                              ),
-                                            );
-                                          }
-                                        });
-                                      } on FirebaseAuthException catch (e) {
-                                        print(e);
+                                              );
+                                            } else {
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(
+                                                const SnackBar(
+                                                  content: Text(
+                                                    'Registration unsuccessful.',
+                                                  ),
+                                                ),
+                                              );
+                                            }
+                                          });
+                                        } on FirebaseAuthException catch (e) {
+                                          print(e);
+                                        }
                                       }
                                     },
                                     style: ElevatedButton.styleFrom(

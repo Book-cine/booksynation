@@ -1,7 +1,8 @@
 import 'package:booksynation/page/onboarding.dart';
-import 'package:booksynation/page/patient_info/widgets/infoData.dart';
+import 'package:booksynation/page/patient_info/widgets/patientData.dart';
 
 import 'package:booksynation/page/registerpatient.dart';
+import 'package:booksynation/userData.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -141,6 +142,7 @@ class _HomepageState extends State<Homepage> {
                                       if (result != null) {
                                         patient.uniqueId = user!.uid;
                                         getPatientData(user);
+                                        getPatientUserData(user);
                                         Navigator.of(context).pop();
                                         Navigator.of(context).push(
                                           MaterialPageRoute(
