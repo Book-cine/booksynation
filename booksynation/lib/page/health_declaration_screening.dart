@@ -1,15 +1,29 @@
 import 'package:booksynation/page/appointment.dart';
 import 'package:booksynation/strings.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class HealthScreening extends StatefulWidget {
-  HealthScreening({Key? key}) : super(key: key);
+  HealthScreening({
+    Key? key,
+    required this.auth,
+    @required this.currentUser,
+  }) : super(key: key);
+  final FirebaseAuth auth;
+  final currentUser;
 
   @override
-  _HealthScreeningState createState() => _HealthScreeningState();
+  _HealthScreeningState createState() =>
+      _HealthScreeningState(auth: auth, currentUser: currentUser);
 }
 
 class _HealthScreeningState extends State<HealthScreening> {
+  _HealthScreeningState({
+    required this.auth,
+    @required this.currentUser,
+  });
+  final FirebaseAuth auth;
+  final currentUser;
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -34,7 +48,10 @@ class _HealthScreeningState extends State<HealthScreening> {
                   onPressed: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(
-                        builder: (context) => MyAppointment(),
+                        builder: (context) => MyAppointment(
+                          auth: auth,
+                          currentUser: currentUser,
+                        ),
                       ),
                     ); //TODO:change button action
                   },

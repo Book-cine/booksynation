@@ -7,13 +7,28 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class RegisterPatient extends StatefulWidget {
-  const RegisterPatient({Key? key}) : super(key: key);
+  const RegisterPatient({
+    Key? key,
+    required this.auth,
+    @required this.currentUser,
+  }) : super(key: key);
+  final FirebaseAuth auth;
+  final currentUser;
 
   @override
-  _RegisterPatientState createState() => _RegisterPatientState();
+  _RegisterPatientState createState() => _RegisterPatientState(
+        auth: auth,
+        currentUser: currentUser,
+      );
 }
 
 class _RegisterPatientState extends State<RegisterPatient> {
+  _RegisterPatientState({
+    required this.auth,
+    @required this.currentUser,
+  });
+  final FirebaseAuth auth;
+  final currentUser;
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final cpasswordController = TextEditingController();
@@ -276,7 +291,10 @@ class _RegisterPatientState extends State<RegisterPatient> {
                                   SizedBox(
                                     height: height * 0.030,
                                   ),
-                                  GoogleButtonMobile(),
+                                  GoogleButtonMobile(
+                                    auth: auth,
+                                    currentUser: currentUser,
+                                  ),
                                 ],
                               ),
                             ],

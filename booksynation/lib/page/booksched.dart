@@ -3,10 +3,17 @@ import 'package:booksynation/page/patient_info/covid_19_info.dart';
 import 'package:booksynation/page/patient_info/widgets/patientData.dart';
 import 'package:booksynation/page/vaccine_information.dart';
 import 'package:booksynation/strings.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class BookSchedule extends StatelessWidget {
-  const BookSchedule({Key? key}) : super(key: key);
+  const BookSchedule({
+    Key? key,
+    required this.auth,
+    @required this.currentUser,
+  }) : super(key: key);
+  final FirebaseAuth auth;
+  final currentUser;
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +72,10 @@ class BookSchedule extends StatelessWidget {
                     onPressed: () {
                       Navigator.of(context).push(
                         MaterialPageRoute(
-                          builder: (context) => HealthDeclaration(),
+                          builder: (context) => HealthDeclaration(
+                            auth: auth,
+                            currentUser: currentUser,
+                          ),
                         ),
                       ); //TODO:change button action
                     },
@@ -88,7 +98,10 @@ class BookSchedule extends StatelessWidget {
         ),
       );
     } else {
-      return CovidInfo();
+      return CovidInfo(
+        auth: auth,
+        currentUser: currentUser,
+      );
     }
   }
 }

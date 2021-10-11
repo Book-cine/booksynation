@@ -1,8 +1,15 @@
 import 'package:booksynation/sidemenu.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class PatientSettings extends StatelessWidget {
-  const PatientSettings({Key? key}) : super(key: key);
+  const PatientSettings({
+    Key? key,
+    required this.auth,
+    @required this.currentUser,
+  }) : super(key: key);
+  final FirebaseAuth auth;
+  final currentUser;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +35,7 @@ class PatientSettings extends StatelessWidget {
             icon: Icon(Icons.arrow_back, color: Colors.black87),
           ),
         ),
-        drawer: SideMenu(),
+        drawer: SideMenu(auth: auth, currentUser: currentUser),
         body: Container(
           alignment: Alignment.center,
           child: Container(

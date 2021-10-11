@@ -3,17 +3,31 @@ import 'package:booksynation/page/appointment.dart';
 import 'package:booksynation/page/patient_info/covid_19_info.dart';
 import 'package:booksynation/page/patient_info/widgets/patientData.dart';
 import 'package:booksynation/page/settings.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class SideMenu extends StatefulWidget {
-  SideMenu({Key? key}) : super(key: key);
+  SideMenu({
+    Key? key,
+    required this.auth,
+    @required this.currentUser,
+  }) : super(key: key);
+  final FirebaseAuth auth;
+  final currentUser;
 
   @override
-  State<SideMenu> createState() => _SideMenuState();
+  State<SideMenu> createState() =>
+      _SideMenuState(auth: auth, currentUser: currentUser);
 }
 
 class _SideMenuState extends State<SideMenu> {
+  _SideMenuState({
+    required this.auth,
+    @required this.currentUser,
+  });
+  final FirebaseAuth auth;
+  final currentUser;
   final padding = EdgeInsets.symmetric(horizontal: 20);
 
   final emails = [
@@ -44,7 +58,10 @@ class _SideMenuState extends State<SideMenu> {
                 name: name,
                 email: email,
                 onClicked: () => Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => PatientSettings(),
+                      builder: (context) => PatientSettings(
+                        auth: auth,
+                        currentUser: currentUser,
+                      ),
                     ))),
             Container(
               height: height * 0.8,
@@ -199,6 +216,7 @@ class _SideMenuState extends State<SideMenu> {
       ),
       hoverColor: hoverColor,
       onTap: () => {
+        auth.signOut(),
         Navigator.of(context).push(MaterialPageRoute(
           builder: (context) => App(),
         ))
@@ -212,17 +230,26 @@ class _SideMenuState extends State<SideMenu> {
     switch (index) {
       case 0:
         Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => CovidInfo(),
+          builder: (context) => CovidInfo(
+            auth: auth,
+            currentUser: currentUser,
+          ),
         ));
         break;
       case 1:
         Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => MyAppointment(),
+          builder: (context) => MyAppointment(
+            auth: auth,
+            currentUser: currentUser,
+          ),
         ));
         break;
       case 2:
         Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => PatientSettings(),
+          builder: (context) => PatientSettings(
+            auth: auth,
+            currentUser: currentUser,
+          ),
         ));
         break;
     }

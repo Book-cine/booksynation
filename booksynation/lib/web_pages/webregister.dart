@@ -7,13 +7,26 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class WebRegister extends StatefulWidget {
-  const WebRegister({Key? key}) : super(key: key);
+  const WebRegister({
+    Key? key,
+    required this.auth,
+    @required this.currentUser,
+  }) : super(key: key);
+  final FirebaseAuth auth;
+  final currentUser;
 
   @override
-  _WebRegisterState createState() => _WebRegisterState();
+  _WebRegisterState createState() =>
+      _WebRegisterState(auth: auth, currentUser: currentUser);
 }
 
 class _WebRegisterState extends State<WebRegister> {
+  _WebRegisterState({
+    required this.auth,
+    @required this.currentUser,
+  });
+  final FirebaseAuth auth;
+  final currentUser;
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final cpasswordController = TextEditingController();
@@ -272,7 +285,8 @@ class _WebRegisterState extends State<WebRegister> {
                                   SizedBox(
                                     height: height * 0.030,
                                   ),
-                                  GoogleButtonWeb(),
+                                  GoogleButtonWeb(
+                                      auth: auth, currentUser: currentUser),
                                 ],
                               ),
                             ],

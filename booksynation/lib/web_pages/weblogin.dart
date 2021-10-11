@@ -228,6 +228,7 @@ class _WebLoginState extends State<WebLogin> {
                                       MaterialPageRoute(
                                         fullscreenDialog: true,
                                         builder: (context) => LoadScreen(
+                                          auth: auth,
                                           currentUser: user,
                                           device: 'web',
                                         ),
@@ -235,19 +236,30 @@ class _WebLoginState extends State<WebLogin> {
                                     );
                                   });
                                 } on FirebaseAuthException catch (e) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text(
-                                        'Login unsuccessful.',
-                                      ),
-                                    ),
-                                  );
-
                                   if (e.code == 'user-not-found') {
-                                    print('No user found for that email.');
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text(
+                                          'No user found for that email.',
+                                        ),
+                                      ),
+                                    );
                                   } else if (e.code == 'wrong-password') {
-                                    print(
-                                        'Wrong password provided for that user.');
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text(
+                                          'Wrong password provided for that user.',
+                                        ),
+                                      ),
+                                    );
+                                  } else {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text(
+                                          'Login Error',
+                                        ),
+                                      ),
+                                    );
                                   }
                                 }
                               },
@@ -293,7 +305,9 @@ class _WebLoginState extends State<WebLogin> {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => WebRegister()),
+                                          builder: (context) => WebRegister(
+                                              auth: auth,
+                                              currentUser: auth.currentUser)),
                                     );
                                   },
                                   child: Text(
