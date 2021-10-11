@@ -32,7 +32,7 @@ class _WebMainState extends State<WebMain> {
 
   @override
   Widget build(BuildContext context) {
-    final name = 'Dr.' + admin.firstName + ' ' + admin.lastName;
+    final name = 'Dr. ' + admin.firstName + ' ' + admin.lastName;
     final email = userdata.email;
     final urlImage = 'images/user.png';
     // final width = MediaQuery.of(context).size.width;

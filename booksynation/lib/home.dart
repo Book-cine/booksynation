@@ -2,6 +2,7 @@ import 'package:booksynation/page/onboarding.dart';
 import 'package:booksynation/page/patient_info/widgets/patientData.dart';
 
 import 'package:booksynation/page/registerpatient.dart';
+import 'package:booksynation/splash.dart';
 import 'package:booksynation/userData.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -17,7 +18,7 @@ class Homepage extends StatefulWidget {
 class _HomepageState extends State<Homepage> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-  final User? user = FirebaseAuth.instance.currentUser;
+  final FirebaseAuth auth = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -133,35 +134,33 @@ class _HomepageState extends State<Homepage> {
                               ElevatedButton(
                                 onPressed: () async {
                                   try {
-                                    await FirebaseAuth.instance
+                                    await auth
                                         .signInWithEmailAndPassword(
                                       email: emailController.text,
                                       password: passwordController.text,
                                     )
                                         .then((result) {
-                                      if (result != null) {
-                                        patient.uniqueId = user!.uid;
-                                        getPatientData(user);
-                                        getPatientUserData(user);
-                                        Navigator.of(context).pop();
-                                        Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                            fullscreenDialog: true,
-                                            builder: (context) => OnBoard(),
+                                      User? user = auth.currentUser;
+                                      patient.uniqueId = user!.uid;
+                                      Navigator.of(context).pop();
+                                      Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                          fullscreenDialog: true,
+                                          builder: (context) => LoadScreen(
+                                            currentUser: user,
+                                            device: 'mobile',
                                           ),
-                                        );
-                                      } else {
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          const SnackBar(
-                                            content: Text(
-                                              'Login unsuccessful.',
-                                            ),
-                                          ),
-                                        );
-                                      }
+                                        ),
+                                      );
                                     });
                                   } on FirebaseAuthException catch (e) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text(
+                                          'Login unsuccessful.',
+                                        ),
+                                      ),
+                                    );
                                     if (e.code == 'user-not-found') {
                                       print('No user found for that email.');
                                     } else if (e.code == 'wrong-password') {
