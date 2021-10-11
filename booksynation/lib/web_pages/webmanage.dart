@@ -753,6 +753,7 @@ class _WebManageState extends State<WebManage> {
                               data.dateEnd,
                               data.vaccine,
                               data.category,
+                              data.currentStock,
                               data.maxStock),
                           style: ElevatedButton.styleFrom(
                             primary: Color(0xFFFFFFFF),
@@ -880,7 +881,6 @@ class _WebManageState extends State<WebManage> {
                           child: TextFormField(
                             onChanged: (value) {
                               vaccineData.maxStock = int.parse(value);
-                              vaccineData.currentStock = int.parse(value);
                             },
                             controller:
                                 TextEditingController(text: stock.toString()),
@@ -1010,6 +1010,7 @@ class _WebManageState extends State<WebManage> {
                               onChanged: (String? newValue) {
                                 setState(() {
                                   dropdownValue2 = newValue!;
+                                  vaccineData.category = newValue;
                                 });
                               },
                               items: <String>[
@@ -1203,11 +1204,19 @@ class _WebManageState extends State<WebManage> {
   }
 
   editVaccineSched(String currUid, DateTime currDateStart, DateTime currDateEnd,
-      String currVaccine, String currCategory, int currStock) {
+      String currVaccine, String currCategory, int currStock, int maxStock) {
     setState(() {
+      vaccineData.uniqueId = currUid;
+      vaccineData.dateStart = currDateStart;
+      vaccineData.dateEnd = currDateEnd;
+      vaccineData.vaccine = currVaccine;
+      vaccineData.category = currCategory;
+      vaccineData.currentStock = currStock;
+      vaccineData.maxStock = maxStock;
+
       dateEnd = currDateEnd;
       dateStart = currDateStart;
-      stock = currStock;
+      stock = maxStock;
       dropdownValue = currVaccine;
       dropdownValue2 = currCategory;
     });
