@@ -1,5 +1,38 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+List<VaccineData> vaccineSchedules = [
+  // VaccineData(
+  //   uniqueId: '',
+  //   vaccine: 'Pfizer',
+  //   dateStart: DateTime(2021, 05, 12),
+  //   dateEnd: DateTime(2021, 05, 17),
+  //   currentStock: 49,
+  //   maxStock: 50,
+  //   category: 'A5',
+  // ),
+  // VaccineData(
+  //   uniqueId: '',
+  //   vaccine: 'Janssen',
+  //   dateStart: DateTime(2021, 05, 17),
+  //   dateEnd: DateTime(2021, 05, 24),
+  //   currentStock: 49,
+  //   maxStock: 50,
+  //   category: 'A5',
+  // ),
+];
+
+// vaccineSchedules.add(
+//   VaccineData(
+//     uniqueId: vaccineData.uniqueId,
+//     vaccine: vaccineData.vaccine,
+//     dateStart: vaccineData.dateStart,
+//     dateEnd: vaccineData.dateEnd,
+//     currentStock: vaccineData.currentStock,
+//     maxStock: vaccineData.maxStock,
+//     category: vaccineData.category,
+//   ),
+// );
+
 class VaccineData {
   late String uniqueId;
   late String vaccine;
@@ -8,6 +41,7 @@ class VaccineData {
   late int currentStock;
   late int maxStock;
   late String category;
+  late bool isCreated;
 
   VaccineData({
     required this.uniqueId,
@@ -17,6 +51,7 @@ class VaccineData {
     required this.currentStock,
     required this.maxStock,
     required this.category,
+    required this.isCreated,
   });
 }
 
@@ -25,15 +60,16 @@ var vaccineCollection = FirebaseFirestore.instance.collection('vaccine');
 VaccineData vaccineData = VaccineData(
   uniqueId: '',
   vaccine: '',
-  dateStart: DateTime(2021, 1, 1),
-  dateEnd: DateTime(2021, 1, 1),
+  dateStart: DateTime.now(),
+  dateEnd: DateTime.now(),
   currentStock: 0,
   maxStock: 0,
   category: '',
+  isCreated: false,
 );
 
 createVaccineData() async {
-  await FirebaseFirestore.instance.collection('vaccine').add({}).then((value) {
+  vaccineCollection.add({}).then((value) {
     print(value.id);
     vaccineData.uniqueId = value.id;
     value.set({
@@ -44,26 +80,28 @@ createVaccineData() async {
       'CurrentStock': vaccineData.currentStock,
       'MaxStock': vaccineData.maxStock,
       'Category': vaccineData.category,
+      'isCreated': vaccineData.isCreated,
     });
   });
 }
 
-Future readVaccineData() async {
-  await vaccineCollection.doc().get().then((result) {
-    Map<String, dynamic>? value = result.data();
-    vaccineData.vaccine = value?['UID'];
-    vaccineData.vaccine = value?['Vaccine'];
-    vaccineData.dateStart = value?['DateStart'];
-    vaccineData.dateEnd = value?['DateEnd'];
-    vaccineData.currentStock = value?['CurrentStock'];
-    vaccineData.maxStock = value?['MaxStock'];
-    vaccineData.category = value?['Category'];
-  });
-}
+// Future readVaccineData() async {
+//   await vaccineCollection.doc().get().then((result) {
+//     Map<String, dynamic>? value = result.data();
+//     vaccineData.vaccine = value?['UID'];
+//     vaccineData.vaccine = value?['Vaccine'];
+//     vaccineData.dateStart = value?['DateStart'];
+//     vaccineData.dateEnd = value?['DateEnd'];
+//     vaccineData.currentStock = value?['CurrentStock'];
+//     vaccineData.maxStock = value?['MaxStock'];
+//     vaccineData.category = value?['Category'];
+//     vaccineData.category = value?['Category'];
+//   });
+// }
 
 updateVaccineData() async {
   vaccineCollection
-      .doc()
+      .doc(vaccineData.uniqueId)
       .update({
         'UID': vaccineData.uniqueId,
         'Vaccine': vaccineData.vaccine,
@@ -72,6 +110,7 @@ updateVaccineData() async {
         'CurrentStock': vaccineData.currentStock,
         'MaxStock': vaccineData.maxStock,
         'Category': vaccineData.category,
+        'isCreated': vaccineData.isCreated,
       })
       .then((value) => print('Vaccine Updated'))
       .catchError((error) => print('Failed to update vaccine: $error'));

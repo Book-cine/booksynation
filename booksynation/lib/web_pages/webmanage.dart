@@ -1,6 +1,8 @@
 import 'package:booksynation/web_pages/web_data/web_vaccines_data.dart';
 import 'package:booksynation/web_pages/web_data/web_vax_status_data.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class WebManage extends StatefulWidget {
   WebManage({Key? key}) : super(key: key);
@@ -11,32 +13,12 @@ class WebManage extends StatefulWidget {
 
 class _WebManageState extends State<WebManage> {
   String? uid;
-  int? stock;
-  String? dropdownValue;
-  String? dropdownValue2;
+  // int stock = 0;
+  TextEditingController stockController = TextEditingController();
+  String dropdownValue = 'Astrazenica';
+  String dropdownValue2 = 'A1';
   DateTime? dateStart;
   DateTime? dateEnd;
-
-  List<VaccineData> data = [
-    VaccineData(
-      uniqueId: '',
-      vaccine: 'Pfizer',
-      dateStart: DateTime(2021, 05, 12),
-      dateEnd: DateTime(2021, 05, 17),
-      currentStock: 49,
-      maxStock: 50,
-      category: 'A5',
-    ),
-    VaccineData(
-      uniqueId: '',
-      vaccine: 'Janssen',
-      dateStart: DateTime(2021, 05, 17),
-      dateEnd: DateTime(2021, 05, 24),
-      currentStock: 49,
-      maxStock: 50,
-      category: 'A5',
-    ),
-  ];
 
   StatusData statusData = StatusData(250, 100, 10, 5);
 
@@ -139,11 +121,12 @@ class _WebManageState extends State<WebManage> {
                         children: [
                           Container(
                             child: Text(
-                                data.indexWhere((element) =>
+                                vaccineSchedules.indexWhere((element) =>
                                             element.vaccine == 'Pfizer') >=
                                         0
-                                    ? data[data.indexWhere((element) =>
-                                            element.vaccine == 'Pfizer')]
+                                    ? vaccineSchedules[vaccineSchedules
+                                            .indexWhere((element) =>
+                                                element.vaccine == 'Pfizer')]
                                         .currentStock
                                         .toString()
                                     : '0',
@@ -155,12 +138,14 @@ class _WebManageState extends State<WebManage> {
                           ),
                           Container(
                             child: Text(
-                                data.indexWhere((element) =>
+                                vaccineSchedules.indexWhere((element) =>
                                             element.vaccine == 'Pfizer') >=
                                         0
                                     ? '/' +
-                                        data[data.indexWhere((element) =>
-                                                element.vaccine == 'Pfizer')]
+                                        vaccineSchedules[vaccineSchedules
+                                                .indexWhere((element) =>
+                                                    element.vaccine ==
+                                                    'Pfizer')]
                                             .maxStock
                                             .toString()
                                     : '/0',
@@ -208,11 +193,13 @@ class _WebManageState extends State<WebManage> {
                         children: [
                           Container(
                             child: Text(
-                                data.indexWhere((element) =>
+                                vaccineSchedules.indexWhere((element) =>
                                             element.vaccine == 'Astrazenica') >=
                                         0
-                                    ? data[data.indexWhere((element) =>
-                                            element.vaccine == 'Astrazenica')]
+                                    ? vaccineSchedules[vaccineSchedules
+                                            .indexWhere((element) =>
+                                                element.vaccine ==
+                                                'Astrazenica')]
                                         .currentStock
                                         .toString()
                                     : '0',
@@ -224,13 +211,14 @@ class _WebManageState extends State<WebManage> {
                           ),
                           Container(
                             child: Text(
-                                data.indexWhere((element) =>
+                                vaccineSchedules.indexWhere((element) =>
                                             element.vaccine == 'Astrazenica') >=
                                         0
                                     ? '/' +
-                                        data[data.indexWhere((element) =>
-                                                element.vaccine ==
-                                                'Astrazenica')]
+                                        vaccineSchedules[vaccineSchedules
+                                                .indexWhere((element) =>
+                                                    element.vaccine ==
+                                                    'Astrazenica')]
                                             .maxStock
                                             .toString()
                                     : '/0',
@@ -278,11 +266,12 @@ class _WebManageState extends State<WebManage> {
                         children: [
                           Container(
                             child: Text(
-                                data.indexWhere((element) =>
+                                vaccineSchedules.indexWhere((element) =>
                                             element.vaccine == 'Moderna') >=
                                         0
-                                    ? data[data.indexWhere((element) =>
-                                            element.vaccine == 'Moderna')]
+                                    ? vaccineSchedules[vaccineSchedules
+                                            .indexWhere((element) =>
+                                                element.vaccine == 'Moderna')]
                                         .currentStock
                                         .toString()
                                     : '0',
@@ -294,12 +283,14 @@ class _WebManageState extends State<WebManage> {
                           ),
                           Container(
                             child: Text(
-                                data.indexWhere((element) =>
+                                vaccineSchedules.indexWhere((element) =>
                                             element.vaccine == 'Moderna') >=
                                         0
                                     ? '/' +
-                                        data[data.indexWhere((element) =>
-                                                element.vaccine == 'Moderna')]
+                                        vaccineSchedules[vaccineSchedules
+                                                .indexWhere((element) =>
+                                                    element.vaccine ==
+                                                    'Moderna')]
                                             .maxStock
                                             .toString()
                                     : '/0',
@@ -347,11 +338,12 @@ class _WebManageState extends State<WebManage> {
                         children: [
                           Container(
                             child: Text(
-                                data.indexWhere((element) =>
+                                vaccineSchedules.indexWhere((element) =>
                                             element.vaccine == 'Janssen') >=
                                         0
-                                    ? data[data.indexWhere((element) =>
-                                            element.vaccine == 'Janssen')]
+                                    ? vaccineSchedules[vaccineSchedules
+                                            .indexWhere((element) =>
+                                                element.vaccine == 'Janssen')]
                                         .currentStock
                                         .toString()
                                     : '0',
@@ -363,12 +355,14 @@ class _WebManageState extends State<WebManage> {
                           ),
                           Container(
                             child: Text(
-                                data.indexWhere((element) =>
+                                vaccineSchedules.indexWhere((element) =>
                                             element.vaccine == 'Janssen') >=
                                         0
                                     ? '/' +
-                                        data[data.indexWhere((element) =>
-                                                element.vaccine == 'Janssen')]
+                                        vaccineSchedules[vaccineSchedules
+                                                .indexWhere((element) =>
+                                                    element.vaccine ==
+                                                    'Janssen')]
                                             .maxStock
                                             .toString()
                                     : '/0',
@@ -416,11 +410,12 @@ class _WebManageState extends State<WebManage> {
                         children: [
                           Container(
                             child: Text(
-                                data.indexWhere((element) =>
+                                vaccineSchedules.indexWhere((element) =>
                                             element.vaccine == 'Sinovac') >=
                                         0
-                                    ? data[data.indexWhere((element) =>
-                                            element.vaccine == 'Sinovac')]
+                                    ? vaccineSchedules[vaccineSchedules
+                                            .indexWhere((element) =>
+                                                element.vaccine == 'Sinovac')]
                                         .currentStock
                                         .toString()
                                     : '0',
@@ -432,12 +427,14 @@ class _WebManageState extends State<WebManage> {
                           ),
                           Container(
                             child: Text(
-                                data.indexWhere((element) =>
+                                vaccineSchedules.indexWhere((element) =>
                                             element.vaccine == 'Sinovac') >=
                                         0
                                     ? '/' +
-                                        data[data.indexWhere((element) =>
-                                                element.vaccine == 'Sinovac')]
+                                        vaccineSchedules[vaccineSchedules
+                                                .indexWhere((element) =>
+                                                    element.vaccine ==
+                                                    'Sinovac')]
                                             .maxStock
                                             .toString()
                                     : '/0',
@@ -689,103 +686,161 @@ class _WebManageState extends State<WebManage> {
   }
 
   Widget buildTable(final width, final height) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        SingleChildScrollView(
-          scrollDirection: Axis.vertical,
-          child: DataTable(
-            columns: const <DataColumn>[
-              DataColumn(
-                label: Text(
-                  'Date',
-                  style: TextStyle(fontStyle: FontStyle.italic),
+    final Stream<QuerySnapshot> _usersStream =
+        FirebaseFirestore.instance.collection('vaccine').snapshots();
+
+    return StreamBuilder<QuerySnapshot>(
+        stream: _usersStream,
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (snapshot.hasError) {
+            return Text('Something went wrong');
+          }
+
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Align(
+              alignment: Alignment.center,
+              child: SizedBox(
+                width: width * 0.10,
+                height: height * 0.10,
+                child: CircularProgressIndicator(
+                  strokeWidth: 10,
+                  valueColor: AlwaysStoppedAnimation<Color>(
+                    Colors.greenAccent.withOpacity(0.5),
+                  ),
                 ),
               ),
-              DataColumn(
-                label: Text(
-                  'Stock',
-                  style: TextStyle(fontStyle: FontStyle.italic),
-                ),
-              ),
-              DataColumn(
-                label: Text(
-                  'Category',
-                  style: TextStyle(fontStyle: FontStyle.italic),
-                ),
-              ),
-              DataColumn(
-                label: Text(
-                  'Vaccine',
-                  style: TextStyle(fontStyle: FontStyle.italic),
-                ),
-              ),
-              DataColumn(
-                label: Text(
-                  'Actions',
-                  style: TextStyle(fontStyle: FontStyle.italic),
+            );
+          }
+
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              SingleChildScrollView(
+                scrollDirection: Axis.vertical,
+                child: DataTable(
+                  columns: const <DataColumn>[
+                    DataColumn(
+                      label: Text(
+                        'Date',
+                        style: TextStyle(fontStyle: FontStyle.italic),
+                      ),
+                    ),
+                    DataColumn(
+                      label: Text(
+                        'Stock',
+                        style: TextStyle(fontStyle: FontStyle.italic),
+                      ),
+                    ),
+                    DataColumn(
+                      label: Text(
+                        'Category',
+                        style: TextStyle(fontStyle: FontStyle.italic),
+                      ),
+                    ),
+                    DataColumn(
+                      label: Text(
+                        'Vaccine',
+                        style: TextStyle(fontStyle: FontStyle.italic),
+                      ),
+                    ),
+                    DataColumn(
+                      label: Text(
+                        'Actions',
+                        style: TextStyle(fontStyle: FontStyle.italic),
+                      ),
+                    ),
+                  ],
+                  rows: snapshot.data!.docs.map((DocumentSnapshot document) {
+                    Map<String, dynamic> data =
+                        document.data()! as Map<String, dynamic>;
+
+                    final DateFormat formatter = DateFormat('MM/dd/yy');
+                    String getDateStart() {
+                      DateTime dateStart = data['DateStart'].toDate();
+                      String formattedStart = formatter.format(dateStart);
+                      return formattedStart;
+                    }
+
+                    String getDateEnd() {
+                      DateTime dateEnd = data['DateEnd'].toDate();
+                      String formattedEnd = formatter.format(dateEnd);
+                      return formattedEnd;
+                    }
+
+                    vaccineSchedules.add(
+                      VaccineData(
+                        uniqueId: data['UID'],
+                        vaccine: data['Vaccine'],
+                        dateStart: data['DateStart'].toDate(),
+                        dateEnd: data['DateEnd'].toDate(),
+                        currentStock: data['CurrentStock'],
+                        maxStock: data['MaxStock'],
+                        category: data['Category'],
+                        isCreated: data['isCreated'],
+                      ),
+                    );
+
+                    return DataRow(cells: [
+                      DataCell(
+                        Container(
+                          child: Text(getDateStart() + ' - ' + getDateEnd()),
+                        ),
+                      ),
+                      DataCell(Container(
+                          child: Text(data['CurrentStock'].toString() +
+                              '/' +
+                              data['MaxStock'].toString()))),
+                      DataCell(Container(child: Text(data['Category']))),
+                      DataCell(Container(child: Text(data['Vaccine']))),
+                      DataCell(
+                        Container(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              ElevatedButton(
+                                onPressed: () => editVaccineSched(
+                                  data['UID'],
+                                  data['DateStart'].toDate(),
+                                  data['DateEnd'].toDate(),
+                                  data['Vaccine'],
+                                  data['Category'],
+                                  data['CurrentStock'],
+                                  data['MaxStock'],
+                                  data['isCreated'],
+                                ),
+                                style: ElevatedButton.styleFrom(
+                                  primary: Color(0xFFFFFFFF),
+                                  fixedSize: Size(
+                                    width * 0.1,
+                                    height * 0.045,
+                                  ),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(4.0),
+                                  ),
+                                ),
+                                child: Text(
+                                  'Edit',
+                                  style: TextStyle(
+                                    color: Color(0xFF242731),
+                                    fontFamily: 'Mulish',
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: height * 0.018,
+                                    decoration: TextDecoration.none,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ]);
+                  }).toList(),
                 ),
               ),
             ],
-            rows: data.map((data) {
-              return DataRow(cells: [
-                DataCell(Container(
-                    child: Text(
-                        '${data.dateStart.month}/${data.dateStart.day}/${data.dateStart.year}' +
-                            ' - ' +
-                            '${data.dateEnd.month}/${data.dateEnd.day}/${data.dateEnd.year}'))),
-                DataCell(Container(
-                    child: Text(data.currentStock.toString() +
-                        '/' +
-                        data.maxStock.toString()))),
-                DataCell(Container(child: Text(data.category))),
-                DataCell(Container(child: Text(data.vaccine))),
-                DataCell(
-                  Container(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        ElevatedButton(
-                          onPressed: () => editVaccineSched(
-                              data.uniqueId,
-                              data.dateStart,
-                              data.dateEnd,
-                              data.vaccine,
-                              data.category,
-                              data.currentStock,
-                              data.maxStock),
-                          style: ElevatedButton.styleFrom(
-                            primary: Color(0xFFFFFFFF),
-                            fixedSize: Size(
-                              width * 0.1,
-                              height * 0.045,
-                            ),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(4.0),
-                            ),
-                          ),
-                          child: Text(
-                            'Edit',
-                            style: TextStyle(
-                              color: Color(0xFF242731),
-                              fontFamily: 'Mulish',
-                              fontWeight: FontWeight.w600,
-                              fontSize: height * 0.018,
-                              decoration: TextDecoration.none,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ]);
-            }).toList(),
-          ),
-        ),
-      ],
-    );
+          );
+        });
   }
 
   Widget buildScheduler(final width, final height) {
@@ -881,9 +936,11 @@ class _WebManageState extends State<WebManage> {
                           child: TextFormField(
                             onChanged: (value) {
                               vaccineData.maxStock = int.parse(value);
+                              vaccineData.currentStock = (vaccineData.isCreated)
+                                  ? vaccineData.currentStock
+                                  : int.parse(value);
                             },
-                            controller:
-                                TextEditingController(text: stock.toString()),
+                            controller: stockController,
                             style: TextStyle(
                               color: Color(0xFF333333),
                               fontFamily: 'Poppins',
@@ -945,7 +1002,6 @@ class _WebManageState extends State<WebManage> {
                               onChanged: (String? newValue) {
                                 setState(() {
                                   dropdownValue = newValue!;
-                                  vaccineData.vaccine = dropdownValue!;
                                 });
                               },
                               items: <String>[
@@ -1010,7 +1066,6 @@ class _WebManageState extends State<WebManage> {
                               onChanged: (String? newValue) {
                                 setState(() {
                                   dropdownValue2 = newValue!;
-                                  vaccineData.category = newValue;
                                 });
                               },
                               items: <String>[
@@ -1049,22 +1104,32 @@ class _WebManageState extends State<WebManage> {
                 Spacer(),
                 ElevatedButton(
                   onPressed: () async {
-                    createVaccineData();
-                    setState(
-                      () {
-                        data.add(
-                          VaccineData(
-                            uniqueId: vaccineData.uniqueId,
-                            vaccine: vaccineData.vaccine,
-                            dateStart: vaccineData.dateStart,
-                            dateEnd: vaccineData.dateEnd,
-                            currentStock: vaccineData.currentStock,
-                            maxStock: vaccineData.maxStock,
-                            category: vaccineData.category,
-                          ),
-                        );
-                      },
-                    );
+                    vaccineData.vaccine = dropdownValue;
+                    vaccineData.category = dropdownValue2;
+                    vaccineData.dateStart = dateStart!;
+                    vaccineData.dateEnd = dateEnd!;
+                    if (vaccineData.isCreated) {
+                      updateVaccineData();
+                      setState(
+                        () {
+                          vaccineData.isCreated = false;
+                        },
+                      );
+                    } else {
+                      setState(
+                        () {
+                          vaccineData.isCreated = true;
+                        },
+                      );
+                      createVaccineData();
+                    }
+                    setState(() {
+                      dateEnd = DateTime.now();
+                      dateStart = DateTime.now();
+                      stockController.text = '';
+                      dropdownValue = 'Astrazenica';
+                      dropdownValue2 = 'A1';
+                    });
                   },
                   style: ElevatedButton.styleFrom(
                     primary: Color(0xFF26A98A),
@@ -1183,7 +1248,6 @@ class _WebManageState extends State<WebManage> {
 
     setState(() {
       dateStart = newDate;
-      vaccineData.dateStart = newDate;
     });
   }
 
@@ -1199,12 +1263,18 @@ class _WebManageState extends State<WebManage> {
 
     setState(() {
       dateEnd = newDate;
-      vaccineData.dateEnd = newDate;
     });
   }
 
-  editVaccineSched(String currUid, DateTime currDateStart, DateTime currDateEnd,
-      String currVaccine, String currCategory, int currStock, int maxStock) {
+  editVaccineSched(
+      String currUid,
+      DateTime currDateStart,
+      DateTime currDateEnd,
+      String currVaccine,
+      String currCategory,
+      int currStock,
+      int maxStock,
+      bool isCreated) {
     setState(() {
       vaccineData.uniqueId = currUid;
       vaccineData.dateStart = currDateStart;
@@ -1213,10 +1283,11 @@ class _WebManageState extends State<WebManage> {
       vaccineData.category = currCategory;
       vaccineData.currentStock = currStock;
       vaccineData.maxStock = maxStock;
+      vaccineData.isCreated = isCreated;
 
       dateEnd = currDateEnd;
       dateStart = currDateStart;
-      stock = maxStock;
+      stockController.text = maxStock.toString();
       dropdownValue = currVaccine;
       dropdownValue2 = currCategory;
     });
