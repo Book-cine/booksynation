@@ -13,7 +13,6 @@ class WebManage extends StatefulWidget {
 
 class _WebManageState extends State<WebManage> {
   String? uid;
-  // int stock = 0;
   TextEditingController stockController = TextEditingController();
   String dropdownValue = 'Astrazenica';
   String dropdownValue2 = 'A1';
@@ -22,17 +21,39 @@ class _WebManageState extends State<WebManage> {
 
   StatusData statusData = StatusData(250, 100, 10, 5);
 
+  final Stream<QuerySnapshot> _usersStream =
+      FirebaseFirestore.instance.collection('vaccine').snapshots();
+
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width - 260;
     final height = MediaQuery.of(context).size.height - 60;
+    FirebaseFirestore.instance
+        .collection('vaccine')
+        .snapshots()
+        .map((QuerySnapshot docSnap) {
+      Map<String, dynamic> data = docSnap.docs as Map<String, dynamic>;
+
+      addVaccineSched(
+        data['UID'],
+        data['Vaccine'],
+        data['DateStart'].toDate(),
+        data['DateEnd'].toDate(),
+        data['CurrentStock'],
+        data['MaxStock'],
+        data['Category'],
+        data['isCreated'],
+      );
+      print('Was here' + data['UID']);
+    });
+
     return Container(
       height: height,
       width: width,
       child: Column(
         children: [
           Spacer(flex: 2),
-          buildHeaderVaccines(),
+          buildHeaderVaccines(width, height),
           Spacer(flex: 2),
           Expanded(
             flex: 40,
@@ -84,378 +105,416 @@ class _WebManageState extends State<WebManage> {
     );
   }
 
-  Widget buildHeaderVaccines() {
-    return Expanded(
-      flex: 10,
-      child: Container(
-        child: Row(
-          children: [
-            Spacer(flex: 1),
-            Expanded(
-              flex: 10,
-              child: Container(
-                padding: EdgeInsets.only(left: 20, top: 20),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(16),
-                  color: Color(0xFFF7F9FA),
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      child: Row(
-                        children: [
-                          Container(
-                            child: Text('Pfizer',
-                                style: TextStyle(
-                                    fontFamily: 'Poppins',
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 20,
-                                    color: Color(0xFF000000))),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      child: Row(
-                        children: [
-                          Container(
-                            child: Text(
-                                vaccineSchedules.indexWhere((element) =>
-                                            element.vaccine == 'Pfizer') >=
-                                        0
-                                    ? vaccineSchedules[vaccineSchedules
-                                            .indexWhere((element) =>
-                                                element.vaccine == 'Pfizer')]
-                                        .currentStock
-                                        .toString()
-                                    : '0',
-                                style: TextStyle(
-                                    fontFamily: 'Poppins',
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 40,
-                                    color: Color(0xFFEA3D2F))),
-                          ),
-                          Container(
-                            child: Text(
-                                vaccineSchedules.indexWhere((element) =>
-                                            element.vaccine == 'Pfizer') >=
-                                        0
-                                    ? '/' +
-                                        vaccineSchedules[vaccineSchedules
-                                                .indexWhere((element) =>
-                                                    element.vaccine ==
-                                                    'Pfizer')]
-                                            .maxStock
-                                            .toString()
-                                    : '/0',
-                                style: TextStyle(
-                                    fontFamily: 'Poppins',
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 24,
-                                    color: Color(0xFFBFBFBF))),
-                          )
-                        ],
-                      ),
-                    ),
-                  ],
+  Widget buildHeaderVaccines(double width, double height) {
+    return StreamBuilder<QuerySnapshot>(
+        stream: _usersStream,
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (snapshot.hasError) {
+            return Text('Something went wrong');
+          }
+
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Align(
+              alignment: Alignment.center,
+              child: SizedBox(
+                width: width * 0.10,
+                height: height * 0.10,
+                child: CircularProgressIndicator(
+                  strokeWidth: 10,
+                  valueColor: AlwaysStoppedAnimation<Color>(
+                    Colors.greenAccent.withOpacity(0.5),
+                  ),
                 ),
               ),
-            ),
-            Spacer(flex: 1),
-            Expanded(
-              flex: 10,
-              child: Container(
-                padding: EdgeInsets.only(left: 20, top: 20),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(16),
-                  color: Color(0xFFF7F9FA),
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      child: Row(
+            );
+          }
+
+          return Expanded(
+            flex: 10,
+            child: Container(
+              child: Row(
+                children: [
+                  Spacer(flex: 1),
+                  Expanded(
+                    flex: 10,
+                    child: Container(
+                      padding: EdgeInsets.only(left: 20, top: 20),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(16),
+                        color: Color(0xFFF7F9FA),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Container(
-                            child: Text('Astrazenica',
-                                style: TextStyle(
-                                    fontFamily: 'Poppins',
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 20,
-                                    color: Color(0xFF000000))),
+                            child: Row(
+                              children: [
+                                Container(
+                                  child: Text('Pfizer',
+                                      style: TextStyle(
+                                          fontFamily: 'Poppins',
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 20,
+                                          color: Color(0xFF000000))),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            child: Row(
+                              children: [
+                                Container(
+                                  child: Text(
+                                      vaccineSchedules.indexWhere((element) =>
+                                                  element.vaccine ==
+                                                  'Pfizer') >=
+                                              0
+                                          ? vaccineSchedules[vaccineSchedules
+                                                  .indexWhere((element) =>
+                                                      element.vaccine ==
+                                                      'Pfizer')]
+                                              .currentStock
+                                              .toString()
+                                          : '0',
+                                      style: TextStyle(
+                                          fontFamily: 'Poppins',
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 40,
+                                          color: Color(0xFFEA3D2F))),
+                                ),
+                                Container(
+                                  child: Text(
+                                      vaccineSchedules.indexWhere((element) =>
+                                                  element.vaccine ==
+                                                  'Pfizer') >=
+                                              0
+                                          ? '/' +
+                                              vaccineSchedules[vaccineSchedules
+                                                      .indexWhere((element) =>
+                                                          element.vaccine ==
+                                                          'Pfizer')]
+                                                  .maxStock
+                                                  .toString()
+                                          : '/0',
+                                      style: TextStyle(
+                                          fontFamily: 'Poppins',
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 24,
+                                          color: Color(0xFFBFBFBF))),
+                                )
+                              ],
+                            ),
                           ),
                         ],
                       ),
                     ),
-                    Container(
-                      child: Row(
+                  ),
+                  Spacer(flex: 1),
+                  Expanded(
+                    flex: 10,
+                    child: Container(
+                      padding: EdgeInsets.only(left: 20, top: 20),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(16),
+                        color: Color(0xFFF7F9FA),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Container(
-                            child: Text(
-                                vaccineSchedules.indexWhere((element) =>
-                                            element.vaccine == 'Astrazenica') >=
-                                        0
-                                    ? vaccineSchedules[vaccineSchedules
-                                            .indexWhere((element) =>
-                                                element.vaccine ==
-                                                'Astrazenica')]
-                                        .currentStock
-                                        .toString()
-                                    : '0',
-                                style: TextStyle(
-                                    fontFamily: 'Poppins',
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 40,
-                                    color: Color(0xFF367BF5))),
+                            child: Row(
+                              children: [
+                                Container(
+                                  child: Text('Astrazenica',
+                                      style: TextStyle(
+                                          fontFamily: 'Poppins',
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 20,
+                                          color: Color(0xFF000000))),
+                                ),
+                              ],
+                            ),
                           ),
                           Container(
-                            child: Text(
-                                vaccineSchedules.indexWhere((element) =>
-                                            element.vaccine == 'Astrazenica') >=
-                                        0
-                                    ? '/' +
-                                        vaccineSchedules[vaccineSchedules
-                                                .indexWhere((element) =>
-                                                    element.vaccine ==
-                                                    'Astrazenica')]
-                                            .maxStock
-                                            .toString()
-                                    : '/0',
-                                style: TextStyle(
-                                    fontFamily: 'Poppins',
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 24,
-                                    color: Color(0xFFBFBFBF))),
-                          )
+                            child: Row(
+                              children: [
+                                Container(
+                                  child: Text(
+                                      vaccineSchedules.indexWhere((element) =>
+                                                  element.vaccine ==
+                                                  'Astrazenica') >=
+                                              0
+                                          ? vaccineSchedules[vaccineSchedules
+                                                  .indexWhere((element) =>
+                                                      element.vaccine ==
+                                                      'Astrazenica')]
+                                              .currentStock
+                                              .toString()
+                                          : '0',
+                                      style: TextStyle(
+                                          fontFamily: 'Poppins',
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 40,
+                                          color: Color(0xFF367BF5))),
+                                ),
+                                Container(
+                                  child: Text(
+                                      vaccineSchedules.indexWhere((element) =>
+                                                  element.vaccine ==
+                                                  'Astrazenica') >=
+                                              0
+                                          ? '/' +
+                                              vaccineSchedules[vaccineSchedules
+                                                      .indexWhere((element) =>
+                                                          element.vaccine ==
+                                                          'Astrazenica')]
+                                                  .maxStock
+                                                  .toString()
+                                          : '/0',
+                                      style: TextStyle(
+                                          fontFamily: 'Poppins',
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 24,
+                                          color: Color(0xFFBFBFBF))),
+                                )
+                              ],
+                            ),
+                          ),
                         ],
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                  Spacer(flex: 1),
+                  Expanded(
+                    flex: 10,
+                    child: Container(
+                      padding: EdgeInsets.only(left: 20, top: 20),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(16),
+                        color: Color(0xFFF7F9FA),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            child: Row(
+                              children: [
+                                Container(
+                                  child: Text('Moderna',
+                                      style: TextStyle(
+                                          fontFamily: 'Poppins',
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 20,
+                                          color: Color(0xFF000000))),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            child: Row(
+                              children: [
+                                Container(
+                                  child: Text(
+                                      vaccineSchedules.indexWhere((element) =>
+                                                  element.vaccine ==
+                                                  'Moderna') >=
+                                              0
+                                          ? vaccineSchedules[vaccineSchedules
+                                                  .indexWhere((element) =>
+                                                      element.vaccine ==
+                                                      'Moderna')]
+                                              .currentStock
+                                              .toString()
+                                          : '0',
+                                      style: TextStyle(
+                                          fontFamily: 'Poppins',
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 40,
+                                          color: Color(0xFF2FA84F))),
+                                ),
+                                Container(
+                                  child: Text(
+                                      vaccineSchedules.indexWhere((element) =>
+                                                  element.vaccine ==
+                                                  'Moderna') >=
+                                              0
+                                          ? '/' +
+                                              vaccineSchedules[vaccineSchedules
+                                                      .indexWhere((element) =>
+                                                          element.vaccine ==
+                                                          'Moderna')]
+                                                  .maxStock
+                                                  .toString()
+                                          : '/0',
+                                      style: TextStyle(
+                                          fontFamily: 'Poppins',
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 24,
+                                          color: Color(0xFFBFBFBF))),
+                                )
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Spacer(flex: 1),
+                  Expanded(
+                    flex: 10,
+                    child: Container(
+                      padding: EdgeInsets.only(left: 20, top: 20),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(16),
+                        color: Color(0xFFF7F9FA),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            child: Row(
+                              children: [
+                                Container(
+                                  child: Text('Janssen',
+                                      style: TextStyle(
+                                          fontFamily: 'Poppins',
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 20,
+                                          color: Color(0xFF000000))),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            child: Row(
+                              children: [
+                                Container(
+                                  child: Text(
+                                      vaccineSchedules.indexWhere((element) =>
+                                                  element.vaccine ==
+                                                  'Janssen') >=
+                                              0
+                                          ? vaccineSchedules[vaccineSchedules
+                                                  .indexWhere((element) =>
+                                                      element.vaccine ==
+                                                      'Janssen')]
+                                              .currentStock
+                                              .toString()
+                                          : '0',
+                                      style: TextStyle(
+                                          fontFamily: 'Poppins',
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 40,
+                                          color: Color(0xFFF3AA18))),
+                                ),
+                                Container(
+                                  child: Text(
+                                      vaccineSchedules.indexWhere((element) =>
+                                                  element.vaccine ==
+                                                  'Janssen') >=
+                                              0
+                                          ? '/' +
+                                              vaccineSchedules[vaccineSchedules
+                                                      .indexWhere((element) =>
+                                                          element.vaccine ==
+                                                          'Janssen')]
+                                                  .maxStock
+                                                  .toString()
+                                          : '/0',
+                                      style: TextStyle(
+                                          fontFamily: 'Poppins',
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 24,
+                                          color: Color(0xFFBFBFBF))),
+                                )
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Spacer(flex: 1),
+                  Expanded(
+                    flex: 10,
+                    child: Container(
+                      padding: EdgeInsets.only(left: 20, top: 20),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(16),
+                        color: Color(0xFFF7F9FA),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            child: Row(
+                              children: [
+                                Container(
+                                  child: Text('Sinovac',
+                                      style: TextStyle(
+                                          fontFamily: 'Poppins',
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 20,
+                                          color: Color(0xFF000000))),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            child: Row(
+                              children: [
+                                Container(
+                                  child: Text(
+                                      vaccineSchedules.indexWhere((element) =>
+                                                  element.vaccine ==
+                                                  'Sinovac') >=
+                                              0
+                                          ? vaccineSchedules[vaccineSchedules
+                                                  .indexWhere((element) =>
+                                                      element.vaccine ==
+                                                      'Sinovac')]
+                                              .currentStock
+                                              .toString()
+                                          : '0',
+                                      style: TextStyle(
+                                          fontFamily: 'Poppins',
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 40,
+                                          color: Color(0xFF6E8987))),
+                                ),
+                                Container(
+                                  child: Text(
+                                      vaccineSchedules.indexWhere((element) =>
+                                                  element.vaccine ==
+                                                  'Sinovac') >=
+                                              0
+                                          ? '/' +
+                                              vaccineSchedules[vaccineSchedules
+                                                      .indexWhere((element) =>
+                                                          element.vaccine ==
+                                                          'Sinovac')]
+                                                  .maxStock
+                                                  .toString()
+                                          : '/0',
+                                      style: TextStyle(
+                                          fontFamily: 'Poppins',
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 24,
+                                          color: Color(0xFFBFBFBF))),
+                                )
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Spacer(flex: 1),
+                ],
               ),
             ),
-            Spacer(flex: 1),
-            Expanded(
-              flex: 10,
-              child: Container(
-                padding: EdgeInsets.only(left: 20, top: 20),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(16),
-                  color: Color(0xFFF7F9FA),
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      child: Row(
-                        children: [
-                          Container(
-                            child: Text('Moderna',
-                                style: TextStyle(
-                                    fontFamily: 'Poppins',
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 20,
-                                    color: Color(0xFF000000))),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      child: Row(
-                        children: [
-                          Container(
-                            child: Text(
-                                vaccineSchedules.indexWhere((element) =>
-                                            element.vaccine == 'Moderna') >=
-                                        0
-                                    ? vaccineSchedules[vaccineSchedules
-                                            .indexWhere((element) =>
-                                                element.vaccine == 'Moderna')]
-                                        .currentStock
-                                        .toString()
-                                    : '0',
-                                style: TextStyle(
-                                    fontFamily: 'Poppins',
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 40,
-                                    color: Color(0xFF2FA84F))),
-                          ),
-                          Container(
-                            child: Text(
-                                vaccineSchedules.indexWhere((element) =>
-                                            element.vaccine == 'Moderna') >=
-                                        0
-                                    ? '/' +
-                                        vaccineSchedules[vaccineSchedules
-                                                .indexWhere((element) =>
-                                                    element.vaccine ==
-                                                    'Moderna')]
-                                            .maxStock
-                                            .toString()
-                                    : '/0',
-                                style: TextStyle(
-                                    fontFamily: 'Poppins',
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 24,
-                                    color: Color(0xFFBFBFBF))),
-                          )
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Spacer(flex: 1),
-            Expanded(
-              flex: 10,
-              child: Container(
-                padding: EdgeInsets.only(left: 20, top: 20),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(16),
-                  color: Color(0xFFF7F9FA),
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      child: Row(
-                        children: [
-                          Container(
-                            child: Text('Janssen',
-                                style: TextStyle(
-                                    fontFamily: 'Poppins',
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 20,
-                                    color: Color(0xFF000000))),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      child: Row(
-                        children: [
-                          Container(
-                            child: Text(
-                                vaccineSchedules.indexWhere((element) =>
-                                            element.vaccine == 'Janssen') >=
-                                        0
-                                    ? vaccineSchedules[vaccineSchedules
-                                            .indexWhere((element) =>
-                                                element.vaccine == 'Janssen')]
-                                        .currentStock
-                                        .toString()
-                                    : '0',
-                                style: TextStyle(
-                                    fontFamily: 'Poppins',
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 40,
-                                    color: Color(0xFFF3AA18))),
-                          ),
-                          Container(
-                            child: Text(
-                                vaccineSchedules.indexWhere((element) =>
-                                            element.vaccine == 'Janssen') >=
-                                        0
-                                    ? '/' +
-                                        vaccineSchedules[vaccineSchedules
-                                                .indexWhere((element) =>
-                                                    element.vaccine ==
-                                                    'Janssen')]
-                                            .maxStock
-                                            .toString()
-                                    : '/0',
-                                style: TextStyle(
-                                    fontFamily: 'Poppins',
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 24,
-                                    color: Color(0xFFBFBFBF))),
-                          )
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Spacer(flex: 1),
-            Expanded(
-              flex: 10,
-              child: Container(
-                padding: EdgeInsets.only(left: 20, top: 20),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(16),
-                  color: Color(0xFFF7F9FA),
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      child: Row(
-                        children: [
-                          Container(
-                            child: Text('Sinovac',
-                                style: TextStyle(
-                                    fontFamily: 'Poppins',
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 20,
-                                    color: Color(0xFF000000))),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      child: Row(
-                        children: [
-                          Container(
-                            child: Text(
-                                vaccineSchedules.indexWhere((element) =>
-                                            element.vaccine == 'Sinovac') >=
-                                        0
-                                    ? vaccineSchedules[vaccineSchedules
-                                            .indexWhere((element) =>
-                                                element.vaccine == 'Sinovac')]
-                                        .currentStock
-                                        .toString()
-                                    : '0',
-                                style: TextStyle(
-                                    fontFamily: 'Poppins',
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 40,
-                                    color: Color(0xFF6E8987))),
-                          ),
-                          Container(
-                            child: Text(
-                                vaccineSchedules.indexWhere((element) =>
-                                            element.vaccine == 'Sinovac') >=
-                                        0
-                                    ? '/' +
-                                        vaccineSchedules[vaccineSchedules
-                                                .indexWhere((element) =>
-                                                    element.vaccine ==
-                                                    'Sinovac')]
-                                            .maxStock
-                                            .toString()
-                                    : '/0',
-                                style: TextStyle(
-                                    fontFamily: 'Poppins',
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 24,
-                                    color: Color(0xFFBFBFBF))),
-                          )
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Spacer(flex: 1),
-          ],
-        ),
-      ),
-    );
+          );
+        });
   }
 
   Widget buildFooterUpdates() {
@@ -686,9 +745,6 @@ class _WebManageState extends State<WebManage> {
   }
 
   Widget buildTable(final width, final height) {
-    final Stream<QuerySnapshot> _usersStream =
-        FirebaseFirestore.instance.collection('vaccine').snapshots();
-
     return StreamBuilder<QuerySnapshot>(
         stream: _usersStream,
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -768,17 +824,15 @@ class _WebManageState extends State<WebManage> {
                       return formattedEnd;
                     }
 
-                    vaccineSchedules.add(
-                      VaccineData(
-                        uniqueId: data['UID'],
-                        vaccine: data['Vaccine'],
-                        dateStart: data['DateStart'].toDate(),
-                        dateEnd: data['DateEnd'].toDate(),
-                        currentStock: data['CurrentStock'],
-                        maxStock: data['MaxStock'],
-                        category: data['Category'],
-                        isCreated: data['isCreated'],
-                      ),
+                    addVaccineSched(
+                      data['UID'],
+                      data['Vaccine'],
+                      data['DateStart'].toDate(),
+                      data['DateEnd'].toDate(),
+                      data['CurrentStock'],
+                      data['MaxStock'],
+                      data['Category'],
+                      data['isCreated'],
                     );
 
                     return DataRow(cells: [
@@ -1264,6 +1318,27 @@ class _WebManageState extends State<WebManage> {
     setState(() {
       dateEnd = newDate;
     });
+  }
+
+  addVaccineSched(
+      String currUid,
+      String currVaccine,
+      DateTime currDateStart,
+      DateTime currDateEnd,
+      int currStock,
+      int maxStock,
+      String currCategory,
+      bool isCreated) {
+    vaccineSchedules.add(VaccineData(
+      uniqueId: currUid,
+      vaccine: currVaccine,
+      dateStart: currDateStart,
+      dateEnd: currDateEnd,
+      currentStock: currStock,
+      maxStock: maxStock,
+      category: currCategory,
+      isCreated: isCreated,
+    ));
   }
 
   editVaccineSched(
