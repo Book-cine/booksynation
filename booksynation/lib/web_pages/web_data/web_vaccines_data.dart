@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+List<VaccineData> cloneVaccineSchedules = [];
 List<VaccineData> vaccineSchedules = [
   // VaccineData(
   //   uniqueId: '',

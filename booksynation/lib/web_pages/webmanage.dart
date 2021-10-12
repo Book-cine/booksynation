@@ -47,6 +47,11 @@ class _WebManageState extends State<WebManage> {
       print('Was here' + data['UID']);
     });
 
+    Future.delayed(Duration(seconds: 1), () async {
+      setState(() {
+        vaccineSchedules = cloneVaccineSchedules;
+      });
+    });
     return Container(
       height: height,
       width: width,
@@ -1157,11 +1162,13 @@ class _WebManageState extends State<WebManage> {
               children: [
                 Spacer(),
                 ElevatedButton(
-                  onPressed: () async {
+                  onPressed: () {
                     vaccineData.vaccine = dropdownValue;
                     vaccineData.category = dropdownValue2;
                     vaccineData.dateStart = dateStart!;
                     vaccineData.dateEnd = dateEnd!;
+                    vaccineData.maxStock = int.parse(stockController.text);
+
                     if (vaccineData.isCreated) {
                       updateVaccineData();
                       setState(
@@ -1329,7 +1336,7 @@ class _WebManageState extends State<WebManage> {
       int maxStock,
       String currCategory,
       bool isCreated) {
-    vaccineSchedules.add(VaccineData(
+    cloneVaccineSchedules.add(VaccineData(
       uniqueId: currUid,
       vaccine: currVaccine,
       dateStart: currDateStart,
