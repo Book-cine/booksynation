@@ -16,10 +16,24 @@ class _WebScheduleState extends State<WebSchedule> {
     final width = MediaQuery.of(context).size.width - 260;
     final height = MediaQuery.of(context).size.height - 60;
     List<ScheduleData> data = [
-      ScheduleData('19-4097-770', 'Nash Uriel A. Tapayan',
-          'tnashuriel@gmail.com', 'Astrazenica', '2nd', 'A4', 'Dec 12, 2021'),
-      ScheduleData('19-40970-771', 'Mervin John Tampus', 'mervinjohn@gmail.com',
-          'Pfizer', '1st', 'A3', 'Dec 15, 2021'),
+      ScheduleData(
+        uniqueId: '19-4097-770',
+        name: 'Nash Uriel A. Tapayan',
+        email: 'tnashuriel@gmail.com',
+        vaccine: 'Astrazenica',
+        dosage: '2nd',
+        category: 'A4',
+        dateScheduled: DateTime(2021, 12, 12),
+      ),
+      ScheduleData(
+        uniqueId: '19-40970-771',
+        name: 'Mervin John Tampus',
+        email: 'mervinjohn@gmail.com',
+        vaccine: 'Pfizer',
+        dosage: '1st',
+        category: 'A3',
+        dateScheduled: DateTime(2021, 12, 15),
+      ),
     ];
 
     List<ScheduleData> filteredData = dropdownValue == 'All'
@@ -174,8 +188,8 @@ class _WebScheduleState extends State<WebSchedule> {
                               DataCell(Container(child: Text(data.vaccine))),
                               DataCell(Container(child: Text(data.dosage))),
                               DataCell(Container(child: Text(data.category))),
-                              DataCell(
-                                  Container(child: Text(data.dateScheduled))),
+                              DataCell(Container(
+                                  child: Text(data.dateScheduled.toString()))),
                               DataCell(
                                 Container(
                                   child: Row(
