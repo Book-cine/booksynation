@@ -319,9 +319,7 @@ class _WebScheduleState extends State<WebSchedule> {
                                       ],
                                     );
                                   }
-                                  ;
                                 }
-                                ;
                               }).toList(),
                             ),
                           ),

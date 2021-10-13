@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:booksynation/mobilemain.dart';
 import 'package:booksynation/page/patient_info/widgets/contact_details.dart';
 import 'package:booksynation/page/patient_info/widgets/essential_info.dart';
 import 'package:booksynation/page/patient_info/widgets/patientData.dart';
@@ -48,7 +49,14 @@ class _PersonalInfoState extends State<PersonalInfo> {
           elevation: 0,
           leading: IconButton(
             onPressed: () {
-              Navigator.pop(context);
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => MobileMain(
+                    auth: auth,
+                    currentUser: currentUser,
+                  ),
+                ),
+              );
             },
             icon: Icon(Icons.arrow_back, color: Colors.black87),
           ),
