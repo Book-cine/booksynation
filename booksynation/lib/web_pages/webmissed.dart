@@ -1,3 +1,4 @@
+import 'package:booksynation/web_pages/web_data/web_missed_data.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -20,7 +21,6 @@ class _WebMissedState extends State<WebMissed> {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width - 260;
     final height = MediaQuery.of(context).size.height - 60;
-
 
     return Container(
         height: height,
@@ -261,7 +261,6 @@ class _WebMissedState extends State<WebMissed> {
                                     document.data()! as Map<String, dynamic>;
 
                                 final DateFormat formatter =
-
                                     DateFormat('MM/dd/yyyy');
 
                                 String getDateString() {

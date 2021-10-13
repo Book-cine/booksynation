@@ -263,6 +263,36 @@ class _RegisterPatientState extends State<RegisterPatient> {
                                           });
                                         } on FirebaseAuthException catch (e) {
                                           print(e);
+                                          if (e.code ==
+                                              'email-already-in-use') {
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              const SnackBar(
+                                                content: Text(
+                                                  'Email address is already in use.',
+                                                ),
+                                              ),
+                                            );
+                                          } else if (e.code ==
+                                              'invalid-email') {
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              const SnackBar(
+                                                content: Text(
+                                                  'Email address is not valid',
+                                                ),
+                                              ),
+                                            );
+                                          } else {
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              const SnackBar(
+                                                content: Text(
+                                                  'Registration Error',
+                                                ),
+                                              ),
+                                            );
+                                          }
                                         }
                                       }
                                     },

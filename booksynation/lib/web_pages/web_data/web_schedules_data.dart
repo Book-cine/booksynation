@@ -71,6 +71,7 @@ DateTime assignASchedule(vaccine) {
 }
 
 createSchedData(User? _patient) async {
+  print('patientID: ' + _patient!.uid);
   await FirebaseFirestore.instance
       .collection('patient')
       .doc(_patient!.uid) //change this to patient's UID
@@ -88,10 +89,18 @@ createSchedData(User? _patient) async {
     // scheduleData.dosage = value?['']; //needs to be set not here
     scheduleData.category = value?['Category'];
   });
+
+  print('patientID: ' + _patient!.uid);
   //Assign date to local class first
   scheduleData.dateScheduled = assignASchedule(scheduleData.vaccine);
   //Assign vaccine to local class first
   scheduleData.vaccine = assignAvailableVaccine();
+  print('UniqueID: ' + scheduleData.uniqueId);
+  print('Name: ' + scheduleData.name);
+  print('Email: ' + scheduleData.email);
+  print('Category: ' + scheduleData.category);
+  print('DateScheduled: ' + scheduleData.dateScheduled.toString());
+  print('Vaccine: ' + scheduleData.vaccine);
   schedCollection.doc(_patient.uid).set({
     'uniqueId': scheduleData.uniqueId,
     'name': scheduleData.name,
