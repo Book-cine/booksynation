@@ -75,7 +75,7 @@ DateTime? birthDate;
 DateTime? diagnosedDate;
 
 bool diagnosed = false;
-bool fillStatus = true; //dapat false
+bool fillStatus = false; //dapat false
 bool initialState = true;
 bool isGoogleUser = false;
 
