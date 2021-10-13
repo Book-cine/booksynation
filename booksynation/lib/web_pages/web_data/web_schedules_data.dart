@@ -1,3 +1,4 @@
+import 'package:booksynation/web_pages/web_data/web_vaccines_data.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -35,6 +36,23 @@ ScheduleData scheduleData = ScheduleData(
 
 CollectionReference schedCollection =
     FirebaseFirestore.instance.collection('schedule');
+CollectionReference vaccineCollection =
+    FirebaseFirestore.instance.collection('vaccine');
+
+String assignAvailableVaccine() {
+  vaccineCollection.snapshots().map((QuerySnapshot docSnap) {
+    docSnap.docs.forEach((element) {
+      Map<String, dynamic> data = element as Map<String, dynamic>;
+      if (data['currentStock'] > 0) {
+        //insert update query to vaccine collection
+        //to subtract one amount from current stock
+        data['currentStock'] -= 1;
+        return data['vaccine'];
+      }
+    });
+  });
+  return 'Failed: No Vaccine satisfies the condition';
+}
 
 DateTime assignASchedule(vaccine) {
   //current stock 99 : maxStock 100 : perDay 20 since 5 days
@@ -70,6 +88,10 @@ createSchedData(User? _patient) async {
     // scheduleData.dosage = value?['']; //needs to be set not here
     scheduleData.category = value?['Category'];
   });
+  //Assign date to local class first
+  scheduleData.dateScheduled = assignASchedule(scheduleData.vaccine);
+  //Assign vaccine to local class first
+  scheduleData.vaccine = assignAvailableVaccine();
   schedCollection.doc(_patient.uid).set({
     'uniqueId': scheduleData.uniqueId,
     'name': scheduleData.name,
@@ -77,13 +99,12 @@ createSchedData(User? _patient) async {
     'vaccine': scheduleData.vaccine, //still needs to be assigned
     'dosage': scheduleData.dosage, //still needs to be assigned
     'category': scheduleData.category,
-    'dateScheduled': assignASchedule(scheduleData.vaccine),
+    'dateScheduled': scheduleData.dateScheduled,
+    // 'dateScheduled': assignASchedule(scheduleData.vaccine),
   })
       // .then((value) => print('Added Sched'))
       .catchError((error) => print('Failed to add schedule: $error'));
 }
-
-
 
 // var patient = FirebaseFirestore.instance.collection('patient');
 //   await patient.doc(_patient!.uid).get().then((result) {
