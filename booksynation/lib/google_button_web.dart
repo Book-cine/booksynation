@@ -1,4 +1,4 @@
-import 'package:booksynation/page/onboarding.dart';
+import 'package:booksynation/mobilemain.dart';
 import 'package:flutter/material.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -69,7 +69,8 @@ class _GoogleButtonWebState extends State<GoogleButtonWeb> {
               Navigator.of(context).pushReplacement(
                 MaterialPageRoute(
                   fullscreenDialog: true,
-                  builder: (context) => OnBoard(),
+                  builder: (context) =>
+                      MobileMain(auth: auth, currentUser: currentUser),
                 ),
               );
             }
