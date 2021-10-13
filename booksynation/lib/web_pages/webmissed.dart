@@ -1,5 +1,7 @@
 import 'package:booksynation/web_pages/web_data/web_missed_data.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class WebMissed extends StatefulWidget {
   WebMissed({Key? key}) : super(key: key);
@@ -11,6 +13,10 @@ class WebMissed extends StatefulWidget {
 class _WebMissedState extends State<WebMissed> {
   String dropdownValue = 'All';
   List _selectedIndex = [];
+
+  final Stream<QuerySnapshot> _missedStream =
+      FirebaseFirestore.instance.collection('missed-sched').snapshots();
+
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width - 260;
@@ -178,78 +184,135 @@ class _WebMissedState extends State<WebMissed> {
                     ),
                     child: SingleChildScrollView(
                       scrollDirection: Axis.vertical,
-                      child: DataTable(
-                        showCheckboxColumn: true,
-                        columnSpacing: width / 1000,
-                        columns: const <DataColumn>[
-                          DataColumn(
-                            label: Text(
-                              'Unique ID',
-                              style: TextStyle(fontStyle: FontStyle.italic),
-                            ),
-                          ),
-                          DataColumn(
-                            label: Text(
-                              'Name',
-                              style: TextStyle(fontStyle: FontStyle.italic),
-                            ),
-                          ),
-                          DataColumn(
-                            label: Text(
-                              'Email',
-                              style: TextStyle(fontStyle: FontStyle.italic),
-                            ),
-                          ),
-                          DataColumn(
-                            label: Text(
-                              'Vaccine',
-                              style: TextStyle(fontStyle: FontStyle.italic),
-                            ),
-                          ),
-                          DataColumn(
-                            label: Text(
-                              'Dosage',
-                              style: TextStyle(fontStyle: FontStyle.italic),
-                            ),
-                          ),
-                          DataColumn(
-                            label: Text(
-                              'Category',
-                              style: TextStyle(fontStyle: FontStyle.italic),
-                            ),
-                          ),
-                          DataColumn(
-                            label: Text(
-                              'Date Scheduled',
-                              style: TextStyle(fontStyle: FontStyle.italic),
-                            ),
-                          ),
-                        ],
-                        rows: filteredData.map((data) {
-                          return DataRow(
-                            selected: _selectedIndex.contains(data.index),
-                            onSelectChanged: (val) {
-                              setState(() {
-                                if (_selectedIndex.contains(data.index)) {
-                                  _selectedIndex.remove(data.index);
-                                } else {
-                                  _selectedIndex.add(data.index);
+                      child: StreamBuilder<QuerySnapshot>(
+                          stream: _missedStream,
+                          builder: (BuildContext context,
+                              AsyncSnapshot<QuerySnapshot> snapshot) {
+                            if (snapshot.hasError) {
+                              return Text('Something went wrong');
+                            }
+
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return Align(
+                                alignment: Alignment.center,
+                                child: SizedBox(
+                                  width: width * 0.10,
+                                  height: height * 0.10,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 10,
+                                    valueColor: AlwaysStoppedAnimation<Color>(
+                                      Colors.greenAccent.withOpacity(0.5),
+                                    ),
+                                  ),
+                                ),
+                              );
+                            }
+
+                            return DataTable(
+                              showCheckboxColumn: true,
+                              columnSpacing: width / 1000,
+                              columns: const <DataColumn>[
+                                DataColumn(
+                                  label: Text(
+                                    'Unique ID',
+                                    style:
+                                        TextStyle(fontStyle: FontStyle.italic),
+                                  ),
+                                ),
+                                DataColumn(
+                                  label: Text(
+                                    'Name',
+                                    style:
+                                        TextStyle(fontStyle: FontStyle.italic),
+                                  ),
+                                ),
+                                DataColumn(
+                                  label: Text(
+                                    'Email',
+                                    style:
+                                        TextStyle(fontStyle: FontStyle.italic),
+                                  ),
+                                ),
+                                DataColumn(
+                                  label: Text(
+                                    'Vaccine',
+                                    style:
+                                        TextStyle(fontStyle: FontStyle.italic),
+                                  ),
+                                ),
+                                DataColumn(
+                                  label: Text(
+                                    'Dosage',
+                                    style:
+                                        TextStyle(fontStyle: FontStyle.italic),
+                                  ),
+                                ),
+                                DataColumn(
+                                  label: Text(
+                                    'Category',
+                                    style:
+                                        TextStyle(fontStyle: FontStyle.italic),
+                                  ),
+                                ),
+                                DataColumn(
+                                  label: Text(
+                                    'Date Scheduled',
+                                    style:
+                                        TextStyle(fontStyle: FontStyle.italic),
+                                  ),
+                                ),
+                              ],
+                              rows: snapshot.data!.docs
+                                  .map((DocumentSnapshot document) {
+                                // filteredData.map((data) {
+                                Map<String, dynamic> data =
+                                    document.data()! as Map<String, dynamic>;
+
+                                final DateFormat formatter =
+                                    DateFormat('MM/dd/yy');
+                                String getDateString() {
+                                  DateTime dateSched =
+                                      data['DateSchedule'].toDate();
+                                  String formattedStart =
+                                      formatter.format(dateSched);
+                                  return formattedStart;
                                 }
-                              });
-                            },
-                            cells: <DataCell>[
-                              DataCell(Container(child: Text(data.uniqueId))),
-                              DataCell(Container(child: Text(data.name))),
-                              DataCell(Container(child: Text(data.email))),
-                              DataCell(Container(child: Text(data.vaccine))),
-                              DataCell(Container(child: Text(data.dosage))),
-                              DataCell(Container(child: Text(data.category))),
-                              DataCell(
-                                  Container(child: Text(data.dateScheduled))),
-                            ],
-                          );
-                        }).toList(),
-                      ),
+
+                                return DataRow(
+                                  selected:
+                                      _selectedIndex.contains(data['Index']),
+                                  onSelectChanged: (val) {
+                                    setState(() {
+                                      if (_selectedIndex
+                                          .contains(data['Index'])) {
+                                        _selectedIndex.remove(data['Index']);
+                                      } else {
+                                        _selectedIndex.add(data['Index']);
+                                      }
+                                    });
+                                  },
+                                  cells: <DataCell>[
+                                    DataCell(
+                                        Container(child: Text(data['UID']))),
+                                    DataCell(
+                                        Container(child: Text(data['Name']))),
+                                    DataCell(
+                                        Container(child: Text(data['Email']))),
+                                    DataCell(Container(
+                                        child: Text(data['Vaccine']))),
+                                    DataCell(
+                                        Container(child: Text(data['Dosage']))),
+                                    DataCell(Container(
+                                        child: Text(data['Category']))),
+                                    DataCell(Container(
+                                        child: Text(getDateString()))),
+                                  ],
+                                );
+                                // }).toList();
+                              }).toList(),
+                            );
+                          }),
                     ),
                   ),
                 ],
