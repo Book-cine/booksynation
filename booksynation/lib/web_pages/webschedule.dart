@@ -1,8 +1,6 @@
-import 'package:booksynation/web_pages/web_data/web_schedules_data.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:intl/intl.dart';
 
 class WebSchedule extends StatefulWidget {
   WebSchedule({Key? key}) : super(key: key);
@@ -21,30 +19,7 @@ class _WebScheduleState extends State<WebSchedule> {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width - 260;
     final height = MediaQuery.of(context).size.height - 60;
-    List<ScheduleData> data = [
-      // ScheduleData(
-      //   uniqueId: '19-4097-770',
-      //   name: 'Nash Uriel A. Tapayan',
-      //   email: 'tnashuriel@gmail.com',
-      //   vaccine: 'Astrazenica',
-      //   dosage: '2nd',
-      //   category: 'A4',
-      //   dateScheduled: DateTime(2021, 12, 12),
-      // ),
-      // ScheduleData(
-      //   uniqueId: '19-40970-771',
-      //   name: 'Mervin John Tampus',
-      //   email: 'mervinjohn@gmail.com',
-      //   vaccine: 'Pfizer',
-      //   dosage: '1st',
-      //   category: 'A3',
-      //   dateScheduled: DateTime(2021, 12, 15),
-      // ),
-    ];
 
-    List<ScheduleData> filteredData = dropdownValue == 'All'
-        ? data
-        : data.where((data) => data.vaccine == dropdownValue).toList();
     return Container(
         height: height,
         width: width,
@@ -231,55 +206,122 @@ class _WebScheduleState extends State<WebSchedule> {
                                 //       formatter.format(dateSched);
                                 //   return formattedStart;
                                 // }
-
-                                return DataRow(
-                                  cells: <DataCell>[
-                                    DataCell(Container(
-                                        child: Text(data['uniqueID']))),
-                                    DataCell(
-                                        Container(child: Text(data['Name']))),
-                                    DataCell(
-                                        Container(child: Text(data['Email']))),
-                                    DataCell(Container(
-                                        child: Text(data['Vaccine']))),
-                                    DataCell(
-                                        Container(child: Text(data['Dosage']))),
-                                    DataCell(Container(
-                                        child: Text(data['Category']))),
-                                    DataCell(
-                                        Container(child: Text(data['Date']))),
-                                    DataCell(
-                                      Container(
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          children: [
-                                            IconButton(
-                                              icon: SvgPicture.asset(
-                                                'images/check_icon.svg',
-                                                color: Color(0xFF4ECB71),
-                                                height: 25,
-                                                width: 25,
+                                if (dropdownValue == 'All') {
+                                  return DataRow(
+                                    cells: <DataCell>[
+                                      DataCell(Container(
+                                          child: Text(data['uniqueID']))),
+                                      DataCell(
+                                          Container(child: Text(data['Name']))),
+                                      DataCell(Container(
+                                          child: Text(data['Email']))),
+                                      DataCell(Container(
+                                          child: Text(data['Vaccine']))),
+                                      DataCell(Container(
+                                          child: Text(data['Dosage']))),
+                                      DataCell(Container(
+                                          child: Text(data['Category']))),
+                                      DataCell(
+                                          Container(child: Text(data['Date']))),
+                                      DataCell(
+                                        Container(
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            children: [
+                                              IconButton(
+                                                icon: SvgPicture.asset(
+                                                  'images/check_icon.svg',
+                                                  color: Color(0xFF4ECB71),
+                                                  height: 25,
+                                                  width: 25,
+                                                ),
+                                                tooltip: 'Mark as finished',
+                                                onPressed: () {},
                                               ),
-                                              tooltip: 'Mark as finished',
-                                              onPressed: () {},
-                                            ),
-                                            IconButton(
-                                              icon: SvgPicture.asset(
-                                                'images/reject_icon.svg',
-                                                color: Color(0xFFF11010),
-                                                height: 25,
-                                                width: 25,
+                                              IconButton(
+                                                icon: SvgPicture.asset(
+                                                  'images/reject_icon.svg',
+                                                  color: Color(0xFFF11010),
+                                                  height: 25,
+                                                  width: 25,
+                                                ),
+                                                tooltip: 'Mark as missed',
+                                                onPressed: () {},
                                               ),
-                                              tooltip: 'Mark as missed',
-                                              onPressed: () {},
-                                            ),
-                                          ],
+                                            ],
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                  ],
-                                );
+                                    ],
+                                  );
+                                } else {
+                                  if (data['Vaccine'] == dropdownValue) {
+                                    return DataRow(
+                                      cells: <DataCell>[
+                                        DataCell(Container(
+                                            child: Text(data['uniqueID']))),
+                                        DataCell(Container(
+                                            child: Text(data['Name']))),
+                                        DataCell(Container(
+                                            child: Text(data['Email']))),
+                                        DataCell(Container(
+                                            child: Text(data['Vaccine']))),
+                                        DataCell(Container(
+                                            child: Text(data['Dosage']))),
+                                        DataCell(Container(
+                                            child: Text(data['Category']))),
+                                        DataCell(Container(
+                                            child: Text(data['Date']))),
+                                        DataCell(
+                                          Container(
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              children: [
+                                                IconButton(
+                                                  icon: SvgPicture.asset(
+                                                    'images/check_icon.svg',
+                                                    color: Color(0xFF4ECB71),
+                                                    height: 25,
+                                                    width: 25,
+                                                  ),
+                                                  tooltip: 'Mark as finished',
+                                                  onPressed: () {},
+                                                ),
+                                                IconButton(
+                                                  icon: SvgPicture.asset(
+                                                    'images/reject_icon.svg',
+                                                    color: Color(0xFFF11010),
+                                                    height: 25,
+                                                    width: 25,
+                                                  ),
+                                                  tooltip: 'Mark as missed',
+                                                  onPressed: () {},
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    );
+                                  } else {
+                                    return DataRow(
+                                      cells: <DataCell>[
+                                        DataCell(SizedBox.shrink()),
+                                        DataCell(SizedBox.shrink()),
+                                        DataCell(SizedBox.shrink()),
+                                        DataCell(SizedBox.shrink()),
+                                        DataCell(SizedBox.shrink()),
+                                        DataCell(SizedBox.shrink()),
+                                        DataCell(SizedBox.shrink()),
+                                        DataCell(SizedBox.shrink()),
+                                      ],
+                                    );
+                                  }
+                                  ;
+                                }
+                                ;
                               }).toList(),
                             ),
                           ),
