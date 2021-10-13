@@ -22,10 +22,10 @@ class _WebMissedState extends State<WebMissed> {
     final width = MediaQuery.of(context).size.width - 260;
     final height = MediaQuery.of(context).size.height - 60;
     List<MissedData> data = [
-      MissedData(0, '19-4097-770', 'Nash Uriel A. Tapayan',
-          'tnashuriel@gmail.com', 'Astrazenica', '2nd', 'A4', 'Dec 12, 2021'),
-      MissedData(1, '19-40970-771', 'Mervin John Tampus',
-          'mervinjohn@gmail.com', 'Pfizer', '1st', 'A3', 'Dec 15, 2021'),
+      // MissedData(index: 0,uniqueId: '19-4097-770',name: 'Nash Uriel A. Tapayan',
+      //     email: 'tnashuriel@gmail.com',vaccine: 'Astrazenica',dosage: '2nd',category: 'A4',dateScheduled: 'Dec 12, 2021'),
+      // MissedData(1, '19-40970-771', 'Mervin John Tampus',
+      //     'mervinjohn@gmail.com', 'Pfizer', '1st', 'A3', 'Dec 15, 2021'),
     ];
 
     List<MissedData> filteredData = dropdownValue == 'All'
@@ -134,7 +134,9 @@ class _WebMissedState extends State<WebMissed> {
                         ),
                       ),
                       ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          deleteMissedData(missedPatient.uniqueId);
+                        },
                         style: ElevatedButton.styleFrom(
                           primary: Color(0xFFF11010),
                           fixedSize: Size(
@@ -165,51 +167,50 @@ class _WebMissedState extends State<WebMissed> {
             Container(
               height: height - 100,
               width: width,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                    width: width - (width * 0.035),
-                    height: height - 120,
-                    decoration: BoxDecoration(
-                      color: Color(0xFFF7F7F7),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.06),
-                          blurRadius: 18,
-                          offset: Offset(0, 6), // changes position of shadow
-                        )
-                      ],
-                    ),
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.vertical,
-                      child: StreamBuilder<QuerySnapshot>(
-                          stream: _missedStream,
-                          builder: (BuildContext context,
-                              AsyncSnapshot<QuerySnapshot> snapshot) {
-                            if (snapshot.hasError) {
-                              return Text('Something went wrong');
-                            }
+              child: StreamBuilder<QuerySnapshot>(
+                  stream: _missedStream,
+                  builder: (BuildContext context,
+                      AsyncSnapshot<QuerySnapshot> snapshot) {
+                    if (snapshot.hasError) {
+                      return Text('Something went wrong');
+                    }
 
-                            if (snapshot.connectionState ==
-                                ConnectionState.waiting) {
-                              return Align(
-                                alignment: Alignment.center,
-                                child: SizedBox(
-                                  width: width * 0.10,
-                                  height: height * 0.10,
-                                  child: CircularProgressIndicator(
-                                    strokeWidth: 10,
-                                    valueColor: AlwaysStoppedAnimation<Color>(
-                                      Colors.greenAccent.withOpacity(0.5),
-                                    ),
-                                  ),
-                                ),
-                              );
-                            }
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Center(
+                        child: SizedBox(
+                          width: width * 0.10,
+                          height: height * 0.10,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 10,
+                            valueColor: AlwaysStoppedAnimation<Color>(
+                              Colors.greenAccent.withOpacity(0.5),
+                            ),
+                          ),
+                        ),
+                      );
+                    }
 
-                            return DataTable(
+                    return Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
+                          width: width - (width * 0.035),
+                          height: height - 120,
+                          decoration: BoxDecoration(
+                            color: Color(0xFFF7F7F7),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.06),
+                                blurRadius: 18,
+                                offset:
+                                    Offset(0, 6), // changes position of shadow
+                              )
+                            ],
+                          ),
+                          child: SingleChildScrollView(
+                            scrollDirection: Axis.vertical,
+                            child: DataTable(
                               showCheckboxColumn: true,
                               columnSpacing: width / 1000,
                               columns: const <DataColumn>[
@@ -270,7 +271,7 @@ class _WebMissedState extends State<WebMissed> {
                                     document.data()! as Map<String, dynamic>;
 
                                 final DateFormat formatter =
-                                    DateFormat('MM/dd/yy');
+                                    DateFormat('MM/dd/yyyy');
                                 String getDateString() {
                                   DateTime dateSched =
                                       data['DateSchedule'].toDate();
@@ -311,12 +312,12 @@ class _WebMissedState extends State<WebMissed> {
                                 );
                                 // }).toList();
                               }).toList(),
-                            );
-                          }),
-                    ),
-                  ),
-                ],
-              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    );
+                  }),
             ),
           ],
         ));
