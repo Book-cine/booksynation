@@ -1,3 +1,4 @@
+import 'package:booksynation/mobilemain.dart';
 import 'package:booksynation/strings.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -118,7 +119,14 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                         ]),
                         child: ElevatedButton(
                           onPressed: () {
-                            Scaffold.of(context).openDrawer();
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => MobileMain(
+                                  auth: auth,
+                                  currentUser: currentUser,
+                                ),
+                              ),
+                            );
                           },
                           style: ElevatedButton.styleFrom(
                             primary: Color(0xFF26A98A),

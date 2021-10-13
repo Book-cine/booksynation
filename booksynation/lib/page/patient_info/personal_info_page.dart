@@ -211,7 +211,7 @@ class LockedPersonalInfo extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         body: ListView.builder(
-            padding: EdgeInsets.fromLTRB(width * 0.3, 20, width * 0.3, 20),
+            padding: EdgeInsets.fromLTRB(50, 30, 50, 20),
             itemCount: patientData.length,
             itemBuilder: (context, index) {
               return ListTile(

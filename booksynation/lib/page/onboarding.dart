@@ -15,8 +15,8 @@ class OnBoard extends StatelessWidget {
         alignment: Alignment.center,
         child: Container(
           color: Colors.white,
-          padding: EdgeInsets.all(35.0),
           child: SingleChildScrollView(
+            padding: EdgeInsets.fromLTRB(50, 35, 50, 35),
             child: Column(
               children: [
                 SizedBox(height: height * 0.20),
@@ -78,14 +78,17 @@ class OnBoard extends StatelessWidget {
                 SizedBox(height: height * 0.10),
                 Image.asset('images/onb2.png'),
                 SizedBox(height: height * 0.10),
-                Text(
-                  'Get notified when your schedule is near.',
-                  textAlign: TextAlign.justify,
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontFamily: 'Average',
-                    fontWeight: FontWeight.bold,
-                    fontSize: height * 0.040,
+                Container(
+                  width: width * 0.60,
+                  child: Text(
+                    'Get notified when your schedule is near.',
+                    textAlign: TextAlign.start,
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontFamily: 'Average',
+                      fontWeight: FontWeight.bold,
+                      fontSize: height * 0.040,
+                    ),
                   ),
                 ),
                 SizedBox(height: height * 0.020),
