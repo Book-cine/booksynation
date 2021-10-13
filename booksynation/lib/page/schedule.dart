@@ -1,4 +1,3 @@
-import 'package:booksynation/sidemenu.dart';
 import 'package:booksynation/strings.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -46,10 +45,6 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
       child: Scaffold(
         extendBodyBehindAppBar: true,
         backgroundColor: Colors.white,
-        drawer: SideMenu(
-          auth: auth,
-          currentUser: currentUser,
-        ),
         body: Builder(
           builder: (context) => Container(
             alignment: Alignment.center,

@@ -1,35 +1,34 @@
 import 'package:booksynation/main.dart';
 import 'package:booksynation/page/appointment.dart';
+import 'package:booksynation/page/onboarding.dart';
 import 'package:booksynation/page/patient_info/covid_19_info.dart';
+import 'package:booksynation/page/patient_info/personal_info_page.dart';
 import 'package:booksynation/page/patient_info/widgets/patientData.dart';
 import 'package:booksynation/page/settings.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class SideMenu extends StatefulWidget {
-  SideMenu({
+class MobileMain extends StatefulWidget {
+  MobileMain({
     Key? key,
     required this.auth,
     @required this.currentUser,
   }) : super(key: key);
   final FirebaseAuth auth;
   final currentUser;
-
   @override
-  State<SideMenu> createState() =>
-      _SideMenuState(auth: auth, currentUser: currentUser);
+  _MobileMainState createState() =>
+      _MobileMainState(auth: auth, currentUser: currentUser);
 }
 
-class _SideMenuState extends State<SideMenu> {
-  _SideMenuState({
+class _MobileMainState extends State<MobileMain> {
+  _MobileMainState({
     required this.auth,
     @required this.currentUser,
   });
   final FirebaseAuth auth;
   final currentUser;
-  final padding = EdgeInsets.symmetric(horizontal: 20);
-
   final emails = [
     'nashtaps@gmail.com',
     'joserizal@gmail.com',
@@ -39,9 +38,21 @@ class _SideMenuState extends State<SideMenu> {
   ];
 
   String? value;
+  Widget mainBody = OnBoard();
 
   @override
   Widget build(BuildContext context) {
+    return SafeArea(
+      child: Scaffold(
+        extendBodyBehindAppBar: true,
+        backgroundColor: Colors.white,
+        drawer: sideMenu(),
+        body: mainBody,
+      ),
+    );
+  }
+
+  Widget sideMenu() {
     final name = fullname;
     final email = patient.email;
     final image = 'images/user.png';
@@ -74,19 +85,43 @@ class _SideMenuState extends State<SideMenu> {
                         buildMenuItem(
                           text: 'Personal Information',
                           icon: Icons.people,
-                          onClicked: () => selectedItem(context, 0),
+                          onClicked: () {
+                            setState(
+                              () {
+                                Navigator.pop(context);
+                                mainBody = CovidInfo(
+                                    auth: auth, currentUser: currentUser);
+                              },
+                            );
+                          },
                         ),
                         const SizedBox(height: 12),
                         buildMenuItem(
                           text: 'My Appointment',
                           icon: Icons.phone_outlined,
-                          onClicked: () => selectedItem(context, 1),
+                          onClicked: () {
+                            Navigator.pop(context);
+                            setState(
+                              () {
+                                mainBody = MyAppointment(
+                                    auth: auth, currentUser: currentUser);
+                              },
+                            );
+                          },
                         ),
                         const SizedBox(height: 12),
                         buildMenuItem(
                           text: 'Settings',
                           icon: Icons.settings_outlined,
-                          onClicked: () => selectedItem(context, 2),
+                          onClicked: () {
+                            Navigator.pop(context);
+                            setState(
+                              () {
+                                mainBody = PatientSettings(
+                                    auth: auth, currentUser: currentUser);
+                              },
+                            );
+                          },
                         ),
                         const SizedBox(height: 12),
                         buildSignOutItem(),
@@ -222,37 +257,6 @@ class _SideMenuState extends State<SideMenu> {
         ))
       },
     );
-  }
-
-  void selectedItem(BuildContext context, int index) {
-    Navigator.of(context).pop();
-
-    switch (index) {
-      case 0:
-        Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => CovidInfo(
-            auth: auth,
-            currentUser: currentUser,
-          ),
-        ));
-        break;
-      case 1:
-        Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => MyAppointment(
-            auth: auth,
-            currentUser: currentUser,
-          ),
-        ));
-        break;
-      case 2:
-        Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => PatientSettings(
-            auth: auth,
-            currentUser: currentUser,
-          ),
-        ));
-        break;
-    }
   }
 
   Widget signOutMenu({
