@@ -1,4 +1,3 @@
-import 'package:booksynation/web_pages/web_data/web_missed_data.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -21,16 +20,7 @@ class _WebMissedState extends State<WebMissed> {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width - 260;
     final height = MediaQuery.of(context).size.height - 60;
-    List<MissedData> data = [
-      // MissedData(index: 0,uniqueId: '19-4097-770',name: 'Nash Uriel A. Tapayan',
-      //     email: 'tnashuriel@gmail.com',vaccine: 'Astrazenica',dosage: '2nd',category: 'A4',dateScheduled: 'Dec 12, 2021'),
-      // MissedData(1, '19-40970-771', 'Mervin John Tampus',
-      //     'mervinjohn@gmail.com', 'Pfizer', '1st', 'A3', 'Dec 15, 2021'),
-    ];
 
-    List<MissedData> filteredData = dropdownValue == 'All'
-        ? data
-        : data.where((data) => data.vaccine == dropdownValue).toList();
 
     return Container(
         height: height,
@@ -271,7 +261,9 @@ class _WebMissedState extends State<WebMissed> {
                                     document.data()! as Map<String, dynamic>;
 
                                 final DateFormat formatter =
+
                                     DateFormat('MM/dd/yyyy');
+
                                 String getDateString() {
                                   DateTime dateSched =
                                       data['DateSchedule'].toDate();
@@ -280,37 +272,84 @@ class _WebMissedState extends State<WebMissed> {
                                   return formattedStart;
                                 }
 
-                                return DataRow(
-                                  selected:
-                                      _selectedIndex.contains(data['Index']),
-                                  onSelectChanged: (val) {
-                                    setState(() {
-                                      if (_selectedIndex
-                                          .contains(data['Index'])) {
-                                        _selectedIndex.remove(data['Index']);
-                                      } else {
-                                        _selectedIndex.add(data['Index']);
-                                      }
-                                    });
-                                  },
-                                  cells: <DataCell>[
-                                    DataCell(
-                                        Container(child: Text(data['UID']))),
-                                    DataCell(
-                                        Container(child: Text(data['Name']))),
-                                    DataCell(
-                                        Container(child: Text(data['Email']))),
-                                    DataCell(Container(
-                                        child: Text(data['Vaccine']))),
-                                    DataCell(
-                                        Container(child: Text(data['Dosage']))),
-                                    DataCell(Container(
-                                        child: Text(data['Category']))),
-                                    DataCell(Container(
-                                        child: Text(getDateString()))),
-                                  ],
-                                );
-                                // }).toList();
+                                if (dropdownValue == 'All') {
+                                  return DataRow(
+                                    selected:
+                                        _selectedIndex.contains(data['Index']),
+                                    onSelectChanged: (val) {
+                                      setState(() {
+                                        if (_selectedIndex
+                                            .contains(data['Index'])) {
+                                          _selectedIndex.remove(data['Index']);
+                                        } else {
+                                          _selectedIndex.add(data['Index']);
+                                        }
+                                      });
+                                    },
+                                    cells: <DataCell>[
+                                      DataCell(
+                                          Container(child: Text(data['UID']))),
+                                      DataCell(
+                                          Container(child: Text(data['Name']))),
+                                      DataCell(Container(
+                                          child: Text(data['Email']))),
+                                      DataCell(Container(
+                                          child: Text(data['Vaccine']))),
+                                      DataCell(Container(
+                                          child: Text(data['Dosage']))),
+                                      DataCell(Container(
+                                          child: Text(data['Category']))),
+                                      DataCell(Container(
+                                          child: Text(getDateString()))),
+                                    ],
+                                  );
+                                } else {
+                                  if (data['Vaccine'] == dropdownValue) {
+                                    return DataRow(
+                                      selected: _selectedIndex
+                                          .contains(data['Index']),
+                                      onSelectChanged: (val) {
+                                        setState(() {
+                                          if (_selectedIndex
+                                              .contains(data['Index'])) {
+                                            _selectedIndex
+                                                .remove(data['Index']);
+                                          } else {
+                                            _selectedIndex.add(data['Index']);
+                                          }
+                                        });
+                                      },
+                                      cells: <DataCell>[
+                                        DataCell(Container(
+                                            child: Text(data['UID']))),
+                                        DataCell(Container(
+                                            child: Text(data['Name']))),
+                                        DataCell(Container(
+                                            child: Text(data['Email']))),
+                                        DataCell(Container(
+                                            child: Text(data['Vaccine']))),
+                                        DataCell(Container(
+                                            child: Text(data['Dosage']))),
+                                        DataCell(Container(
+                                            child: Text(data['Category']))),
+                                        DataCell(Container(
+                                            child: Text(getDateString()))),
+                                      ],
+                                    );
+                                  } else {
+                                    return DataRow(
+                                      cells: <DataCell>[
+                                        DataCell(SizedBox.shrink()),
+                                        DataCell(SizedBox.shrink()),
+                                        DataCell(SizedBox.shrink()),
+                                        DataCell(SizedBox.shrink()),
+                                        DataCell(SizedBox.shrink()),
+                                        DataCell(SizedBox.shrink()),
+                                        DataCell(SizedBox.shrink()),
+                                      ],
+                                    );
+                                  }
+                                }
                               }).toList(),
                             ),
                           ),
