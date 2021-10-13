@@ -1,9 +1,10 @@
+import 'dart:ui';
+
 import 'package:booksynation/page/patient_info/widgets/contact_details.dart';
 import 'package:booksynation/page/patient_info/widgets/essential_info.dart';
 import 'package:booksynation/page/patient_info/widgets/patientData.dart';
 import 'package:booksynation/page/patient_info/widgets/patient_profile.dart';
 import 'package:booksynation/page/patient_info/widgets/save_changes_button.dart';
-import 'package:booksynation/sidemenu.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -51,10 +52,6 @@ class _PersonalInfoState extends State<PersonalInfo> {
             },
             icon: Icon(Icons.arrow_back, color: Colors.black87),
           ),
-        ),
-        drawer: SideMenu(
-          auth: auth,
-          currentUser: currentUser,
         ),
         body: PesonalInfoBody(
             auth: auth, currentUser: currentUser, height: height, width: width),
@@ -205,12 +202,8 @@ class LockedPersonalInfo extends StatelessWidget {
     ];
     return SafeArea(
       child: Scaffold(
-        //TODO: Please ko Mervin sa kani na part if makaya pa kay murag list lang sa personal info from the forms mao nani katong locked mode sa forms.
-        drawer: SideMenu(
-          auth: auth,
-          currentUser: currentUser,
-        ),
         body: ListView.builder(
+            padding: EdgeInsets.fromLTRB(width * 0.3, 20, width * 0.3, 20),
             itemCount: patientData.length,
             itemBuilder: (context, index) {
               return ListTile(

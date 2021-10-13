@@ -39,8 +39,8 @@ CollectionReference schedCollection =
 CollectionReference vaccineCollection =
     FirebaseFirestore.instance.collection('vaccine');
 
-String assignAvailableVaccine() {
-  vaccineCollection.snapshots().map((QuerySnapshot docSnap) {
+Future<String> assignAvailableVaccine() async {
+  await vaccineCollection.snapshots().map((QuerySnapshot docSnap) {
     docSnap.docs.forEach((element) {
       Map<String, dynamic> data = element as Map<String, dynamic>;
       if (data['currentStock'] > 0) {
@@ -54,7 +54,7 @@ String assignAvailableVaccine() {
   return 'Failed: No Vaccine satisfies the condition';
 }
 
-DateTime assignASchedule(vaccine) {
+Future<DateTime> assignASchedule(vaccine) async {
   //current stock 99 : maxStock 100 : perDay 20 since 5 days
   int perDay = vaccine.maxStock %
       (vaccine.dateEnd.difference(vaccine.dateStart)); // 100 % 5 = 20
@@ -92,8 +92,10 @@ createSchedData(User? _patient) async {
 
   print('patientID: ' + _patient!.uid);
   //Assign date to local class first
-  scheduleData.dateScheduled = assignASchedule(scheduleData.vaccine);
+  scheduleData.dateScheduled =
+      assignASchedule(scheduleData.vaccine) as DateTime;
   //Assign vaccine to local class first
+
   scheduleData.vaccine = assignAvailableVaccine();
   print('UniqueID: ' + scheduleData.uniqueId);
   print('Name: ' + scheduleData.name);
@@ -102,6 +104,10 @@ createSchedData(User? _patient) async {
   print('DateScheduled: ' + scheduleData.dateScheduled.toString());
   print('Vaccine: ' + scheduleData.vaccine);
   schedCollection.doc(_patient.uid).set({
+
+  scheduleData.vaccine = assignAvailableVaccine() as String;
+  await schedCollection.doc(_patient.uid).set({
+
     'uniqueId': scheduleData.uniqueId,
     'name': scheduleData.name,
     'email': scheduleData.email,

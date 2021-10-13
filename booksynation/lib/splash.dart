@@ -1,4 +1,5 @@
 import 'package:booksynation/home.dart';
+import 'package:booksynation/mobilemain.dart';
 import 'package:booksynation/page/onboarding.dart';
 import 'package:booksynation/page/patient_info/widgets/patientData.dart';
 import 'package:booksynation/userData.dart';
@@ -146,7 +147,7 @@ class _LoadScreenState extends State<LoadScreen> {
         MaterialPageRoute(
             builder: (context) => (widget.device == 'web')
                 ? WebMain(auth: auth, currentUser: currentUser)
-                : OnBoard(auth: auth, currentUser: currentUser)));
+                : MobileMain(auth: auth, currentUser: currentUser)));
   }
 
   @override

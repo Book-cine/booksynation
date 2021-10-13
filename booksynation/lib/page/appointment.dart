@@ -1,7 +1,6 @@
 import 'package:booksynation/page/booksched.dart';
 import 'package:booksynation/page/missed.dart';
 import 'package:booksynation/page/schedule.dart';
-import 'package:booksynation/sidemenu.dart';
 import 'package:booksynation/strings.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -57,10 +56,6 @@ class MyAppointment extends StatelessWidget {
     }
 
     return Scaffold(
-      drawer: SideMenu(
-        auth: auth,
-        currentUser: currentUser,
-      ),
       body: getStatus(schedule, status),
     );
   }

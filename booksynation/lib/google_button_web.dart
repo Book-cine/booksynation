@@ -69,8 +69,7 @@ class _GoogleButtonWebState extends State<GoogleButtonWeb> {
               Navigator.of(context).pushReplacement(
                 MaterialPageRoute(
                   fullscreenDialog: true,
-                  builder: (context) =>
-                      OnBoard(auth: auth, currentUser: currentUser),
+                  builder: (context) => OnBoard(),
                 ),
               );
             }
