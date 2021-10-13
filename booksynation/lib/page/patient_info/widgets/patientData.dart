@@ -75,7 +75,7 @@ DateTime? birthDate;
 DateTime? diagnosedDate;
 
 bool diagnosed = false;
-bool fillStatus = false; //dapat false
+bool fillStatus = true; //dapat false
 bool initialState = true;
 bool isGoogleUser = false;
 
@@ -200,8 +200,8 @@ PatientProfileData patient = PatientProfileData(
   interactedCovid: 'No',
   isDiagnosed: 'No',
   diagnosedDate: 'N/A',
-  allergies: allergies,
-  comorbidities: comorbidities,
+  allergies: allergies.isEmpty ? ['N/A'] : allergies,
+  comorbidities: allergies.isEmpty ? ['N/A'] : comorbidities,
   otherAllergies: 'Click to Edit',
   others: 'Click to Edit',
 );

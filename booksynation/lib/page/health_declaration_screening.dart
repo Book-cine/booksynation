@@ -37,8 +37,6 @@ class _HealthScreeningState extends State<HealthScreening> {
     );
     return SafeArea(
       child: Scaffold(
-        //TODO: Add lang ari ug widgets para sa contents etol
-        //TODO: Mao ni sa second part sa screening katong after sa booknow
         body: Center(
           child: Column(
             children: <Widget>[
@@ -53,7 +51,7 @@ class _HealthScreeningState extends State<HealthScreening> {
                           currentUser: currentUser,
                         ),
                       ),
-                    ); //TODO:change button action
+                    );
                   },
                   style: ElevatedButton.styleFrom(
                     primary: Color(0xFF26A98A),
