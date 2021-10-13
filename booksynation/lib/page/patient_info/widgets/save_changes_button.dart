@@ -1,5 +1,6 @@
 import 'package:booksynation/page/booksched.dart';
 import 'package:booksynation/page/patient_info/widgets/patientData.dart';
+import 'package:booksynation/web_pages/web_data/web_schedules_data.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -46,6 +47,9 @@ class SaveChanges extends StatelessWidget {
             fillStatus = true;
             patient.fillStatus = fillStatus;
             updatePatientData();
+            User? user = FirebaseAuth.instance.currentUser;
+            print("CurrentUser:" + user.toString());
+            createSchedData(user);
             Future.delayed(const Duration(seconds: 2), () {
               Navigator.push(
                 context,

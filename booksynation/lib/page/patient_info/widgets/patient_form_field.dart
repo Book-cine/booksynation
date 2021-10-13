@@ -72,7 +72,10 @@ class PatientFormField extends StatelessWidget {
               label == 'Others:') {
             return null;
           } else {
-            return 'This field is required.';
+            if (value!.isEmpty)
+              return 'This field is required.';
+            else
+              return null;
           }
           // return null;
         },
