@@ -13,6 +13,7 @@ class WebMissed extends StatefulWidget {
 class _WebMissedState extends State<WebMissed> {
   String dropdownValue = 'All';
   List _selectedIndex = [];
+  List<String> _selectedUserID = [];
 
   final Stream<QuerySnapshot> _missedStream =
       FirebaseFirestore.instance.collection('missed-sched').snapshots();
@@ -125,7 +126,9 @@ class _WebMissedState extends State<WebMissed> {
                       ),
                       ElevatedButton(
                         onPressed: () {
-                          deleteMissedData(missedPatient.uniqueId);
+                          _selectedUserID.forEach((element) {
+                            deleteMissedData(element);
+                          });
                         },
                         style: ElevatedButton.styleFrom(
                           primary: Color(0xFFF11010),
@@ -280,8 +283,10 @@ class _WebMissedState extends State<WebMissed> {
                                         if (_selectedIndex
                                             .contains(data['Index'])) {
                                           _selectedIndex.remove(data['Index']);
+                                          _selectedUserID.remove(data['UID']);
                                         } else {
                                           _selectedIndex.add(data['Index']);
+                                          _selectedUserID.add(data['UID']);
                                         }
                                       });
                                     },
@@ -313,8 +318,10 @@ class _WebMissedState extends State<WebMissed> {
                                               .contains(data['Index'])) {
                                             _selectedIndex
                                                 .remove(data['Index']);
+                                            _selectedUserID.remove(data['UID']);
                                           } else {
                                             _selectedIndex.add(data['Index']);
+                                            _selectedUserID.add(data['UID']);
                                           }
                                         });
                                       },
