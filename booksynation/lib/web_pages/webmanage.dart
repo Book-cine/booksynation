@@ -16,6 +16,7 @@ class _WebManageState extends State<WebManage> {
   TextEditingController stockController = TextEditingController();
   String dropdownValue = 'Astrazenica';
   String dropdownValue2 = 'A1';
+
   DateTime? dateStart;
   DateTime? dateEnd;
 
@@ -23,6 +24,9 @@ class _WebManageState extends State<WebManage> {
 
   final Stream<QuerySnapshot> _usersStream =
       FirebaseFirestore.instance.collection('vaccine').snapshots();
+
+  final Stream<DocumentSnapshot> courseDocStream =
+      FirebaseFirestore.instance.collection('vaccine').doc().snapshots();
 
   @override
   Widget build(BuildContext context) {
@@ -45,12 +49,6 @@ class _WebManageState extends State<WebManage> {
         data['isCreated'],
       );
       print('Was here' + data['UID']);
-    });
-
-    Future.delayed(Duration(seconds: 1), () async {
-      setState(() {
-        vaccineSchedules = cloneVaccineSchedules;
-      });
     });
     return Container(
       height: height,
@@ -111,6 +109,16 @@ class _WebManageState extends State<WebManage> {
   }
 
   Widget buildHeaderVaccines(double width, double height) {
+    int pfizerMaxCount = 0;
+    int pfizerCurrCount = 0;
+    int astraMaxCount = 0;
+    int astraCurrCount = 0;
+    int modernaMaxCount = 0;
+    int modernaCurrCount = 0;
+    int janssenMaxCount = 0;
+    int janssenCurrCount = 0;
+    int sinoMaxCount = 0;
+    int sinoCurrCount = 0;
     return StreamBuilder<QuerySnapshot>(
         stream: _usersStream,
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -133,7 +141,30 @@ class _WebManageState extends State<WebManage> {
               ),
             );
           }
-
+          if (snapshot.connectionState == ConnectionState.active) {
+            snapshot.data!.docChanges.forEach((element) {
+              if (element.doc.get('Vaccine') == 'Pfizer') {
+                pfizerMaxCount += element.doc.get('MaxStock') as int;
+                pfizerCurrCount += element.doc.get('CurrentStock') as int;
+              }
+              if (element.doc.get('Vaccine') == 'Astrazenica') {
+                astraMaxCount += element.doc.get('MaxStock') as int;
+                astraCurrCount += element.doc.get('CurrentStock') as int;
+              }
+              if (element.doc.get('Vaccine') == 'Moderna') {
+                modernaMaxCount += element.doc.get('MaxStock') as int;
+                modernaCurrCount += element.doc.get('CurrentStock') as int;
+              }
+              if (element.doc.get('Vaccine') == 'Janssen') {
+                janssenMaxCount += element.doc.get('MaxStock') as int;
+                janssenCurrCount += element.doc.get('CurrentStock') as int;
+              }
+              if (element.doc.get('Vaccine') == 'Sinovac') {
+                sinoMaxCount += element.doc.get('MaxStock') as int;
+                sinoCurrCount += element.doc.get('CurrentStock') as int;
+              }
+            });
+          }
           return Expanded(
             flex: 10,
             child: Container(
@@ -169,18 +200,7 @@ class _WebManageState extends State<WebManage> {
                             child: Row(
                               children: [
                                 Container(
-                                  child: Text(
-                                      vaccineSchedules.indexWhere((element) =>
-                                                  element.vaccine ==
-                                                  'Pfizer') >=
-                                              0
-                                          ? vaccineSchedules[vaccineSchedules
-                                                  .indexWhere((element) =>
-                                                      element.vaccine ==
-                                                      'Pfizer')]
-                                              .currentStock
-                                              .toString()
-                                          : '0',
+                                  child: Text(pfizerCurrCount.toString(),
                                       style: TextStyle(
                                           fontFamily: 'Poppins',
                                           fontWeight: FontWeight.w500,
@@ -188,19 +208,7 @@ class _WebManageState extends State<WebManage> {
                                           color: Color(0xFFEA3D2F))),
                                 ),
                                 Container(
-                                  child: Text(
-                                      vaccineSchedules.indexWhere((element) =>
-                                                  element.vaccine ==
-                                                  'Pfizer') >=
-                                              0
-                                          ? '/' +
-                                              vaccineSchedules[vaccineSchedules
-                                                      .indexWhere((element) =>
-                                                          element.vaccine ==
-                                                          'Pfizer')]
-                                                  .maxStock
-                                                  .toString()
-                                          : '/0',
+                                  child: Text('/' + pfizerMaxCount.toString(),
                                       style: TextStyle(
                                           fontFamily: 'Poppins',
                                           fontWeight: FontWeight.w500,
@@ -244,18 +252,7 @@ class _WebManageState extends State<WebManage> {
                             child: Row(
                               children: [
                                 Container(
-                                  child: Text(
-                                      vaccineSchedules.indexWhere((element) =>
-                                                  element.vaccine ==
-                                                  'Astrazenica') >=
-                                              0
-                                          ? vaccineSchedules[vaccineSchedules
-                                                  .indexWhere((element) =>
-                                                      element.vaccine ==
-                                                      'Astrazenica')]
-                                              .currentStock
-                                              .toString()
-                                          : '0',
+                                  child: Text(astraCurrCount.toString(),
                                       style: TextStyle(
                                           fontFamily: 'Poppins',
                                           fontWeight: FontWeight.w500,
@@ -263,19 +260,7 @@ class _WebManageState extends State<WebManage> {
                                           color: Color(0xFF367BF5))),
                                 ),
                                 Container(
-                                  child: Text(
-                                      vaccineSchedules.indexWhere((element) =>
-                                                  element.vaccine ==
-                                                  'Astrazenica') >=
-                                              0
-                                          ? '/' +
-                                              vaccineSchedules[vaccineSchedules
-                                                      .indexWhere((element) =>
-                                                          element.vaccine ==
-                                                          'Astrazenica')]
-                                                  .maxStock
-                                                  .toString()
-                                          : '/0',
+                                  child: Text('/' + astraMaxCount.toString(),
                                       style: TextStyle(
                                           fontFamily: 'Poppins',
                                           fontWeight: FontWeight.w500,
@@ -319,18 +304,7 @@ class _WebManageState extends State<WebManage> {
                             child: Row(
                               children: [
                                 Container(
-                                  child: Text(
-                                      vaccineSchedules.indexWhere((element) =>
-                                                  element.vaccine ==
-                                                  'Moderna') >=
-                                              0
-                                          ? vaccineSchedules[vaccineSchedules
-                                                  .indexWhere((element) =>
-                                                      element.vaccine ==
-                                                      'Moderna')]
-                                              .currentStock
-                                              .toString()
-                                          : '0',
+                                  child: Text(modernaCurrCount.toString(),
                                       style: TextStyle(
                                           fontFamily: 'Poppins',
                                           fontWeight: FontWeight.w500,
@@ -338,19 +312,7 @@ class _WebManageState extends State<WebManage> {
                                           color: Color(0xFF2FA84F))),
                                 ),
                                 Container(
-                                  child: Text(
-                                      vaccineSchedules.indexWhere((element) =>
-                                                  element.vaccine ==
-                                                  'Moderna') >=
-                                              0
-                                          ? '/' +
-                                              vaccineSchedules[vaccineSchedules
-                                                      .indexWhere((element) =>
-                                                          element.vaccine ==
-                                                          'Moderna')]
-                                                  .maxStock
-                                                  .toString()
-                                          : '/0',
+                                  child: Text('/' + modernaMaxCount.toString(),
                                       style: TextStyle(
                                           fontFamily: 'Poppins',
                                           fontWeight: FontWeight.w500,
@@ -394,18 +356,7 @@ class _WebManageState extends State<WebManage> {
                             child: Row(
                               children: [
                                 Container(
-                                  child: Text(
-                                      vaccineSchedules.indexWhere((element) =>
-                                                  element.vaccine ==
-                                                  'Janssen') >=
-                                              0
-                                          ? vaccineSchedules[vaccineSchedules
-                                                  .indexWhere((element) =>
-                                                      element.vaccine ==
-                                                      'Janssen')]
-                                              .currentStock
-                                              .toString()
-                                          : '0',
+                                  child: Text(janssenCurrCount.toString(),
                                       style: TextStyle(
                                           fontFamily: 'Poppins',
                                           fontWeight: FontWeight.w500,
@@ -413,19 +364,7 @@ class _WebManageState extends State<WebManage> {
                                           color: Color(0xFFF3AA18))),
                                 ),
                                 Container(
-                                  child: Text(
-                                      vaccineSchedules.indexWhere((element) =>
-                                                  element.vaccine ==
-                                                  'Janssen') >=
-                                              0
-                                          ? '/' +
-                                              vaccineSchedules[vaccineSchedules
-                                                      .indexWhere((element) =>
-                                                          element.vaccine ==
-                                                          'Janssen')]
-                                                  .maxStock
-                                                  .toString()
-                                          : '/0',
+                                  child: Text('/' + janssenMaxCount.toString(),
                                       style: TextStyle(
                                           fontFamily: 'Poppins',
                                           fontWeight: FontWeight.w500,
@@ -469,18 +408,7 @@ class _WebManageState extends State<WebManage> {
                             child: Row(
                               children: [
                                 Container(
-                                  child: Text(
-                                      vaccineSchedules.indexWhere((element) =>
-                                                  element.vaccine ==
-                                                  'Sinovac') >=
-                                              0
-                                          ? vaccineSchedules[vaccineSchedules
-                                                  .indexWhere((element) =>
-                                                      element.vaccine ==
-                                                      'Sinovac')]
-                                              .currentStock
-                                              .toString()
-                                          : '0',
+                                  child: Text(sinoCurrCount.toString(),
                                       style: TextStyle(
                                           fontFamily: 'Poppins',
                                           fontWeight: FontWeight.w500,
@@ -488,19 +416,7 @@ class _WebManageState extends State<WebManage> {
                                           color: Color(0xFF6E8987))),
                                 ),
                                 Container(
-                                  child: Text(
-                                      vaccineSchedules.indexWhere((element) =>
-                                                  element.vaccine ==
-                                                  'Sinovac') >=
-                                              0
-                                          ? '/' +
-                                              vaccineSchedules[vaccineSchedules
-                                                      .indexWhere((element) =>
-                                                          element.vaccine ==
-                                                          'Sinovac')]
-                                                  .maxStock
-                                                  .toString()
-                                          : '/0',
+                                  child: Text('/' + sinoMaxCount.toString(),
                                       style: TextStyle(
                                           fontFamily: 'Poppins',
                                           fontWeight: FontWeight.w500,
