@@ -1,5 +1,6 @@
 import 'package:booksynation/mobilemain.dart';
 import 'package:booksynation/page/patient_info/widgets/patientData.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -55,19 +56,29 @@ class _GoogleButtonMobileState extends State<GoogleButtonMobile> {
             _isProcessing = true;
           });
           await _googleSignIn.signIn().then((result) {
+            var gpatient = FirebaseFirestore.instance
+                .collection('patient')
+                .doc()
+                .id
+                .contains(result!.id);
             if (result != null) {
               print('Google UID: ' + result.id);
               isGoogleUser = true;
 
               patient.uniqueId = result.id;
-              // getPatientDataGoogle(userGoogle);
-              // createPatientData();
+
+              if (gpatient) {
+                setPatientDataGoogle(userGoogle);
+              } else {
+                createPatientData();
+              }
+
               Navigator.of(context).pop();
               Navigator.of(context).pushReplacement(
                 MaterialPageRoute(
                   fullscreenDialog: true,
                   builder: (context) =>
-                      MobileMain(auth: auth, currentUser: currentUser),
+                      MobileMain(auth: auth, currentUser: userGoogle),
                 ),
               );
             }
