@@ -1,5 +1,7 @@
 import 'package:booksynation/mobilemain.dart';
 import 'package:booksynation/page/patient_info/widgets/patientData.dart';
+import 'package:booksynation/splash.dart';
+import 'package:booksynation/userData.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -61,24 +63,40 @@ class _GoogleButtonMobileState extends State<GoogleButtonMobile> {
                 .doc()
                 .id
                 .contains(result!.id);
+
+            // .snapshots()
+            // .where((event) => true);
+
+            print('Gpatient exists: $gpatient');
+            print('Gpatient UID: ' + result.id);
             if (result != null) {
               print('Google UID: ' + result.id);
               isGoogleUser = true;
 
-              patient.uniqueId = result.id;
-
               if (gpatient) {
-                setPatientDataGoogle(userGoogle);
-              } else {
+                patient.uniqueId = result.id;
+                patient.firstName = result.displayName!;
+                patient.middleName = '';
+                patient.lastName = '';
+                patient.email = result.email;
+                createPatientUserData(
+                  result.id,
+                  patient.email,
+                  patient.firstName,
+                  patient.lastName,
+                  'google-user',
+                );
                 createPatientData();
               }
-
               Navigator.of(context).pop();
               Navigator.of(context).pushReplacement(
                 MaterialPageRoute(
                   fullscreenDialog: true,
-                  builder: (context) =>
-                      MobileMain(auth: auth, currentUser: userGoogle),
+                  builder: (context) => LoadScreen(
+                    auth: auth,
+                    currentUser: userGoogle,
+                    device: 'mobile',
+                  ),
                 ),
               );
             }

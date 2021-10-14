@@ -40,39 +40,28 @@ CollectionReference vaccineCollection =
 
 assignAvailableVaccine() async {
   print('Assign Available Vaccine Started...');
-  await vaccineCollection
+  var dataSnap = await FirebaseFirestore.instance
+      .collection('vaccine')
       .where('Category', isEqualTo: scheduleData.category)
-      .orderBy('DateStart', descending: false)
-      .snapshots()
-      .map((QuerySnapshot docSnap) {
-    docSnap.docs.forEach((element) {
-      Map<String, dynamic> data = element as Map<String, dynamic>;
+      .orderBy('DateStart', descending: true)
+      .limit(1)
+      .get();
 
-      print('DateStart: ' + data['DateStart']);
-      print('Vaccine: ' + data['Vaccine']);
-      print('Current Stock: ' + data['CurrentStock']);
-      print('Vaccine Category: ' + data['Category']);
+  List<QueryDocumentSnapshot> docs = dataSnap.docs;
+  for (var doc in docs) {
+    if (doc.data() != null) {
+      var datadoc = doc.data() as Map<String, dynamic>;
+
+      print('DateStart: ' + datadoc['DateStart']);
+      print('Vaccine: ' + datadoc['Vaccine']);
+      print('Current Stock: ' + datadoc['CurrentStock']);
+      print('Vaccine Category: ' + datadoc['Category']);
       print('Patient Category: ' + scheduleData.category);
+    }
+  }
 
-      // if category matches the patient classification and vaccine stock > 0
-      if (data['CurrentStock'] > 0 &&
-          data['Category'] == scheduleData.category) {
-        //insert update query to vaccine collection
-        //to subtract one amount from current stock
-        data['CurrentStock'] -= 1;
-        scheduleData.vaccine = data['Vaccine'];
-
-        print('Assign Available Vaccine Finished... (Vaccine Assigned)');
-
-        return null;
-      } else {
-        print('Assign Available Vaccine Finished... (No vaccine)');
-        scheduleData.vaccine = 'Failed: No Vaccine satisfies the condition';
-
-        return null;
-      }
-    });
-  });
+  //
+  // );
   // await vaccineCollection.snapshots().map((QuerySnapshot docSnap) {
   //   Map<String, dynamic> data = docSnap.docs as Map<String, dynamic>;
   //   print('Vaccine: ' + data['Vaccine']);
