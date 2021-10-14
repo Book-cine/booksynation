@@ -47,6 +47,11 @@ class SaveChanges extends StatelessWidget {
             fillStatus = true;
             patient.fillStatus = fillStatus;
             updatePatientData();
+            fullname = patient.firstName +
+                ' ' +
+                patient.lastName +
+                ' ' +
+                ((patient.suffix == 'N/A') ? '' : patient.suffix);
             User? user = FirebaseAuth.instance.currentUser;
             print("CurrentUser:" + user.toString());
             createSchedData(user);
