@@ -1,38 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 List<VaccineData> cloneVaccineSchedules = [];
-List<VaccineData> vaccineSchedules = [
-  // VaccineData(
-  //   uniqueId: '',
-  //   vaccine: 'Pfizer',
-  //   dateStart: DateTime(2021, 05, 12),
-  //   dateEnd: DateTime(2021, 05, 17),
-  //   currentStock: 49,
-  //   maxStock: 50,
-  //   category: 'A5',
-  // ),
-  // VaccineData(
-  //   uniqueId: '',
-  //   vaccine: 'Janssen',
-  //   dateStart: DateTime(2021, 05, 17),
-  //   dateEnd: DateTime(2021, 05, 24),
-  //   currentStock: 49,
-  //   maxStock: 50,
-  //   category: 'A5',
-  // ),
-];
-
-// vaccineSchedules.add(
-//   VaccineData(
-//     uniqueId: vaccineData.uniqueId,
-//     vaccine: vaccineData.vaccine,
-//     dateStart: vaccineData.dateStart,
-//     dateEnd: vaccineData.dateEnd,
-//     currentStock: vaccineData.currentStock,
-//     maxStock: vaccineData.maxStock,
-//     category: vaccineData.category,
-//   ),
-// );
+List<VaccineData> vaccineSchedules = [];
 
 class VaccineData {
   late String uniqueId;

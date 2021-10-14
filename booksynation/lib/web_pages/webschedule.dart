@@ -96,8 +96,6 @@ class _WebScheduleState extends State<WebSchedule> {
               stream: _scheduledStream,
               builder: (BuildContext context,
                   AsyncSnapshot<QuerySnapshot> snapshot) {
-                Iterable data;
-
                 if (snapshot.hasError) {
                   return Text('Something went wrong');
                 }
