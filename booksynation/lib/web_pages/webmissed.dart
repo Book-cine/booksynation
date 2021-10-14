@@ -257,106 +257,111 @@ class _WebMissedState extends State<WebMissed> {
                                   ),
                                 ),
                               ],
-                              rows: snapshot.data!.docs
-                                  .map((DocumentSnapshot document) {
-                                // filteredData.map((data) {
-                                Map<String, dynamic> data =
-                                    document.data()! as Map<String, dynamic>;
+                              rows: dropdownValue == 'All'
+                                  ? snapshot.data!.docs
+                                      .map((DocumentSnapshot document) {
+                                      Map<String, dynamic> data = document
+                                          .data()! as Map<String, dynamic>;
+                                      final DateFormat formatter =
+                                          DateFormat('MM/dd/yyyy');
 
-                                final DateFormat formatter =
-                                    DateFormat('MM/dd/yyyy');
+                                      String getDateString() {
+                                        DateTime dateSched =
+                                            data['DateSchedule'].toDate();
+                                        String formattedStart =
+                                            formatter.format(dateSched);
+                                        return formattedStart;
+                                      }
 
-                                String getDateString() {
-                                  DateTime dateSched =
-                                      data['DateSchedule'].toDate();
-                                  String formattedStart =
-                                      formatter.format(dateSched);
-                                  return formattedStart;
-                                }
+                                      return DataRow(
+                                        selected: _selectedIndex
+                                            .contains(data['Index']),
+                                        onSelectChanged: (val) {
+                                          setState(() {
+                                            if (_selectedIndex
+                                                .contains(data['Index'])) {
+                                              _selectedIndex
+                                                  .remove(data['Index']);
+                                              _selectedUserID
+                                                  .remove(data['UID']);
+                                            } else {
+                                              _selectedIndex.add(data['Index']);
+                                              _selectedUserID.add(data['UID']);
+                                            }
+                                          });
+                                        },
+                                        cells: <DataCell>[
+                                          DataCell(Container(
+                                              child: Text(data['UID']))),
+                                          DataCell(Container(
+                                              child: Text(data['Name']))),
+                                          DataCell(Container(
+                                              child: Text(data['Email']))),
+                                          DataCell(Container(
+                                              child: Text(data['Vaccine']))),
+                                          DataCell(Container(
+                                              child: Text(data['Dosage']))),
+                                          DataCell(Container(
+                                              child: Text(data['Category']))),
+                                          DataCell(Container(
+                                              child: Text(getDateString()))),
+                                        ],
+                                      );
+                                    }).toList()
+                                  : snapshot.data!.docs
+                                      .where((DocumentSnapshot document) =>
+                                          (document.data()! as Map<String,
+                                              dynamic>)['Vaccine'] ==
+                                          dropdownValue)
+                                      .map((DocumentSnapshot document) {
+                                      Map<String, dynamic> data = document
+                                          .data()! as Map<String, dynamic>;
+                                      final DateFormat formatter =
+                                          DateFormat('MM/dd/yyyy');
 
-                                if (dropdownValue == 'All') {
-                                  return DataRow(
-                                    selected:
-                                        _selectedIndex.contains(data['Index']),
-                                    onSelectChanged: (val) {
-                                      setState(() {
-                                        if (_selectedIndex
-                                            .contains(data['Index'])) {
-                                          _selectedIndex.remove(data['Index']);
-                                          _selectedUserID.remove(data['UID']);
-                                        } else {
-                                          _selectedIndex.add(data['Index']);
-                                          _selectedUserID.add(data['UID']);
-                                        }
-                                      });
-                                    },
-                                    cells: <DataCell>[
-                                      DataCell(
-                                          Container(child: Text(data['UID']))),
-                                      DataCell(
-                                          Container(child: Text(data['Name']))),
-                                      DataCell(Container(
-                                          child: Text(data['Email']))),
-                                      DataCell(Container(
-                                          child: Text(data['Vaccine']))),
-                                      DataCell(Container(
-                                          child: Text(data['Dosage']))),
-                                      DataCell(Container(
-                                          child: Text(data['Category']))),
-                                      DataCell(Container(
-                                          child: Text(getDateString()))),
-                                    ],
-                                  );
-                                } else {
-                                  if (data['Vaccine'] == dropdownValue) {
-                                    return DataRow(
-                                      selected: _selectedIndex
-                                          .contains(data['Index']),
-                                      onSelectChanged: (val) {
-                                        setState(() {
-                                          if (_selectedIndex
-                                              .contains(data['Index'])) {
-                                            _selectedIndex
-                                                .remove(data['Index']);
-                                            _selectedUserID.remove(data['UID']);
-                                          } else {
-                                            _selectedIndex.add(data['Index']);
-                                            _selectedUserID.add(data['UID']);
-                                          }
-                                        });
-                                      },
-                                      cells: <DataCell>[
-                                        DataCell(Container(
-                                            child: Text(data['UID']))),
-                                        DataCell(Container(
-                                            child: Text(data['Name']))),
-                                        DataCell(Container(
-                                            child: Text(data['Email']))),
-                                        DataCell(Container(
-                                            child: Text(data['Vaccine']))),
-                                        DataCell(Container(
-                                            child: Text(data['Dosage']))),
-                                        DataCell(Container(
-                                            child: Text(data['Category']))),
-                                        DataCell(Container(
-                                            child: Text(getDateString()))),
-                                      ],
-                                    );
-                                  } else {
-                                    return DataRow(
-                                      cells: <DataCell>[
-                                        DataCell(SizedBox.shrink()),
-                                        DataCell(SizedBox.shrink()),
-                                        DataCell(SizedBox.shrink()),
-                                        DataCell(SizedBox.shrink()),
-                                        DataCell(SizedBox.shrink()),
-                                        DataCell(SizedBox.shrink()),
-                                        DataCell(SizedBox.shrink()),
-                                      ],
-                                    );
-                                  }
-                                }
-                              }).toList(),
+                                      String getDateString() {
+                                        DateTime dateSched =
+                                            data['DateSchedule'].toDate();
+                                        String formattedStart =
+                                            formatter.format(dateSched);
+                                        return formattedStart;
+                                      }
+
+                                      return DataRow(
+                                        selected: _selectedIndex
+                                            .contains(data['Index']),
+                                        onSelectChanged: (val) {
+                                          setState(() {
+                                            if (_selectedIndex
+                                                .contains(data['Index'])) {
+                                              _selectedIndex
+                                                  .remove(data['Index']);
+                                              _selectedUserID
+                                                  .remove(data['UID']);
+                                            } else {
+                                              _selectedIndex.add(data['Index']);
+                                              _selectedUserID.add(data['UID']);
+                                            }
+                                          });
+                                        },
+                                        cells: <DataCell>[
+                                          DataCell(Container(
+                                              child: Text(data['UID']))),
+                                          DataCell(Container(
+                                              child: Text(data['Name']))),
+                                          DataCell(Container(
+                                              child: Text(data['Email']))),
+                                          DataCell(Container(
+                                              child: Text(data['Vaccine']))),
+                                          DataCell(Container(
+                                              child: Text(data['Dosage']))),
+                                          DataCell(Container(
+                                              child: Text(data['Category']))),
+                                          DataCell(Container(
+                                              child: Text(getDateString()))),
+                                        ],
+                                      );
+                                    }).toList(),
                             ),
                           ),
                         ),
