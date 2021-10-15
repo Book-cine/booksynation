@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:intl/intl.dart';
 
 class WebSchedule extends StatefulWidget {
   WebSchedule({Key? key}) : super(key: key);
@@ -114,6 +115,11 @@ class _WebScheduleState extends State<WebSchedule> {
                     ),
                   );
                 }
+                String getDate(DateTime date) {
+                  final DateFormat formatter = DateFormat('MM/dd/yyyy');
+                  String formatted = formatter.format(date);
+                  return formatted;
+                }
 
                 return Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -203,7 +209,8 @@ class _WebScheduleState extends State<WebSchedule> {
                                         DataCell(Container(
                                             child: Text(data['Category']))),
                                         DataCell(Container(
-                                            child: Text(data['Date']))),
+                                            child: Text(getDate(
+                                                data['Date'].toDate())))),
                                         DataCell(
                                           Container(
                                             child: Row(
@@ -260,8 +267,9 @@ class _WebScheduleState extends State<WebSchedule> {
                                           child: Text(data['Dosage']))),
                                       DataCell(Container(
                                           child: Text(data['Category']))),
-                                      DataCell(
-                                          Container(child: Text(data['Date']))),
+                                      DataCell(Container(
+                                          child: Text(
+                                              getDate(data['Date'].toDate())))),
                                       DataCell(
                                         Container(
                                           child: Row(

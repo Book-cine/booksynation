@@ -207,7 +207,7 @@ PatientProfileData patient = PatientProfileData(
   others: 'Click to Edit',
 );
 
-setPatientData(User? _patient) async {
+getPatientData(User? _patient) async {
   var coll = FirebaseFirestore.instance.collection('patient');
   await coll.doc(_patient!.uid).get().then((result) {
     Map<String, dynamic>? value = result.data();

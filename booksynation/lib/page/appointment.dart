@@ -1,7 +1,9 @@
 import 'package:booksynation/page/booksched.dart';
 import 'package:booksynation/page/missed.dart';
+import 'package:booksynation/page/patient_info/widgets/patientData.dart';
 import 'package:booksynation/page/schedule.dart';
 import 'package:booksynation/strings.dart';
+import 'package:booksynation/web_pages/web_data/web_schedules_data.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -17,14 +19,18 @@ class MyAppointment extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String schedule =
-        '2021-10-11'; //Schedule of User's vaccine from firestore/ Book button pressed if not empty
+    DateTime scheduleDate = scheduleData
+        .dateScheduled; //Schedule of User's vaccine from firestore/ Book button pressed if not empty
     bool status =
         true; //Status of Vaccination of User from firestore (false when vaccine is missed, true otherwise)
-    bool fillStatus = true; //Status of Fill up Form of User from firestore
-    var now = new DateTime.now();
-    var formatter = new DateFormat('yyyy-MM-dd');
+    bool fillStatus =
+        patient.fillStatus; //Status of Fill up Form of User from firestore
+    print('FillStatus: ' +
+        fillStatus.toString()); //TODO: no alert even if Fillstatus is false
+    DateTime now = new DateTime.now();
+    var formatter = new DateFormat('MM/dd/yyyy');
     String date = formatter.format(now);
+    String schedule = formatter.format(scheduleDate);
 
     Future.delayed(Duration.zero, () {
       if (status && schedule.isNotEmpty && date == schedule) {

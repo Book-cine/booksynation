@@ -65,7 +65,7 @@ createPatientUserData(
       .catchError((error) => print('Failed to add Patient user: $error'));
 }
 
-Future setPatientUserData(User? _patient) async {
+Future getPatientUserData(User? _patient) async {
   var coll = FirebaseFirestore.instance.collection('user');
   await coll.doc(_patient!.uid).get().then((result) {
     Map<String, dynamic>? value = result.data();

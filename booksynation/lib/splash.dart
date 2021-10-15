@@ -4,6 +4,7 @@ import 'package:booksynation/page/onboarding.dart';
 import 'package:booksynation/page/patient_info/widgets/patientData.dart';
 import 'package:booksynation/userData.dart';
 import 'package:booksynation/web_pages/web_data/adminData.dart';
+import 'package:booksynation/web_pages/web_data/assign_vaccine.dart';
 import 'package:booksynation/web_pages/webmain.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -163,8 +164,9 @@ class _LoadScreenState extends State<LoadScreen> {
           _navigatetonext();
         });
       } else {
-        setPatientUserData(widget.currentUser);
-        setPatientData(widget.currentUser).then((value) {
+        getPatientUserData(widget.currentUser);
+        getScheduleFirebase(widget.currentUser);
+        getPatientData(widget.currentUser).then((value) {
           _navigatetonext();
         });
       }

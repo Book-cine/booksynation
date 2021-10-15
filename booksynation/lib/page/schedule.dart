@@ -1,8 +1,11 @@
 import 'package:booksynation/mobilemain.dart';
+import 'package:booksynation/page/patient_info/widgets/patientData.dart';
 import 'package:booksynation/strings.dart';
+import 'package:booksynation/web_pages/web_data/web_schedules_data.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:intl/intl.dart';
 
 class ScheduleScreen extends StatefulWidget {
   ScheduleScreen({
@@ -40,8 +43,15 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
       fontSize: height * 0.035,
     );
 
-    String uid = 'MvqEtaUdGVxIEsgwNVf4';
-    String date = '2021-10-08';
+    String uid = patient.uniqueId;
+    print('Patient UID: ' + uid);
+    final DateFormat formatter = DateFormat('MM/dd/yyyy');
+    String getDateSchedule() {
+      DateTime date = scheduleData.dateScheduled;
+      String formattedSched = formatter.format(date);
+      return formattedSched;
+    }
+
     return SafeArea(
       child: Scaffold(
         extendBodyBehindAppBar: true,
@@ -58,7 +68,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                   children: [
                     SizedBox(height: height * 0.20),
                     Text(
-                      scheduleText1 + date,
+                      scheduleText1 + getDateSchedule(),
                       textAlign: TextAlign.center,
                       style: _normalTextStyle.copyWith(
                           fontSize: height * 0.035,

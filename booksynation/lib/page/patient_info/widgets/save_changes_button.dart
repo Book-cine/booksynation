@@ -56,15 +56,21 @@ class SaveChanges extends StatelessWidget {
             User? user = FirebaseAuth.instance.currentUser;
             print("CurrentUser:" + user.toString());
             createScheduleVaccine(user);
+
             Future.delayed(const Duration(seconds: 2), () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => BookSchedule(
-                          auth: auth,
-                          currentUser: currentUser,
-                        )),
-              );
+              //Assign date to local class first
+              assignASchedule();
+              Future.delayed(const Duration(seconds: 2), () {
+                setScheduleFirebase();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => BookSchedule(
+                            auth: auth,
+                            currentUser: currentUser,
+                          )),
+                );
+              });
             });
           } else {
             ScaffoldMessenger.of(context).showSnackBar(
