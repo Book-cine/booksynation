@@ -1,8 +1,6 @@
-import 'package:booksynation/mobilemain.dart';
 import 'package:booksynation/page/patient_info/widgets/patientData.dart';
 import 'package:booksynation/splash.dart';
 import 'package:booksynation/userData.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -28,14 +26,9 @@ class _GoogleButtonMobileState extends State<GoogleButtonMobile> {
   final FirebaseAuth auth;
   final currentUser;
   bool _isProcessing = false;
-  GoogleSignIn _googleSignIn = GoogleSignIn(scopes: [
-    'email',
-  ]);
 
   @override
   Widget build(BuildContext context) {
-    GoogleSignInAccount? userGoogle = _googleSignIn.currentUser;
-
     return DecoratedBox(
       decoration: ShapeDecoration(
         shape: RoundedRectangleBorder(
@@ -57,78 +50,49 @@ class _GoogleButtonMobileState extends State<GoogleButtonMobile> {
           setState(() {
             _isProcessing = true;
           });
-          await _googleSignIn.signIn().then((result) {
-            var gpatient = FirebaseFirestore.instance
-                .collection('patient')
-                .doc()
-                .id
-                .contains(result!.id);
+          try {
+            UserCredential result = await signInWithGoogle(auth);
+            User user = result.user!;
 
-            // .snapshots()
-            // .where((event) => true);
-
-            print('Gpatient exists: $gpatient');
-            print('Gpatient UID: ' + result.id);
-            if (result != null) {
-              print('Google UID: ' + result.id);
-              isGoogleUser = true;
-
-              if (gpatient) {
-                patient.uniqueId = result.id;
-                patient.firstName = result.displayName!;
-                patient.middleName = '';
-                patient.lastName = '';
-                patient.email = result.email;
-                createPatientUserData(
-                  result.id,
-                  patient.email,
-                  patient.firstName,
-                  patient.lastName,
-                  'google-user',
-                );
-                createPatientData();
-              }
-              Navigator.of(context).pop();
-              Navigator.of(context).pushReplacement(
-                MaterialPageRoute(
-                  fullscreenDialog: true,
-                  builder: (context) => LoadScreen(
-                    auth: auth,
-                    currentUser: userGoogle,
-                    device: 'mobile',
-                  ),
-                ),
+            if (result.additionalUserInfo!.isNewUser) {
+              //store to local data
+              patient.uniqueId = user.uid;
+              patient.firstName = user.displayName!;
+              patient.middleName = '';
+              patient.lastName = '';
+              patient.email = user.email!;
+              //create firebase data for user
+              createPatientUserData(
+                patient.uniqueId,
+                patient.email,
+                patient.firstName,
+                patient.lastName,
+                'google-user',
               );
+              //create firebase data for patient
+              createPatientData();
             }
-          }).catchError((error) {
-            print('Registration Error: $error');
-          });
-          // try {
-          //   await _googleSignIn.signIn();
-          //   setState(() {});
-          //   print('User: $user');
-          // } catch (error) {
-          //   print(error);
-          // }
-
-          // if (user != null) {
-          //   Navigator.of(context).pop();
-          //   Navigator.of(context).pushReplacement(
-          //     MaterialPageRoute(
-          //       fullscreenDialog: true,
-          //       builder: (context) => OnBoard(),
-          //     ),
-          //   );
-          // } else {
-          //   ScaffoldMessenger.of(context).showSnackBar(
-          //     const SnackBar(
-          //       content: Text(
-          //         'Login unsuccessful.',
-          //       ),
-          //     ),
-          //   );
-          // }
-
+            // imageProfile = user.photoURL!; not yet working (AssetImage & NetworkImage)
+            Navigator.of(context).pop();
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(
+                fullscreenDialog: true,
+                builder: (context) => LoadScreen(
+                  auth: auth,
+                  currentUser: user,
+                  device: 'mobile',
+                ),
+              ),
+            );
+          } catch (e) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text(
+                  'Login unsuccessful.',
+                ),
+              ),
+            );
+          }
           setState(() {
             _isProcessing = false;
           });
@@ -165,4 +129,22 @@ class _GoogleButtonMobileState extends State<GoogleButtonMobile> {
       ),
     );
   }
+}
+
+Future<UserCredential> signInWithGoogle(authInstance) async {
+  // Trigger the authentication flow
+  final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+  // Obtain the auth details from the request
+  final GoogleSignInAuthentication? googleAuth =
+      await googleUser?.authentication;
+
+  // Create a new credential
+  final credential = GoogleAuthProvider.credential(
+    accessToken: googleAuth?.accessToken,
+    idToken: googleAuth?.idToken,
+  );
+
+  // Once signed in, return the UserCredential
+  return await authInstance.signInWithCredential(credential);
 }

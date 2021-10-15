@@ -55,7 +55,7 @@ class _MobileMainState extends State<MobileMain> {
   Widget sideMenu() {
     final name = fullname;
     final email = patient.email;
-    final image = 'images/user.png';
+    final image = imageProfile;
     // final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
 

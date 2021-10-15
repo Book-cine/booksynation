@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 
 List<String> allergies = [];
 
@@ -84,6 +83,8 @@ String fullname = patient.firstName +
     patient.lastName +
     ' ' +
     ((patient.suffix == 'N/A') ? '' : patient.suffix);
+
+String imageProfile = 'images/user.png';
 
 final formKey = GlobalKey<FormState>();
 CollectionReference userCollection =
@@ -244,45 +245,6 @@ setPatientData(User? _patient) async {
   });
 }
 
-setPatientDataGoogle(GoogleSignInAccount? user) async {
-  var coll = FirebaseFirestore.instance.collection('patient');
-  await coll.doc(user!.id).get().then((result) {
-    Map<String, dynamic>? value = result.data();
-    patient.uniqueId = value?['UID'];
-    patient.isGoogleUser = value?['Google_User'];
-    patient.fillStatus = value?['Fill_Status'];
-    patient.type = value?['Type'];
-    patient.firstName = value?['FirstName'];
-    patient.middleName = value?['MiddleName'];
-    patient.lastName = value?['LastName'];
-    patient.suffix = value?['Suffix'];
-    patient.sex = value?['Sex'];
-    patient.age = value?['Age'];
-    patient.civStatus = value?['Civil_Status'];
-    patient.philhealth = value?['Philhealth_Num'];
-    patient.bday = value?['Bday'];
-    patient.address = value?['Address'];
-    patient.region = value?['Region'];
-    patient.province = value?['Province'];
-    patient.city = value?['City'];
-    patient.brgy = value?['Barangay'];
-    patient.zip = value?['Zip'];
-    patient.contact = value?['Contact_Num'];
-    patient.email = value?['Email'];
-    patient.covclass = value?['Cov19_Classification'];
-    patient.employed = value?['Employment_Status'];
-    patient.pregnant = value?['Pregnant'];
-    patient.disability = value?['PWD'];
-    patient.interactedCovid = value?['Covid_Interaction'];
-    patient.isDiagnosed = value?['Diagnosed_w_Covid'];
-    patient.diagnosedDate = value?['Diagnosed_Date'];
-    patient.allergies = value?['Allergies'];
-    patient.comorbidities = value?['Comorbidities'];
-    patient.allergies = value?['Other_Allergies'];
-    patient.comorbidities = value?['Other_Comorbidities'];
-  });
-}
-
 createPatientData() async {
   patientCollection
       .doc(patient.uniqueId)
@@ -363,62 +325,3 @@ updatePatientData() async {
       .then((value) => print('Update User'))
       .catchError((error) => print('Failed to update user: $error'));
 }
-
-// Map<String, dynamic> docFields = {
-//   'uid': '',
-//   'type': '',
-//   'firstname': '',
-//   'middlename': '',
-//   'lastname': '',
-//   'suffix': '',
-//   'age': '',
-//   'bday': '',
-//   'gender': '',
-//   'civstatus': '',
-//   'philhealth': '',
-//   'currentaddress': '',
-//   'region': '',
-//   'province': '',
-//   'city': '',
-//   'brgy': '',
-//   'zip': '',
-//   'contact': '',
-//   'email': '',
-//   'covclass': '',
-//   'employed': '',
-//   'pregnant': '',
-//   'disability': '',
-//   'interactedCovid': '',
-//   'diagnosed': '$diagnosed',
-//   'diagnoseDate': '',
-//   'otherallergies': '',
-//   'others': '',
-// };
-
-//      'UID': docFields['uid'].toString(),
-// 'FirstName': docFields['firstname'].toString(),
-// 'MiddleName': docFields['middlename'].toString(),
-// 'LastName': docFields['lastname'].toString(),
-// 'Suffix': docFields['suffix'].toString(),
-// 'Sex': docFields['gender'].toString(),
-// 'Age': docFields['age'].toString(),
-// 'Civil_Status': docFields['civstatus'].toString(),
-// 'Philhealth_Num': docFields['philhealth'].toString(),
-// 'Bday': docFields['bday'].toString(),
-// 'Address': docFields['currentaddress'].toString(),
-// 'Region': docFields['region'].toString(),
-// 'Province': docFields['province'].toString(),
-// 'City': docFields['city'].toString(),
-// 'Barangay': docFields['brgy'].toString(),
-// 'Zip': docFields['zip'].toString(),
-// 'Contact_Num': docFields['contact'].toString(),
-// 'Email': docFields['email'].toString(),
-// 'Cov19_Classification': docFields['covclass'].toString(),
-// 'Employment_Status': docFields['employed'].toString(),
-// 'Pregnant': docFields['pregnant'].toString(),
-// 'PWD': docFields['disability'].toString(),
-// 'Covid_Interaction': docFields['interactedCovid'].toString(),
-// 'Diagnosed_w_Covid': docFields['diagnosed'].toString(),
-// 'Diagnosed_Date': docFields['diagnoseDate'].toString(),
-// 'Allergies': allergies,
-// 'Comorbidities': comorbidities,

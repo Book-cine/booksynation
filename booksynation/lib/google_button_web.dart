@@ -1,9 +1,11 @@
-import 'package:booksynation/mobilemain.dart';
+import 'package:booksynation/splash.dart';
+import 'package:booksynation/userData.dart';
+import 'package:booksynation/web_pages/web_data/adminData.dart';
 import 'package:flutter/material.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 
-Future<UserCredential> signInWithGoogle() async {
+Future<UserCredential> signInWithGoogle(authInstance) async {
   // Create a new provider
   GoogleAuthProvider googleProvider = GoogleAuthProvider();
 
@@ -11,7 +13,7 @@ Future<UserCredential> signInWithGoogle() async {
   googleProvider.setCustomParameters({'login_hint': 'user@example.com'});
 
   // Once signed in, return the UserCredential
-  return await FirebaseAuth.instance.signInWithPopup(googleProvider);
+  return await authInstance.signInWithPopup(googleProvider);
 
   // Or use signInWithRedirect
   // return await FirebaseAuth.instance.signInWithRedirect(googleProvider);
@@ -62,21 +64,50 @@ class _GoogleButtonWebState extends State<GoogleButtonWeb> {
           setState(() {
             _isProcessing = true;
           });
-          await signInWithGoogle().then((result) {
-            print(result);
-            if (result != null) {
-              Navigator.of(context).pop();
-              Navigator.of(context).pushReplacement(
-                MaterialPageRoute(
-                  fullscreenDialog: true,
-                  builder: (context) =>
-                      MobileMain(auth: auth, currentUser: currentUser),
-                ),
+          try {
+            UserCredential result = await signInWithGoogle(auth);
+            User user = result.user!;
+
+            if (result.additionalUserInfo!.isNewUser) {
+              //store to local data
+              admin.uniqueId = user.uid;
+              admin.firstName = user.displayName!;
+              admin.lastName = '';
+              admin.email = user.email!;
+              admin.profilePic = user.photoURL!;
+              //create firebase data for user
+              createAdminUserData(
+                admin.uniqueId,
+                admin.email,
+                admin.firstName,
+                admin.lastName,
+                'google-user',
               );
+              //create firebase data for patient
+              createAdminData();
             }
-          }).catchError((error) {
-            print('Registration Error: $error');
-          });
+            // imageProfile = user.photoURL!; not yet working (AssetImage & NetworkImage)
+            Navigator.of(context).pop();
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(
+                fullscreenDialog: true,
+                builder: (context) => LoadScreen(
+                  auth: auth,
+                  currentUser: user,
+                  device: 'web',
+                ),
+              ),
+            );
+          } catch (e) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text(
+                  'Login unsuccessful.',
+                ),
+              ),
+            );
+          }
+
           setState(() {
             _isProcessing = false;
           });
