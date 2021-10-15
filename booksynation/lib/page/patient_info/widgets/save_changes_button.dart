@@ -58,19 +58,14 @@ class SaveChanges extends StatelessWidget {
             createScheduleVaccine(user);
 
             Future.delayed(const Duration(seconds: 2), () {
-              //Assign date to local class first
-              assignASchedule();
-              Future.delayed(const Duration(seconds: 2), () {
-                setScheduleFirebase();
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => BookSchedule(
-                            auth: auth,
-                            currentUser: currentUser,
-                          )),
-                );
-              });
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => BookSchedule(
+                          auth: auth,
+                          currentUser: currentUser,
+                        )),
+              );
             });
           } else {
             ScaffoldMessenger.of(context).showSnackBar(

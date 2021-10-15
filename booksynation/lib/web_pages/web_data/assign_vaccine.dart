@@ -2,7 +2,7 @@ import 'package:booksynation/web_pages/web_data/web_schedules_data.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-createScheduleVaccine(User? _patient) async {
+Future<void> createScheduleVaccine(User? _patient) async {
   var coll = FirebaseFirestore.instance.collection('patient');
   await coll.doc(_patient!.uid).get().then((result) {
     Map<String, dynamic>? value = result.data();
@@ -22,13 +22,69 @@ createScheduleVaccine(User? _patient) async {
   print('Before Function -> Vaccine: ' + scheduleData.vaccine);
 
   //Assign vaccine to local class first
-  assignAvailableVaccine();
+  // peekAvailableVaccine().then((value) => assignAvailableVaccine());
+
+  assignAvailableVaccine().then(
+    (value) => assignASchedule().then((value) => setScheduleFirebase()),
+  );
 }
 
 var vaccineColl = FirebaseFirestore.instance.collection('vaccine');
-assignAvailableVaccine() async {
+
+// Future<int> peekAvailableVaccine() async {
+//   int? index;
+//   await vaccineColl
+//       .where('Category', isEqualTo: scheduleData.category)
+//       .orderBy('DateStart')
+//       .snapshots()
+//       .forEach((element) {
+//     // Map<String, dynamic>? value = element.docs;
+//     var data = element.docs.asMap();
+//     int? currStock;
+//     for (int x = 0; x < data.length; x++) {
+//       currStock = data[x]!['CurrentStock'];
+//       if (currStock! > 0) {
+//         index= x;
+//       } else {
+//         index= -1;
+//       }
+//     }
+
+//     return index;
+//     //   print('Vaccine: ' + value['Vaccine']);
+//     //   print('Current Stock: ' + value['CurrentStock'].toString());
+//     //   print('Vaccine Category: ' + value['Category']);
+//     //   print('Patient Category: ' + scheduleData.category);
+
+//     //   // if category matches the patient classification and vaccine stock > 0
+//     //   if (value['CurrentStock'] > 0 &&
+//     //       value['Category'] == scheduleData.category) {
+//     //     //insert update query to vaccine collection
+//     //     scheduleData.vaccine = value['Vaccine'];
+//     //     print('Vaccine is ' + scheduleData.vaccine);
+//     //     scheduleData.dateStart = value['DateStart'].toDate();
+//     //     scheduleData.dateEnd = value['DateEnd'].toDate();
+
+//     //     print('Local Date assigned is ' +
+//     //         scheduleData.dateStart.toString() +
+//     //         ' - ' +
+//     //         scheduleData.dateEnd.toString());
+//     //     scheduleData.cStock = value['CurrentStock'];
+//     //     print('Cstock: ' + scheduleData.cStock.toString());
+//     //     scheduleData.maxStock = value['MaxStock'];
+//     //     print('Maxstock: ' + scheduleData.maxStock.toString());
+//     //     scheduleData.vaccineID = value['UID'];
+//     //     print('VaccineID: ' + scheduleData.vaccineID);
+//     //     print('Assign Available Vaccine Finished...(Return Vaccine)');
+//     //   } else {
+//     //     print('Assign Available Vaccine Finished... (No vaccine)');
+//     //   }
+//     // });
+//   });
+// }
+
+Future<void> assignAvailableVaccine() async {
   print('Assign Available Vaccine Started...');
-  // var coll = FirebaseFirestore.instance.collection('vaccine');
 
   await vaccineColl
       .where('Category', isEqualTo: scheduleData.category)
@@ -64,10 +120,10 @@ assignAvailableVaccine() async {
     } else {
       print('Assign Available Vaccine Finished... (No vaccine)');
     }
-  });
+  }).catchError((error) => print('No matching document found.'));
 }
 
-assignASchedule() {
+Future<void> assignASchedule() async {
   print('Assign a schedule started...');
 
   scheduleData.cStock -= 1;
@@ -105,7 +161,7 @@ assignASchedule() {
   //   print('Counter(false): $counter');
   // }
 
-  updateStockData();
+  await updateStockData();
   scheduleData.dateScheduled = scheduleData.dateStart;
   print('Current Stock: ' + scheduleData.cStock.toString());
   print('Data Scheduled for patient: ' + scheduleData.dateStart.toString());

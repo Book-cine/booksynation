@@ -1,3 +1,4 @@
+import 'package:booksynation/web_pages/web_data/web_schedules_data.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -235,7 +236,10 @@ class _WebScheduleState extends State<WebSchedule> {
                                                     width: 25,
                                                   ),
                                                   tooltip: 'Mark as missed',
-                                                  onPressed: () {},
+                                                  onPressed: () {
+                                                    transferToMissed(
+                                                        data['uniqueID']);
+                                                  },
                                                 ),
                                               ],
                                             ),
@@ -294,7 +298,10 @@ class _WebScheduleState extends State<WebSchedule> {
                                                   width: 25,
                                                 ),
                                                 tooltip: 'Mark as missed',
-                                                onPressed: () {},
+                                                onPressed: () {
+                                                  transferToMissed(
+                                                      data['uniqueID']);
+                                                },
                                               ),
                                             ],
                                           ),
