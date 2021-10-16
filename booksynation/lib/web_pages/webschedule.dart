@@ -226,7 +226,13 @@ class _WebScheduleState extends State<WebSchedule> {
                                                     width: 25,
                                                   ),
                                                   tooltip: 'Mark as finished',
-                                                  onPressed: () {},
+                                                  onPressed: () {
+                                                    (data['Dosage'] == '2nd')
+                                                        ? finishPatient(
+                                                            data['uniqueID'])
+                                                        : reschedTo2ndDose(
+                                                            data['uniqueID']);
+                                                  },
                                                 ),
                                                 IconButton(
                                                   icon: SvgPicture.asset(

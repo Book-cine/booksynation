@@ -61,6 +61,7 @@ class _GoogleButtonMobileState extends State<GoogleButtonMobile> {
               patient.middleName = '';
               patient.lastName = '';
               patient.email = user.email!;
+              isGoogleUser = true;
               //create firebase data for user
               createPatientUserData(
                 patient.uniqueId,
@@ -71,6 +72,7 @@ class _GoogleButtonMobileState extends State<GoogleButtonMobile> {
               );
               //create firebase data for patient
               createPatientData();
+              isGoogleUser = false;
             }
             // imageProfile = user.photoURL!; not yet working (AssetImage & NetworkImage)
             Navigator.of(context).pop();

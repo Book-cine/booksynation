@@ -1,3 +1,4 @@
+import 'package:booksynation/page/patient_info/widgets/patientData.dart';
 import 'package:booksynation/splash.dart';
 import 'package:booksynation/userData.dart';
 import 'package:booksynation/web_pages/web_data/adminData.dart';
@@ -75,6 +76,8 @@ class _GoogleButtonWebState extends State<GoogleButtonWeb> {
               admin.lastName = '';
               admin.email = user.email!;
               admin.profilePic = user.photoURL!;
+              isGoogleUser = true;
+
               //create firebase data for user
               createAdminUserData(
                 admin.uniqueId,
@@ -85,6 +88,7 @@ class _GoogleButtonWebState extends State<GoogleButtonWeb> {
               );
               //create firebase data for patient
               createAdminData();
+              isGoogleUser = false;
             }
             // imageProfile = user.photoURL!; not yet working (AssetImage & NetworkImage)
             Navigator.of(context).pop();

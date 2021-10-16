@@ -48,10 +48,52 @@ ScheduleData scheduleData = ScheduleData(
   dateEnd: DateTime.now(),
 );
 
+finishPatient(String uniqueID) async {
+  var coll = FirebaseFirestore.instance.collection('scheduled-users');
+  var coll2 = FirebaseFirestore.instance.collection('completed-users');
+
+  //get data from scheduled users
+  await coll.doc(uniqueID).get().then((result) async {
+    Map<String, dynamic>? value = result.data();
+    //copy to completed-users collection
+    await coll2.doc(uniqueID).set({
+      'Category': value?['Category'],
+      'DateSchedule': value?['Date'],
+      'Dosage': value?['Dosage'],
+      'Email': value?['Email'],
+      'Name': value?['Name'],
+      'Vaccine': value?['Vaccine'],
+      'uniqueID': value?['uniqueID'],
+      'vaccineID': value?['vaccineID'],
+    }).then((value) async {
+      print('Schedule transferred to Missed');
+      //remove from scheduled collection
+      await coll
+          .doc(uniqueID)
+          .delete()
+          .then((value) => print('Scheduled User Deleted'))
+          .catchError(
+              (error) => print('Failed to delete scheduled-user: $error'));
+    }).catchError((error) =>
+        print('Failed to transfer schedule to Completed Collection: $error'));
+  }).catchError((error) => print('Failed to get scheduled-user: $error'));
+}
+
+reschedTo2ndDose(String uniqueID) async {
+  var coll = FirebaseFirestore.instance.collection('scheduled-users');
+
+  await coll.doc(uniqueID).set({
+    // 'DateSchedule': scheduleData.dateScheduled,
+    'Dosage': '2nd',
+  }).then((value) async {
+    print('Patient Successfully Rescheduled');
+  }).catchError((error) => print('Failed to reschedule patient: $error'));
+}
+
 transferToMissed(String uniqueID) async {
   var coll = FirebaseFirestore.instance.collection('scheduled-users');
   var coll2 = FirebaseFirestore.instance.collection('missed-sched');
-  int counter = 0;
+  int counter = 1;
   coll2.get().then((value) {
     value.docs.forEach((element) {
       counter += 1;

@@ -51,6 +51,9 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
       String formattedSched = formatter.format(date);
       return formattedSched;
     }
+    //TODO: if no schedule yet then show alert and redirect to forms or pending screen,
+    //TODO: if missed patient and not yet rescheduled show alert or pending screen.
+    //TODO: if removed then show patient removed need to fill up forms or delete account.
 
     return SafeArea(
       child: Scaffold(

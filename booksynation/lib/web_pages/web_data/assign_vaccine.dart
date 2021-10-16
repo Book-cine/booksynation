@@ -23,13 +23,78 @@ Future<void> createScheduleVaccine(User? _patient) async {
 
   //Assign vaccine to local class first
   // peekAvailableVaccine().then((value) => assignAvailableVaccine());
-
-  assignAvailableVaccine().then(
+  String dosage = '1st';
+  assignAvailableVaccine(dosage).then(
     (value) => assignASchedule().then((value) => setScheduleFirebase()),
   );
 }
 
 var vaccineColl = FirebaseFirestore.instance.collection('vaccine');
+
+Future<void> assignAvailableVaccine(String dosage) async {
+  print('Assign Available Vaccine Started...');
+
+  //if first dose, can assign any schedule matching the category.
+  //if second dose, needs to check date if it's a month after the first dose.
+  if (dosage == '1st') {
+    //peek first matching documents if their current stock > 0
+    await vaccineColl
+        .where('Category', isEqualTo: scheduleData.category)
+        .snapshots()
+        .elementAt(0)
+        .then((docSnap) {
+      Map<String, dynamic>? value = docSnap.docs.elementAt(0).data();
+      print('Vaccine: ' + value['Vaccine']);
+      print('Current Stock: ' + value['CurrentStock'].toString());
+      print('Vaccine Category: ' + value['Category']);
+      print('Patient Category: ' + scheduleData.category);
+
+      // if category matches the patient classification and vaccine stock > 0
+      if (value['CurrentStock'] > 0 &&
+          value['Category'] == scheduleData.category) {
+        //insert update query to vaccine collection
+        scheduleData.vaccine = value['Vaccine'];
+        print('Vaccine is ' + scheduleData.vaccine);
+        scheduleData.dateStart = value['DateStart'].toDate();
+        scheduleData.dateEnd = value['DateEnd'].toDate();
+
+        print('Local Date assigned is ' +
+            scheduleData.dateStart.toString() +
+            ' - ' +
+            scheduleData.dateEnd.toString());
+        scheduleData.cStock = value['CurrentStock'];
+        print('Cstock: ' + scheduleData.cStock.toString());
+        scheduleData.maxStock = value['MaxStock'];
+        print('Maxstock: ' + scheduleData.maxStock.toString());
+        scheduleData.vaccineID = value['UID'];
+        print('VaccineID: ' + scheduleData.vaccineID);
+        print('Assign Available Vaccine Finished...(Return Vaccine)');
+      } else {
+        print('Assign Available Vaccine Finished... (No vaccine)');
+      }
+    }).catchError((error) => print('No matching document found.'));
+  } else {
+    //make 14 days difference from first dose schedule
+    var coll = FirebaseFirestore.instance.collection('scheduled-users');
+    await coll.doc(scheduleData.uniqueId).get().then((result) async {
+      Map<String, dynamic>? value = result.data();
+      //assign to local
+      scheduleData.dateScheduled = value?['Date'];
+      scheduleData.vaccine = value?['Vaccine'];
+      //get documents that have the same vaccine and are scheduled
+      //after 2 weeks-1 month from the first dose
+
+      //peek first matching documents if their current stock > 0
+      // await vaccineColl
+      //     .where('Category', isEqualTo: scheduleData.category)
+      //     .snapshots()
+      //     .elementAt(0)
+      //     .then((docSnap) {
+      //   Map<String, dynamic>? value = docSnap.docs.elementAt(0).data();
+      // });
+    }).catchError((error) => print('Failed to get scheduled-user: $error'));
+  }
+}
 
 // Future<int> peekAvailableVaccine() async {
 //   int? index;
@@ -82,89 +147,29 @@ var vaccineColl = FirebaseFirestore.instance.collection('vaccine');
 //     // });
 //   });
 // }
-
-Future<void> assignAvailableVaccine() async {
-  print('Assign Available Vaccine Started...');
-
-  await vaccineColl
-      .where('Category', isEqualTo: scheduleData.category)
-      .snapshots()
-      .elementAt(0)
-      .then((docSnap) {
-    Map<String, dynamic>? value = docSnap.docs.elementAt(0).data();
-    print('Vaccine: ' + value['Vaccine']);
-    print('Current Stock: ' + value['CurrentStock'].toString());
-    print('Vaccine Category: ' + value['Category']);
-    print('Patient Category: ' + scheduleData.category);
-
-    // if category matches the patient classification and vaccine stock > 0
-    if (value['CurrentStock'] > 0 &&
-        value['Category'] == scheduleData.category) {
-      //insert update query to vaccine collection
-      scheduleData.vaccine = value['Vaccine'];
-      print('Vaccine is ' + scheduleData.vaccine);
-      scheduleData.dateStart = value['DateStart'].toDate();
-      scheduleData.dateEnd = value['DateEnd'].toDate();
-
-      print('Local Date assigned is ' +
-          scheduleData.dateStart.toString() +
-          ' - ' +
-          scheduleData.dateEnd.toString());
-      scheduleData.cStock = value['CurrentStock'];
-      print('Cstock: ' + scheduleData.cStock.toString());
-      scheduleData.maxStock = value['MaxStock'];
-      print('Maxstock: ' + scheduleData.maxStock.toString());
-      scheduleData.vaccineID = value['UID'];
-      print('VaccineID: ' + scheduleData.vaccineID);
-      print('Assign Available Vaccine Finished...(Return Vaccine)');
-    } else {
-      print('Assign Available Vaccine Finished... (No vaccine)');
-    }
-  }).catchError((error) => print('No matching document found.'));
-}
-
 Future<void> assignASchedule() async {
   print('Assign a schedule started...');
 
-  scheduleData.cStock -= 1;
   //current stock 99 : maxStock 100 : perDay 20 since 5 days
-  // int numberOfDays =
-  //     scheduleData.dateEnd.difference(scheduleData.dateStart).inDays;
-  // double perDay = scheduleData.maxStock / numberOfDays; // 100 / 5 = 20
-  // List<int>? stockArray;
-  // //Assign stock per day
-  // for (int x = 0; x < numberOfDays; x++) {
-  //   stockArray!.add(perDay);
-  // }
+  int numberOfDays =
+      scheduleData.dateEnd.difference(scheduleData.dateStart).inDays;
+  print('Number of Days: $numberOfDays');
+  double vaccineRatio = scheduleData.cStock / scheduleData.maxStock;
+  print('Vaccine Ratio: $vaccineRatio');
+  double dayProportion = numberOfDays * vaccineRatio;
+  print('Day Proportion: $dayProportion');
+  int scheduled_Add = numberOfDays - dayProportion.floor();
+  print('How much days to add to dateStart: $scheduled_Add');
 
-  // int cStock = scheduleData.cStock;
-  // // cStock!=0 if less than perDay but still not zero
-  // if (cStock > perDay || cStock != 0) {
-  //   //assign slot and subtract stock
-  //   scheduleData.cStock-=1;
-  // } else {
-  //   print('No available stock for this vaccine.');
-  // }
+  scheduleData.dateScheduled =
+      scheduleData.dateScheduled.add(Duration(days: scheduled_Add));
+  print('Date Scheduled for patient: ' + scheduleData.dateScheduled.toString());
 
-  // print('Vaccine Alloted per Day: $perDay');
-  // int counter = 0;
-  // //if available stock is 20 then 20
-  // if (scheduleData.cStock % perDay > 0) {
-  //   //today & vaccine.currentStock -= 1
-  //   counter = counter;
-
-  //   print('Counter(true): $counter');
-  // } else {
-  //   //tomorrow
-  //   counter += 1;
-
-  //   print('Counter(false): $counter');
-  // }
+  scheduleData.cStock -= 1;
+  print('Current Stock: ' + scheduleData.cStock.toString());
 
   await updateStockData();
-  scheduleData.dateScheduled = scheduleData.dateStart;
-  print('Current Stock: ' + scheduleData.cStock.toString());
-  print('Data Scheduled for patient: ' + scheduleData.dateStart.toString());
+
   print('Assign Schedule Date Completed!');
 }
 
@@ -191,6 +196,7 @@ setScheduleFirebase() async {
         'Name': scheduleData.name,
         'Vaccine': scheduleData.vaccine,
         'uniqueID': scheduleData.uniqueId,
+        'vaccineID': scheduleData.vaccineID,
         // 42
       })
       .then((value) => print("Schedule Added"))
@@ -206,22 +212,3 @@ getScheduleFirebase(User? user) async {
     scheduleData.dateScheduled = value?['Date'].toDate();
   }).catchError((error) => print("Failed to get vaccine schedule: $error"));
 }
-
-// assignASchedule(vaccine) {
-//   print('Assign a schedule started...');
-//   //current stock 99 : maxStock 100 : perDay 20 since 5 days
-//   int perDay = vaccine.maxStock %
-//       (vaccine.dateEnd.difference(vaccine.dateStart)); // 100 % 5 = 20
-//   int counter = 0;
-//   if (vaccine.currentStock % perDay > 0) {
-//     //today & vaccine.currentStock -= 1
-//     counter = counter;
-//   } else {
-//     //tomorrow
-//     counter += 1;
-//   }
-//   vaccine.currentStock -= 1;
-
-//   scheduleData.dateScheduled = vaccine.dateStart.add(Duration(days: counter));
-//   print('Assign a schedule finished...');
-// }

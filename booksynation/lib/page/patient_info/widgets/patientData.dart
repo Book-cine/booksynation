@@ -97,7 +97,6 @@ CollectionReference patientCollection =
 
 class PatientProfileData {
   late bool fillStatus;
-  late bool isGoogleUser;
 
   //Profile Information
   late String uniqueId;
@@ -137,7 +136,6 @@ class PatientProfileData {
 
   PatientProfileData({
     required this.fillStatus,
-    required this.isGoogleUser,
     required this.uniqueId,
     required this.type,
     required this.firstName,
@@ -174,7 +172,6 @@ class PatientProfileData {
 //Initial Patient Data (placeholder)
 PatientProfileData patient = PatientProfileData(
   uniqueId: '',
-  isGoogleUser: isGoogleUser,
   fillStatus: fillStatus,
   type: '',
   firstName: 'Juan',
