@@ -40,113 +40,137 @@ Future<void> assignAvailableVaccine(String dosage) async {
     //peek first matching documents if their current stock > 0
     await vaccineColl
         .where('Category', isEqualTo: scheduleData.category)
-        .snapshots()
-        .elementAt(0)
+        .get()
         .then((docSnap) {
-      Map<String, dynamic>? value = docSnap.docs.elementAt(0).data();
-      print('Vaccine: ' + value['Vaccine']);
-      print('Current Stock: ' + value['CurrentStock'].toString());
-      print('Vaccine Category: ' + value['Category']);
-      print('Patient Category: ' + scheduleData.category);
+      print('Document Found');
+      docSnap.docs.forEach((element) {
+        Map<String, dynamic>? value = element.data();
 
-      // if category matches the patient classification and vaccine stock > 0
-      if (value['CurrentStock'] > 0 &&
-          value['Category'] == scheduleData.category) {
-        //insert update query to vaccine collection
-        scheduleData.vaccine = value['Vaccine'];
-        print('Vaccine is ' + scheduleData.vaccine);
-        scheduleData.dateStart = value['DateStart'].toDate();
-        scheduleData.dateEnd = value['DateEnd'].toDate();
+        print('Vaccine: ' + value['Vaccine']);
+        print('Current Stock: ' + value['CurrentStock'].toString());
+        print('Vaccine Category: ' + value['Category']);
+        print('Patient Category: ' + scheduleData.category);
 
-        print('Local Date assigned is ' +
-            scheduleData.dateStart.toString() +
-            ' - ' +
-            scheduleData.dateEnd.toString());
-        scheduleData.cStock = value['CurrentStock'];
-        print('Cstock: ' + scheduleData.cStock.toString());
-        scheduleData.maxStock = value['MaxStock'];
-        print('Maxstock: ' + scheduleData.maxStock.toString());
-        scheduleData.vaccineID = value['UID'];
-        print('VaccineID: ' + scheduleData.vaccineID);
-        print('Assign Available Vaccine Finished...(Return Vaccine)');
-      } else {
-        print('Assign Available Vaccine Finished... (No vaccine)');
-      }
+        // if category matches the patient classification and vaccine stock > 0
+        if (value['CurrentStock'] > 0 &&
+            value['Category'] == scheduleData.category) {
+          //insert update query to vaccine collection
+          scheduleData.vaccine = value['Vaccine'];
+          print('Vaccine is ' + scheduleData.vaccine);
+          scheduleData.dateStart = value['DateStart'].toDate();
+          scheduleData.dateEnd = value['DateEnd'].toDate();
+          int dateDifference = scheduleData.dateStart
+              .difference(value['DateStart'].toDate())
+              .inDays;
+          if (dateDifference <= 14) {
+            print('Local Date assigned is ' +
+                scheduleData.dateStart.toString() +
+                ' - ' +
+                scheduleData.dateEnd.toString());
+            scheduleData.cStock = value['CurrentStock'];
+            print('Cstock: ' + scheduleData.cStock.toString());
+            scheduleData.maxStock = value['MaxStock'];
+            print('Maxstock: ' + scheduleData.maxStock.toString());
+            scheduleData.vaccineID = value['UID'];
+            print('VaccineID: ' + scheduleData.vaccineID);
+            print('Assign Available Vaccine Finished...(Return Vaccine)');
+          } else {
+            print('Assign Available Vaccine Finished... (No vaccine)');
+          }
+        }
+      });
     }).catchError((error) => print('No matching document found.'));
   } else {
+    print('2nd Dose start resched');
     //make 14 days difference from first dose schedule
     var coll = FirebaseFirestore.instance.collection('scheduled-users');
     await coll.doc(scheduleData.uniqueId).get().then((result) async {
       Map<String, dynamic>? value = result.data();
-      //assign to local
-      scheduleData.dateScheduled = value?['Date'];
-      scheduleData.vaccine = value?['Vaccine'];
-      //get documents that have the same vaccine and are scheduled
-      //after 2 weeks-1 month from the first dose
+      var patientColl = FirebaseFirestore.instance.collection('patient');
+      await patientColl.doc(scheduleData.uniqueId).get().then((result) async {
+        //get patient Data first
+        Map<String, dynamic>? patientData = result.data();
+        scheduleData.uniqueId = patientData?['UID'];
+        print('schedUniqueID: ' + scheduleData.uniqueId);
+        scheduleData.name = patientData?['FirstName'] +
+            ' ' +
+            patientData?['MiddleName'] +
+            ' ' +
+            patientData?['LastName'];
 
-      //peek first matching documents if their current stock > 0
-      // await vaccineColl
-      //     .where('Category', isEqualTo: scheduleData.category)
-      //     .snapshots()
-      //     .elementAt(0)
-      //     .then((docSnap) {
-      //   Map<String, dynamic>? value = docSnap.docs.elementAt(0).data();
-      // });
+        scheduleData.email = patientData?['Email'];
+        scheduleData.category = patientData?['Cov19_Classification'];
+        print('Patient Category: ' + scheduleData.category);
+        print('Patient Name: ' + scheduleData.name);
+        scheduleData.vaccine = value?['Vaccine'];
+        print('Before Function -> Vaccine: ' + scheduleData.vaccine);
+        //assign to 1st dose dateSched to local
+        scheduleData.dateScheduled = value?['Date'].toDate();
+
+        print(
+            'Patient last Schedule: ' + scheduleData.dateScheduled.toString());
+
+        //get documents that have the same vaccine and are scheduled
+        //after 2 weeks-1 month from the first dose
+        //peek first matching documents if their current stock > 0
+        // matches with vaccine and category
+        await peekAvailableVaccine().then((value) async {
+          //successfully assigned vaccineID to local, get vaccine from vaccine collection
+          await vaccineColl.doc(scheduleData.vaccineID).get().then((docSnap) {
+            Map<String, dynamic>? value = docSnap.data();
+            scheduleData.vaccine = value?['Vaccine'];
+            print('Vaccine is ' + scheduleData.vaccine);
+            scheduleData.dateStart = value?['DateStart'].toDate();
+            scheduleData.dateEnd = value?['DateEnd'].toDate();
+
+            print('Local Date assigned is ' +
+                scheduleData.dateStart.toString() +
+                ' - ' +
+                scheduleData.dateEnd.toString());
+            scheduleData.cStock = value?['CurrentStock'];
+            print('Cstock: ' + scheduleData.cStock.toString());
+            scheduleData.maxStock = value?['MaxStock'];
+            print('Maxstock: ' + scheduleData.maxStock.toString());
+            scheduleData.vaccineID = value?['UID'];
+            print('VaccineID: ' + scheduleData.vaccineID);
+            print('Assign Available Vaccine Finished...(Return Vaccine)');
+          }).catchError((error) => print(
+              'Assign Available Vaccine Finished... (No vaccine): $error'));
+        });
+      });
     }).catchError((error) => print('Failed to get scheduled-user: $error'));
   }
 }
 
-// Future<int> peekAvailableVaccine() async {
-//   int? index;
-//   await vaccineColl
-//       .where('Category', isEqualTo: scheduleData.category)
-//       .orderBy('DateStart')
-//       .snapshots()
-//       .forEach((element) {
-//     // Map<String, dynamic>? value = element.docs;
-//     var data = element.docs.asMap();
-//     int? currStock;
-//     for (int x = 0; x < data.length; x++) {
-//       currStock = data[x]!['CurrentStock'];
-//       if (currStock! > 0) {
-//         index= x;
-//       } else {
-//         index= -1;
-//       }
-//     }
+Future<void> peekAvailableVaccine() async {
+  print('peek vaccine Start');
+  int? dateDifference;
+  await vaccineColl
+      .where('Category', isEqualTo: scheduleData.category)
+      .get()
+      .then((docSnap) {
+    docSnap.docs.forEach((element) {
+      dateDifference = 0;
+      print('last schedule: ' + scheduleData.dateScheduled.toString());
+      Map<String, dynamic>? value = element.data();
+      dateDifference = value['DateStart']
+          .toDate()
+          .difference(scheduleData.dateScheduled)
+          .inDays;
 
-//     return index;
-//     //   print('Vaccine: ' + value['Vaccine']);
-//     //   print('Current Stock: ' + value['CurrentStock'].toString());
-//     //   print('Vaccine Category: ' + value['Category']);
-//     //   print('Patient Category: ' + scheduleData.category);
+      print('date difference = $dateDifference');
+      print('Vaccine Peek: ' + value['Vaccine']);
+      if (value['Vaccine'] == scheduleData.vaccine &&
+          value['CurrentStock'] > 0 &&
+          dateDifference! > 14) {
+        scheduleData.vaccineID = value['UID'];
 
-//     //   // if category matches the patient classification and vaccine stock > 0
-//     //   if (value['CurrentStock'] > 0 &&
-//     //       value['Category'] == scheduleData.category) {
-//     //     //insert update query to vaccine collection
-//     //     scheduleData.vaccine = value['Vaccine'];
-//     //     print('Vaccine is ' + scheduleData.vaccine);
-//     //     scheduleData.dateStart = value['DateStart'].toDate();
-//     //     scheduleData.dateEnd = value['DateEnd'].toDate();
+        print('Valid date difference = $dateDifference');
+      }
+    });
+  });
+}
 
-//     //     print('Local Date assigned is ' +
-//     //         scheduleData.dateStart.toString() +
-//     //         ' - ' +
-//     //         scheduleData.dateEnd.toString());
-//     //     scheduleData.cStock = value['CurrentStock'];
-//     //     print('Cstock: ' + scheduleData.cStock.toString());
-//     //     scheduleData.maxStock = value['MaxStock'];
-//     //     print('Maxstock: ' + scheduleData.maxStock.toString());
-//     //     scheduleData.vaccineID = value['UID'];
-//     //     print('VaccineID: ' + scheduleData.vaccineID);
-//     //     print('Assign Available Vaccine Finished...(Return Vaccine)');
-//     //   } else {
-//     //     print('Assign Available Vaccine Finished... (No vaccine)');
-//     //   }
-//     // });
-//   });
-// }
 Future<void> assignASchedule() async {
   print('Assign a schedule started...');
 
@@ -158,11 +182,12 @@ Future<void> assignASchedule() async {
   print('Vaccine Ratio: $vaccineRatio');
   double dayProportion = numberOfDays * vaccineRatio;
   print('Day Proportion: $dayProportion');
-  int scheduled_Add = numberOfDays - dayProportion.floor();
+  int scheduled_Add =
+      numberOfDays - dayProportion.ceil(); //if first day it should be 0
   print('How much days to add to dateStart: $scheduled_Add');
 
   scheduleData.dateScheduled =
-      scheduleData.dateScheduled.add(Duration(days: scheduled_Add));
+      scheduleData.dateStart.add(Duration(days: scheduled_Add));
   print('Date Scheduled for patient: ' + scheduleData.dateScheduled.toString());
 
   scheduleData.cStock -= 1;
@@ -183,7 +208,7 @@ updateStockData() async {
       .catchError((error) => print('Failed to update vaccine: $error'));
 }
 
-setScheduleFirebase() async {
+Future<void> setScheduleFirebase() async {
   var coll = FirebaseFirestore.instance.collection('scheduled-users');
 
   await coll

@@ -1,3 +1,4 @@
+import 'package:booksynation/web_pages/web_data/assign_vaccine.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ScheduleData {
@@ -48,6 +49,25 @@ ScheduleData scheduleData = ScheduleData(
   dateEnd: DateTime.now(),
 );
 
+reschedTo2ndDose(String uniqueID) async {
+  var coll = FirebaseFirestore.instance.collection('scheduled-users');
+  scheduleData.uniqueId = uniqueID;
+  print('Resched UniqueID: ' + scheduleData.uniqueId);
+
+  assignAvailableVaccine('2nd').then(
+    (value) => assignASchedule()
+        .then((value) => setScheduleFirebase().then((value) async {
+              await coll.doc(uniqueID).update({
+                'DateSchedule': scheduleData.dateScheduled,
+                'Dosage': '2nd',
+              }).then((value) async {
+                print('Patient Successfully Rescheduled');
+              }).catchError(
+                  (error) => print('Failed to reschedule patient: $error'));
+            })),
+  );
+}
+
 finishPatient(String uniqueID) async {
   var coll = FirebaseFirestore.instance.collection('scheduled-users');
   var coll2 = FirebaseFirestore.instance.collection('completed-users');
@@ -66,7 +86,7 @@ finishPatient(String uniqueID) async {
       'uniqueID': value?['uniqueID'],
       'vaccineID': value?['vaccineID'],
     }).then((value) async {
-      print('Schedule transferred to Missed');
+      print('Schedule transferred to Completed-users');
       //remove from scheduled collection
       await coll
           .doc(uniqueID)
@@ -77,17 +97,6 @@ finishPatient(String uniqueID) async {
     }).catchError((error) =>
         print('Failed to transfer schedule to Completed Collection: $error'));
   }).catchError((error) => print('Failed to get scheduled-user: $error'));
-}
-
-reschedTo2ndDose(String uniqueID) async {
-  var coll = FirebaseFirestore.instance.collection('scheduled-users');
-
-  await coll.doc(uniqueID).set({
-    // 'DateSchedule': scheduleData.dateScheduled,
-    'Dosage': '2nd',
-  }).then((value) async {
-    print('Patient Successfully Rescheduled');
-  }).catchError((error) => print('Failed to reschedule patient: $error'));
 }
 
 transferToMissed(String uniqueID) async {
