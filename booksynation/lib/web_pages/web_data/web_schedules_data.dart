@@ -53,8 +53,8 @@ reschedTo2ndDose(String uniqueID) async {
   var coll = FirebaseFirestore.instance.collection('scheduled-users');
   scheduleData.uniqueId = uniqueID;
   print('Resched UniqueID: ' + scheduleData.uniqueId);
-
-  assignAvailableVaccine('2nd').then(
+  bool fromMissedPatients = false;
+  assignAvailableVaccine('2nd', fromMissedPatients).then(
     (value) => assignASchedule()
         .then((value) => setScheduleFirebase().then((value) async {
               await coll.doc(uniqueID).update({
