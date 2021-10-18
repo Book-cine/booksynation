@@ -1,3 +1,4 @@
+import 'package:booksynation/web_pages/web_data/web_missed_data.dart';
 import 'package:booksynation/web_pages/web_data/web_schedules_data.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -40,11 +41,11 @@ Future<void> assignAvailableVaccine(String dosage, bool fromMissed) async {
   if (fromMissed) {
     print('From missed patients start resched');
     //make 14 days difference from first dose schedule
-    var coll = FirebaseFirestore.instance.collection('scheduled-users');
-    await coll.doc(scheduleData.uniqueId).get().then((result) async {
+    var coll = FirebaseFirestore.instance.collection('missed-sched');
+    await coll.doc(missedPatient.uniqueId).get().then((result) async {
       Map<String, dynamic>? value = result.data();
       var patientColl = FirebaseFirestore.instance.collection('patient');
-      await patientColl.doc(scheduleData.uniqueId).get().then((result) async {
+      await patientColl.doc(missedPatient.uniqueId).get().then((result) async {
         //get patient Data first
         Map<String, dynamic>? patientData = result.data();
         scheduleData.uniqueId = patientData?['UID'];
@@ -62,7 +63,7 @@ Future<void> assignAvailableVaccine(String dosage, bool fromMissed) async {
         scheduleData.vaccine = value?['Vaccine'];
         print('[Missed]Before Function -> Vaccine: ' + scheduleData.vaccine);
         //assign to 1st dose dateSched to local
-        scheduleData.dateScheduled = value?['Date'].toDate();
+        scheduleData.dateScheduled = value?['DateSchedule'].toDate();
 
         print('Missed Patient last known Schedule: ' +
             scheduleData.dateScheduled.toString());
@@ -275,6 +276,27 @@ updateStockData() async {
       })
       .then((value) => print(scheduleData.vaccine + ' Current Stock Updated'))
       .catchError((error) => print('Failed to update vaccine: $error'));
+
+  var coll = FirebaseFirestore.instance.collection('vaccine-stock');
+  await coll.doc(scheduleData.vaccine).get().then(
+    (result) async {
+      Map<String, dynamic>? value = result.data();
+      int totalCstock = value?['totalCurrentStock'];
+
+      print('Total Cstock (before): $totalCstock');
+      totalCstock--;
+      print('Total Cstock (after): $totalCstock');
+      await coll
+          .doc(scheduleData.vaccine)
+          .update({
+            'totalCurrentStock': totalCstock,
+          })
+          .then(
+              (value) => print(scheduleData.vaccine + ' Current Stock Updated'))
+          .catchError(
+              (error) => print('Failed to update totalCurrent Stock: $error'));
+    },
+  ).catchError((error) => print('Failed to get totalCurrentStock: $error'));
 }
 
 Future<void> setScheduleFirebase() async {
@@ -305,4 +327,23 @@ getScheduleFirebase(User? user) async {
     Map<String, dynamic>? value = result.data();
     scheduleData.dateScheduled = value?['Date'].toDate();
   }).catchError((error) => print("Failed to get vaccine schedule: $error"));
+}
+
+Future<void> setMissedScheduleFirebase() async {
+  var coll = FirebaseFirestore.instance.collection('missed-sched');
+
+  await coll
+      .doc(scheduleData.uniqueId)
+      .set({
+        'Category': scheduleData.category,
+        'DateSchedule': scheduleData.dateScheduled,
+        'Dosage': scheduleData.dosage,
+        'Email': scheduleData.email,
+        'Name': scheduleData.name,
+        'Vaccine': scheduleData.vaccine,
+        'UID': scheduleData.uniqueId,
+        'vaccineID': scheduleData.vaccineID,
+      })
+      .then((value) => print("Schedule Added"))
+      .catchError((error) => print("Failed to add schedule: $error"));
 }

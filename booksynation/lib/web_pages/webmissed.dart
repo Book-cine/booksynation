@@ -101,7 +101,11 @@ class _WebMissedState extends State<WebMissed> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          _selectedUserID.forEach((element) {
+                            reschedMissedPatient(element);
+                          });
+                        },
                         style: ElevatedButton.styleFrom(
                           primary: Color(0xFF2ED47A),
                           fixedSize: Size(

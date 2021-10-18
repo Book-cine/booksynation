@@ -46,24 +46,57 @@ deleteMissedData(String uid) {
 }
 
 //called when approval button is pressed by admin
-reschedMissedPatient(String uniqueID) {
+reschedMissedPatient(String uniqueID) async {
   missedPatient.uniqueId = uniqueID;
-  var coll = FirebaseFirestore.instance.collection('scheduled-users');
+  var coll = FirebaseFirestore.instance.collection('missed-sched');
 
   missedPatient.uniqueId = uniqueID;
-  print('Resched UniqueID: ' + missedPatient.uniqueId);
+  print('Missed Patient UniqueID: ' + missedPatient.uniqueId);
+  await coll.doc(missedPatient.uniqueId).get().then((result) async {
+    Map<String, dynamic>? value = result.data();
+    missedPatient.dosage = value?['Dosage'];
+    print('Missed Patient Dosage:' + missedPatient.dosage);
 
-  assignAvailableVaccine(missedPatient.dosage, true).then(
-    (value) => assignASchedule()
-        .then((value) => setScheduleFirebase().then((value) async {
-              var newDosage = missedPatient.dosage;
-              await coll.doc(uniqueID).update({
-                'DateSchedule': missedPatient.dateScheduled,
-                'Dosage': newDosage,
-              }).then((value) async {
-                print('Missed Patient Successfully Rescheduled');
-              }).catchError((error) =>
-                  print('Failed to reschedule missed patient: $error') as Null);
-            })),
-  );
+    assignAvailableVaccine(missedPatient.dosage, true).then(
+      (value) => assignASchedule().then(
+        (value) => setMissedScheduleFirebase().then(
+          (value) {
+            print('Missed Patient Successfully Rescheduled');
+            transferToSchedule(uniqueID);
+          },
+        ).catchError((error) =>
+            print('Failed to reschedule missed patient: $error') as Null),
+      ),
+    );
+  });
+}
+
+transferToSchedule(String uniqueID) async {
+  var coll = FirebaseFirestore.instance.collection('missed-sched');
+  var coll2 = FirebaseFirestore.instance.collection('scheduled-users');
+
+  //get data from missed scheduled users
+  await coll.doc(uniqueID).get().then((result) async {
+    Map<String, dynamic>? value = result.data();
+    //copy to scheduled-users collection
+    await coll2.doc(uniqueID).set({
+      'Category': value?['Category'],
+      'Date': value?['DateSchedule'],
+      'Dosage': value?['Dosage'],
+      'Email': value?['Email'],
+      'Name': value?['Name'],
+      'Vaccine': value?['Vaccine'],
+      'uniqueID': value?['UID'],
+    }).then((value) async {
+      print('Missed Schedule transferred to Schedule');
+      //remove from scheduled collection
+      await coll
+          .doc(uniqueID)
+          .delete()
+          .then((value) => print('Missed Schedule Deleted'))
+          .catchError((error) =>
+              print('Failed to delete missed-sched patient: $error'));
+    }).catchError(
+        (error) => print('Failed to transfer schedule to Schedule: $error'));
+  }).catchError((error) => print('Failed to get missed-user: $error'));
 }
