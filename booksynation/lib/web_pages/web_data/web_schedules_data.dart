@@ -44,9 +44,9 @@ ScheduleData scheduleData = ScheduleData(
   cStock: 0,
   maxStock: 0,
   vaccineID: '',
-  dateScheduled: DateTime.now(),
-  dateStart: DateTime.now(),
-  dateEnd: DateTime.now(),
+  dateScheduled: DateTime.utc(1969, 7, 20, 20, 18, 04),
+  dateStart: DateTime.utc(1969, 7, 20, 20, 18, 04),
+  dateEnd: DateTime.utc(1969, 7, 20, 20, 18, 04),
 );
 
 reschedTo2ndDose(String uniqueID) async {

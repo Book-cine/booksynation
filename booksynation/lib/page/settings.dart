@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class PatientSettings extends StatelessWidget {
+class PatientSettings extends StatefulWidget {
   const PatientSettings({
     Key? key,
     required this.auth,
@@ -11,6 +11,11 @@ class PatientSettings extends StatelessWidget {
   final currentUser;
 
   @override
+  State<PatientSettings> createState() => _PatientSettingsState();
+}
+
+class _PatientSettingsState extends State<PatientSettings> {
+  @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
@@ -18,22 +23,6 @@ class PatientSettings extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
-        appBar: AppBar(
-          title: Text(
-            'Settings',
-            style: TextStyle(
-              color: Colors.black,
-            ),
-          ),
-          backgroundColor: Colors.white,
-          elevation: 0,
-          leading: IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: Icon(Icons.arrow_back, color: Colors.black87),
-          ),
-        ),
         body: Container(
           alignment: Alignment.center,
           child: Container(

@@ -121,8 +121,8 @@ class OnBoard extends StatelessWidget {
                       ]),
                       child: ElevatedButton(
                         onPressed: () {
-                          Scaffold.of(context)
-                              .openDrawer(); //TODO: change navigation to COVID-19 Info
+                          Scaffold.of(context);
+                          //TODO: change navigation to COVID-19 Info
                         },
                         style: ElevatedButton.styleFrom(
                           primary: Color(0xFF26A98A),

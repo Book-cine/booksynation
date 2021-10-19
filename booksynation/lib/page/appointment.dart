@@ -33,13 +33,13 @@ class MyAppointment extends StatelessWidget {
     String schedule = formatter.format(scheduleDate);
 
     Future.delayed(Duration.zero, () {
-      if (status && schedule.isNotEmpty && date == schedule) {
+      if (status && date == schedule) {
         showAlert(context);
       }
     });
 
     Widget getStatus(String schedule, bool status) {
-      if (schedule.isNotEmpty) {
+      if (schedule != formatter.format(DateTime.utc(1969, 7, 20, 20, 18, 04))) {
         if (status) {
           return ScheduleScreen(
             auth: auth,

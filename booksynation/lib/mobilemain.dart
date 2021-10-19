@@ -2,7 +2,6 @@ import 'package:booksynation/main.dart';
 import 'package:booksynation/page/appointment.dart';
 import 'package:booksynation/page/onboarding.dart';
 import 'package:booksynation/page/patient_info/covid_19_info.dart';
-import 'package:booksynation/page/patient_info/personal_info_page.dart';
 import 'package:booksynation/page/patient_info/widgets/patientData.dart';
 import 'package:booksynation/page/settings.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -38,13 +37,18 @@ class _MobileMainState extends State<MobileMain> {
   ];
 
   String? value;
-  Widget mainBody = OnBoard();
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
+            title: Text(
+              navigatorData.currentWindow,
+              style: TextStyle(
+                color: Colors.black,
+              ),
+            ),
             elevation: 0,
             iconTheme: IconThemeData(color: Colors.black87),
             leading: null,
@@ -53,7 +57,7 @@ class _MobileMainState extends State<MobileMain> {
         extendBodyBehindAppBar: true,
         backgroundColor: Colors.white,
         drawer: sideMenu(),
-        body: mainBody,
+        body: navigatorData.mainBody,
       ),
     );
   }
@@ -95,7 +99,8 @@ class _MobileMainState extends State<MobileMain> {
                             setState(
                               () {
                                 Navigator.pop(context);
-                                mainBody = CovidInfo(
+                                navigatorData.currentWindow = '';
+                                navigatorData.mainBody = CovidInfo(
                                     auth: auth,
                                     currentUser:
                                         currentUser); //TODO: change screen direction
@@ -111,7 +116,8 @@ class _MobileMainState extends State<MobileMain> {
                             Navigator.pop(context);
                             setState(
                               () {
-                                mainBody = MyAppointment(
+                                navigatorData.currentWindow = '';
+                                navigatorData.mainBody = MyAppointment(
                                     auth: auth, currentUser: currentUser);
                               },
                             );
@@ -125,7 +131,8 @@ class _MobileMainState extends State<MobileMain> {
                             Navigator.pop(context);
                             setState(
                               () {
-                                mainBody = PatientSettings(
+                                navigatorData.currentWindow = 'Settings';
+                                navigatorData.mainBody = PatientSettings(
                                     auth: auth, currentUser: currentUser);
                               },
                             );

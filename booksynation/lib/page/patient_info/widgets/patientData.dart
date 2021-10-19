@@ -1,3 +1,4 @@
+import 'package:booksynation/page/onboarding.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -322,3 +323,17 @@ updatePatientData() async {
       .then((value) => print('Update User'))
       .catchError((error) => print('Failed to update user: $error'));
 }
+
+class NavigatorData {
+  late Widget mainBody;
+  late String currentWindow;
+  NavigatorData({
+    required this.mainBody,
+    required this.currentWindow,
+  });
+}
+
+NavigatorData navigatorData = NavigatorData(
+  mainBody: OnBoard(),
+  currentWindow: '',
+);
