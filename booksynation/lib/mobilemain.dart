@@ -44,6 +44,12 @@ class _MobileMainState extends State<MobileMain> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(
+            elevation: 0,
+            iconTheme: IconThemeData(color: Colors.black87),
+            leading: null,
+            automaticallyImplyLeading: true,
+            backgroundColor: Colors.transparent),
         extendBodyBehindAppBar: true,
         backgroundColor: Colors.white,
         drawer: sideMenu(),
@@ -90,7 +96,9 @@ class _MobileMainState extends State<MobileMain> {
                               () {
                                 Navigator.pop(context);
                                 mainBody = CovidInfo(
-                                    auth: auth, currentUser: currentUser);
+                                    auth: auth,
+                                    currentUser:
+                                        currentUser); //TODO: change screen direction
                               },
                             );
                           },
