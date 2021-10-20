@@ -43,6 +43,8 @@ class _WebRegisterState extends State<WebRegister> {
       child: Scaffold(
         resizeToAvoidBottomInset: true,
         body: Container(
+          height: height,
+          width: width,
           decoration: BoxDecoration(
             color: Color(0xFF3DDD6A).withOpacity(0.10),
           ),
@@ -69,7 +71,7 @@ class _WebRegisterState extends State<WebRegister> {
                 Form(
                   key: _formKey,
                   child: Container(
-                    height: height * 0.70,
+                    height: height * 0.69,
                     width: width * 0.85,
                     alignment: Alignment.center,
                     child: AspectRatio(
@@ -117,7 +119,7 @@ class _WebRegisterState extends State<WebRegister> {
                                     ],
                                   ),
                                   SizedBox(
-                                    height: height * 0.030,
+                                    height: height * 0.010,
                                   ),
                                   TextFormField(
                                     controller: emailController,

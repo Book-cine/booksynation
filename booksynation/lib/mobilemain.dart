@@ -1,6 +1,5 @@
 import 'package:booksynation/main.dart';
 import 'package:booksynation/page/appointment.dart';
-import 'package:booksynation/page/onboarding.dart';
 import 'package:booksynation/page/patient_info/covid_19_info.dart';
 import 'package:booksynation/page/patient_info/widgets/patientData.dart';
 import 'package:booksynation/page/settings.dart';
@@ -211,24 +210,11 @@ class _MobileMainState extends State<MobileMain> {
                   color: Colors.white,
                 )),
             const SizedBox(
-              height: 2,
+              height: 5,
             ),
-            DropdownButtonHideUnderline(
-              child: DropdownButton<String>(
-                value: value,
-                dropdownColor: Colors.teal[200],
-                hint: Text(
-                  email,
-                  style: TextStyle(color: Colors.white, fontSize: 16),
-                ),
-                style: TextStyle(color: Colors.white),
-                icon: Icon(Icons.arrow_drop_down_outlined, color: Colors.white),
-                isExpanded: true,
-                items: emails.map(buildDropItem).toList(),
-                onChanged: (value) => setState(() {
-                  this.value = value;
-                }),
-              ),
+            Text(
+              patient.email,
+              style: TextStyle(color: Colors.white, fontSize: 16),
             ),
           ],
         ),

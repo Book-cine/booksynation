@@ -33,14 +33,6 @@ class _WebMainState extends State<WebMain> {
   final currentUser;
   final padding = EdgeInsets.symmetric(horizontal: 20);
 
-  final emails = [
-    'nashtaps@gmail.com',
-    'joserizal@gmail.com',
-    'darksaviour@gmail.com',
-    'cyberblaze@gmail.com',
-    'mervtampus@gmail.com',
-  ];
-
   String? value;
   int _selected = 0;
 

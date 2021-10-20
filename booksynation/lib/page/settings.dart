@@ -1,3 +1,4 @@
+import 'package:booksynation/page/patient_info/widgets/patientData.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -19,6 +20,7 @@ class _PatientSettingsState extends State<PatientSettings> {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
+    // final _formKey = GlobalKey<FormState>();
 
     return SafeArea(
       child: Scaffold(
@@ -64,15 +66,30 @@ class _PatientSettingsState extends State<PatientSettings> {
                         ),
                       ),
                     ]),
-
                     SizedBox(height: height * 0.020),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: Text('First Name',
+                              style:
+                                  TextStyle(color: Colors.black, fontSize: 14)),
+                        ),
+                        SizedBox(width: width * 0.015),
+                        Expanded(
+                          child: Text('Last Name',
+                              style:
+                                  TextStyle(color: Colors.black, fontSize: 14)),
+                        ),
+                      ],
+                    ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Expanded(
                           child: TextField(
                             decoration: InputDecoration(
-                              labelText: 'First Name',
+                              hintText: patient.firstName,
                             ),
                           ),
                         ),
@@ -80,26 +97,41 @@ class _PatientSettingsState extends State<PatientSettings> {
                         Expanded(
                           child: TextField(
                             decoration: InputDecoration(
-                              labelText: 'Last Name',
+                              hintText: patient.lastName,
                             ),
                           ),
                         ),
                       ],
                     ),
-                    SizedBox(height: height * 0.010),
+                    SizedBox(height: height * 0.020),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text('Email',
+                          style: TextStyle(color: Colors.black, fontSize: 14)),
+                    ),
                     TextField(
                       decoration: InputDecoration(
-                        labelText: 'Email',
+                        hintText: patient.email,
                       ),
                     ),
-                    SizedBox(height: height * 0.010),
+                    SizedBox(height: height * 0.020),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text('Current Password',
+                          style: TextStyle(color: Colors.black, fontSize: 14)),
+                    ),
                     TextField(
                       obscureText: true,
-                      decoration: InputDecoration(
-                        labelText: 'Password',
-                      ),
                     ),
-                    // SizedBox(height: height * 0.010),
+                    SizedBox(height: height * 0.020),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text('New Password',
+                          style: TextStyle(color: Colors.black, fontSize: 14)),
+                    ),
+                    TextField(
+                      obscureText: true,
+                    ),
                   ],
                 ),
                 Spacer(),
@@ -116,7 +148,37 @@ class _PatientSettingsState extends State<PatientSettings> {
                     ]),
                     child: ElevatedButton(
                       onPressed: () {
-                        Navigator.pop(context);
+                        // _formKey.currentState!.validate()
+                        if (true) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text(
+                                'Saving Changes',
+                              ),
+                            ),
+                          );
+
+                          updatePatientData();
+                          fullname = patient.firstName +
+                              ' ' +
+                              patient.lastName +
+                              ' ' +
+                              ((patient.suffix == 'N/A') ? '' : patient.suffix);
+                          User? user = FirebaseAuth.instance.currentUser;
+                          print("CurrentUser:" + user.toString());
+
+                          Future.delayed(const Duration(seconds: 2), () {
+                            Navigator.pop(context);
+                          });
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text(
+                                'Please review the fields before submitting.',
+                              ),
+                            ),
+                          );
+                        }
                       },
                       style: ElevatedButton.styleFrom(
                         primary: Colors.blue[700],

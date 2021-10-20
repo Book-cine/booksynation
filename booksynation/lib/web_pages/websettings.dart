@@ -1,3 +1,5 @@
+import 'package:booksynation/userData.dart';
+import 'package:booksynation/web_pages/web_data/adminData.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'dart:math' as math;
@@ -12,7 +14,7 @@ class WebSettings extends StatefulWidget {
 class _WebSettingsState extends State<WebSettings> {
   @override
   Widget build(BuildContext context) {
-    final name = 'Dr. Jose Aguinaldo';
+    final name = 'Dr. ' + admin.firstName + ' ' + admin.lastName;
     final width = MediaQuery.of(context).size.width - 260;
     final height = MediaQuery.of(context).size.height - 60;
 
@@ -153,7 +155,7 @@ class _WebSettingsState extends State<WebSettings> {
                                   Icons.email,
                                   color: Colors.black,
                                 ),
-                                labelText: 'Email Address',
+                                hintText: userdata.email,
                               ),
                             ),
                             SizedBox(

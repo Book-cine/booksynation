@@ -1,7 +1,6 @@
 import 'package:booksynation/page/booksched.dart';
 import 'package:booksynation/page/patient_info/widgets/patientData.dart';
 import 'package:booksynation/web_pages/web_data/assign_vaccine.dart';
-import 'package:booksynation/web_pages/web_data/web_schedules_data.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
