@@ -1,5 +1,6 @@
 import 'package:booksynation/page/patient_info/widgets/patientData.dart';
 import 'package:booksynation/page/registerpatient.dart';
+import 'package:booksynation/page/resetpass.dart';
 import 'package:booksynation/splash.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -232,7 +233,16 @@ class _HomepageState extends State<Homepage> {
                                 height: height * 0.025,
                               ),
                               InkWell(
-                                onTap: () {},
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => ForgotPassword(
+                                              auth: auth,
+                                              currentUser: auth.currentUser,
+                                            )),
+                                  );
+                                },
                                 child: Text(
                                   'Forgot Password',
                                   style: TextStyle(

@@ -27,13 +27,6 @@ class _MobileMainState extends State<MobileMain> {
   });
   final FirebaseAuth auth;
   final currentUser;
-  final emails = [
-    'nashtaps@gmail.com',
-    'joserizal@gmail.com',
-    'darksaviour@gmail.com',
-    'cyberblaze@gmail.com',
-    'mervtampus@gmail.com',
-  ];
 
   String? value;
 
