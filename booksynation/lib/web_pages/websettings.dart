@@ -1,5 +1,7 @@
 import 'package:booksynation/userData.dart';
 import 'package:booksynation/web_pages/web_data/adminData.dart';
+import 'package:booksynation/web_pages/weblogin.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'dart:math' as math;
@@ -17,6 +19,9 @@ class _WebSettingsState extends State<WebSettings> {
     final name = 'Dr. ' + admin.firstName + ' ' + admin.lastName;
     final width = MediaQuery.of(context).size.width - 260;
     final height = MediaQuery.of(context).size.height - 60;
+    final _formKey = GlobalKey<FormState>();
+    final passwordController = TextEditingController();
+    final newpasswordController = TextEditingController();
 
     return Container(
       height: height,
@@ -50,175 +55,268 @@ class _WebSettingsState extends State<WebSettings> {
               )),
           Align(
             alignment: Alignment.center,
-            child: Container(
-              height: height * 0.75,
-              width: width * 0.65,
-              alignment: Alignment.center,
-              child: AspectRatio(
-                aspectRatio: 0.7,
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.25),
-                        blurRadius: 5,
-                        offset: Offset(3, 4), // changes position of shadow
-                      ),
-                    ],
-                  ),
-                  padding: EdgeInsets.symmetric(
-                      vertical: height * 0.035, horizontal: width * 0.025),
-                  child: SingleChildScrollView(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SizedBox(
-                              height: height * 0.03,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                SvgPicture.asset(
-                                  'images/Logo_BSN.svg',
-                                  height: 45,
-                                  width: width * 0.05,
-                                ),
-                                SizedBox(
-                                  width: width * 0.015,
-                                ),
-                                Text(
-                                  'BookSyNation',
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontFamily: 'Antic Didone',
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: height * 0.035,
-                                    decoration: TextDecoration.none,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: height * 0.03,
-                            ),
-                            Center(
-                              child: Stack(children: [
-                                CircleAvatar(
-                                  radius: 50,
-                                  backgroundColor: Colors.white,
-                                  backgroundImage: AssetImage(
-                                      'images/user.png'), //check google pic
-                                ),
-                                Positioned(
-                                  right: 0,
-                                  bottom: 0,
-                                  child: Container(
-                                    height: 30,
-                                    width: 30,
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(30.0),
-                                    ),
-                                    child: IconButton(
-                                      onPressed: () {},
-                                      icon: Icon(Icons.add_a_photo,
-                                          size: 15, color: Colors.grey),
-                                    ),
-                                  ),
-                                ),
-                              ]),
-                            ),
-                            SizedBox(
-                              height: height * 0.030,
-                            ),
-                            Center(
-                              child: Container(
-                                child: Text(name,
-                                    style: TextStyle(
-                                        fontFamily: 'Poppins',
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 18,
-                                        color: Color(0xFF192A3E))),
-                              ),
-                            ),
-                            SizedBox(
-                              height: height * 0.030,
-                            ),
-                            TextField(
-                              decoration: InputDecoration(
-                                suffixIcon: Icon(
-                                  Icons.email,
-                                  color: Colors.black,
-                                ),
-                                hintText: userdata.email,
-                              ),
-                            ),
-                            SizedBox(
-                              height: height * 0.015,
-                            ),
-                            TextField(
-                              obscureText: true,
-                              decoration: InputDecoration(
-                                suffixIcon: Icon(
-                                  Icons.lock_outlined,
-                                  color: Colors.black,
-                                ),
-                                hintText: 'Password',
-                              ),
-                            ),
-                            SizedBox(
-                              height: height * 0.015,
-                            ),
-                            TextField(
-                              obscureText: true,
-                              decoration: InputDecoration(
-                                suffixIcon: Icon(
-                                  Icons.lock,
-                                  color: Colors.black,
-                                ),
-                                hintText: 'Confirm Password',
-                              ),
-                            )
-                          ],
-                        ),
-                        SizedBox(
-                          height: height * 0.045,
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            ElevatedButton(
-                              onPressed: () {},
-                              style: ElevatedButton.styleFrom(
-                                primary: Color(0xFF26A98A),
-                                fixedSize: Size(
-                                  width * 0.28,
-                                  height * 0.045,
-                                ),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                ),
-                              ),
-                              child: Text(
-                                'Save Changes',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontFamily: 'Mulish',
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: height * 0.018,
-                                  decoration: TextDecoration.none,
-                                ),
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                          ],
+            child: Form(
+              key: _formKey,
+              child: Container(
+                height: height * 0.75,
+                width: width * 0.65,
+                alignment: Alignment.center,
+                child: AspectRatio(
+                  aspectRatio: 0.7,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.25),
+                          blurRadius: 5,
+                          offset: Offset(3, 4), // changes position of shadow
                         ),
                       ],
+                    ),
+                    padding: EdgeInsets.symmetric(
+                        vertical: height * 0.035, horizontal: width * 0.025),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(
+                                height: height * 0.03,
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  SvgPicture.asset(
+                                    'images/Logo_BSN.svg',
+                                    height: 45,
+                                    width: width * 0.05,
+                                  ),
+                                  SizedBox(
+                                    width: width * 0.015,
+                                  ),
+                                  Text(
+                                    'BookSyNation',
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontFamily: 'Antic Didone',
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: height * 0.035,
+                                      decoration: TextDecoration.none,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(
+                                height: height * 0.03,
+                              ),
+                              Center(
+                                child: Stack(children: [
+                                  CircleAvatar(
+                                    radius: 50,
+                                    backgroundColor: Colors.white,
+                                    backgroundImage: AssetImage(
+                                        'images/user.png'), //check google pic
+                                  ),
+                                  Positioned(
+                                    right: 0,
+                                    bottom: 0,
+                                    child: Container(
+                                      height: 30,
+                                      width: 30,
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius:
+                                            BorderRadius.circular(30.0),
+                                      ),
+                                      child: IconButton(
+                                        onPressed: () {},
+                                        icon: Icon(Icons.add_a_photo,
+                                            size: 15, color: Colors.grey),
+                                      ),
+                                    ),
+                                  ),
+                                ]),
+                              ),
+                              SizedBox(
+                                height: height * 0.030,
+                              ),
+                              Center(
+                                child: Container(
+                                  child: Text(name,
+                                      style: TextStyle(
+                                          fontFamily: 'Poppins',
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 18,
+                                          color: Color(0xFF192A3E))),
+                                ),
+                              ),
+                              SizedBox(
+                                height: height * 0.030,
+                              ),
+                              TextField(
+                                enabled: false,
+                                decoration: InputDecoration(
+                                  suffixIcon: Icon(
+                                    Icons.email,
+                                    color: Colors.black,
+                                  ),
+                                  hintText: userdata.email,
+                                ),
+                              ),
+                              SizedBox(
+                                height: height * 0.015,
+                              ),
+                              TextFormField(
+                                controller: passwordController,
+                                obscureText: true,
+                                decoration: InputDecoration(
+                                  suffixIcon: Icon(
+                                    Icons.lock_outlined,
+                                    color: Colors.black,
+                                  ),
+                                  hintText: 'Current Password',
+                                ),
+                                validator: (value) {
+                                  print("Current Pass: " + userdata.password);
+                                  if (value!.isEmpty ||
+                                      value != userdata.password) {
+                                    return 'Please input current password.';
+                                  } else {
+                                    return null;
+                                  }
+                                },
+                              ),
+                              SizedBox(
+                                height: height * 0.015,
+                              ),
+                              TextFormField(
+                                controller: newpasswordController,
+                                obscureText: true,
+                                decoration: InputDecoration(
+                                  suffixIcon: Icon(
+                                    Icons.lock,
+                                    color: Colors.black,
+                                  ),
+                                  hintText: 'New Password',
+                                ),
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return 'Please input new password.';
+                                  } else {
+                                    return null;
+                                  }
+                                },
+                              )
+                            ],
+                          ),
+                          SizedBox(
+                            height: height * 0.045,
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              ElevatedButton(
+                                onPressed: () async {
+                                  final isValid =
+                                      _formKey.currentState!.validate();
+                                  if (isValid) {
+                                    try {
+                                      await FirebaseAuth.instance.currentUser!
+                                          .updatePassword(
+                                              newpasswordController.text)
+                                          .then((value) {
+                                        userDataCollection
+                                            .doc(userdata.uniqueId)
+                                            .update({
+                                              'Password':
+                                                  newpasswordController.text,
+                                            })
+                                            .then((value) =>
+                                                print('Add Admin User'))
+                                            .catchError((error) => print(
+                                                'Failed to add Admin user: $error'));
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          const SnackBar(
+                                            content: Text(
+                                              'Saving Changes, Please reauthenticate.',
+                                            ),
+                                          ),
+                                        );
+                                        Future.delayed(
+                                            const Duration(seconds: 3), () {
+                                          FirebaseAuth.instance.signOut();
+                                          Navigator.pushReplacement(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  WebLogin(key: null),
+                                            ),
+                                          );
+                                        });
+                                      });
+                                    } on FirebaseAuthException catch (e) {
+                                      print(e);
+                                      if (e.code == 'weak-password') {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          const SnackBar(
+                                            content: Text(
+                                              'Password is too weak.',
+                                            ),
+                                          ),
+                                        );
+                                      } else {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          const SnackBar(
+                                            content: Text(
+                                              'Password update unsuccessful.',
+                                            ),
+                                          ),
+                                        );
+                                      }
+                                    }
+                                  } else {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text(
+                                          'Please review the fields before submitting.',
+                                        ),
+                                      ),
+                                    );
+                                  }
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  primary: Color(0xFF26A98A),
+                                  fixedSize: Size(
+                                    width * 0.28,
+                                    height * 0.045,
+                                  ),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                  ),
+                                ),
+                                child: Text(
+                                  'Save Changes',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontFamily: 'Mulish',
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: height * 0.018,
+                                    decoration: TextDecoration.none,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),

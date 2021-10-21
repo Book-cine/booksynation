@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-CollectionReference userCollection =
+CollectionReference userDataCollection =
     FirebaseFirestore.instance.collection('user');
 
 class UserData {
@@ -51,7 +51,7 @@ createPatientUserData(
   userdata.password = password;
   userdata.type = 'patient';
 
-  userCollection
+  userDataCollection
       .doc(userdata.uniqueId)
       .set({
         'UID': userdata.uniqueId,
@@ -73,7 +73,7 @@ Future getPatientUserData(User? _patient) async {
     userdata.email = value?['Email'];
     userdata.firstName = value?['FirstName'];
     userdata.lastName = value?['LastName'];
-    userdata.password = value?['Password'];
+    userdata.password = value?['password'];
     userdata.type = value?['Type'];
   });
 }
@@ -92,7 +92,7 @@ createAdminUserData(
   userdata.password = password;
   userdata.type = 'admin';
 
-  userCollection
+  userDataCollection
       .doc(userdata.uniqueId)
       .set({
         'UID': userdata.uniqueId,
@@ -106,7 +106,7 @@ createAdminUserData(
       .catchError((error) => print('Failed to add Admin user: $error'));
 }
 
-Future setAdminUserData(User? _admin) async {
+Future getAdminUserData(User? _admin) async {
   var coll = FirebaseFirestore.instance.collection('user');
   await coll.doc(_admin!.uid).get().then((result) {
     Map<String, dynamic>? value = result.data();

@@ -20,6 +20,7 @@ class PatientFormField extends StatelessWidget {
             : null,
       ),
       TextFormField(
+        enabled: (label == 'Email Address') ? false : true,
         decoration: InputDecoration(
           isDense: true,
           helperText: '',
@@ -68,6 +69,7 @@ class PatientFormField extends StatelessWidget {
         validator: (value) {
           if (label == 'Suffix' ||
               label == 'PHIC/Philhealth No. (If Applicable)' ||
+              label == 'Email Address' ||
               label == 'Other Allergies:' ||
               label == 'Others:') {
             return null;

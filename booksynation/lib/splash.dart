@@ -159,16 +159,17 @@ class _LoadScreenState extends State<LoadScreen> {
     Future.delayed(Duration(seconds: 0), () async {
       //sign in and set data.then
       if (widget.device == 'web') {
-        setAdminUserData(widget.currentUser);
-        setAdminData(widget.currentUser).then((value) {
-          _navigatetonext();
+        getAdminUserData(widget.currentUser).then((value) {
+          getAdminData(widget.currentUser).then((value) {
+            _navigatetonext();
+          });
         });
       } else {
-        getPatientUserData(widget.currentUser);
-        getScheduleFirebase(widget.currentUser);
-        getPatientData(widget.currentUser).then((value) {
-          _navigatetonext();
-        });
+        getPatientUserData(widget.currentUser).then((value) =>
+            getScheduleFirebase(widget.currentUser)
+                .then(getPatientData(widget.currentUser).then((value) {
+              _navigatetonext();
+            })));
       }
     });
 

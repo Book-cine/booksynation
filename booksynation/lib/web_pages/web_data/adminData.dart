@@ -52,7 +52,7 @@ createAdminData() async {
       .catchError((error) => print('Failed to add admin: $error'));
 }
 
-Future setAdminData(User? _admin) async {
+Future getAdminData(User? _admin) async {
   var coll = FirebaseFirestore.instance.collection('admin');
   await coll.doc(_admin!.uid).get().then((result) {
     Map<String, dynamic>? value = result.data();
