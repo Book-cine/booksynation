@@ -1,3 +1,4 @@
+import 'package:booksynation/email_notifs.dart';
 import 'package:booksynation/userData.dart';
 import 'package:booksynation/web_pages/web_data/adminData.dart';
 import 'package:booksynation/web_pages/webmanage.dart';
@@ -258,6 +259,15 @@ class _WebMainState extends State<WebMain> {
                                         height: 20),
                                     onClicked: () => setState(() {
                                       this.status = 3;
+                                      //temporarily placed this function here to test email notifs
+                                      sendEmailNotifs(
+                                          name: 'Mervin',
+                                          email: 'mervin.tampus35@gmail.com',
+                                          vaccine: 'Astra',
+                                          dosage: 'first',
+                                          schedule: DateTime.now()
+                                              .toUtc()
+                                              .toString());
                                     }),
                                   ),
                                 ],
