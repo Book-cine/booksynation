@@ -313,6 +313,7 @@ Future<void> setScheduleFirebase() async {
         'Vaccine': scheduleData.vaccine,
         'uniqueID': scheduleData.uniqueId,
         'vaccineID': scheduleData.vaccineID,
+        'EmailNotif': false,
         // 42
       })
       .then((value) => print("Schedule Added"))

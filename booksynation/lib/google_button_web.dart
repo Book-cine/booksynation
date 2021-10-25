@@ -68,16 +68,15 @@ class _GoogleButtonWebState extends State<GoogleButtonWeb> {
           try {
             UserCredential result = await signInWithGoogle(auth);
             User user = result.user!;
+            //store to local data
+            admin.uniqueId = user.uid;
+            admin.firstName = user.displayName!;
+            admin.lastName = '';
+            admin.email = user.email!;
+            admin.profilePic = user.photoURL!;
 
             if (result.additionalUserInfo!.isNewUser) {
-              //store to local data
-              admin.uniqueId = user.uid;
-              admin.firstName = user.displayName!;
-              admin.lastName = '';
-              admin.email = user.email!;
-              admin.profilePic = user.photoURL!;
               isGoogleUser = true;
-
               //create firebase data for user
               createAdminUserData(
                 admin.uniqueId,

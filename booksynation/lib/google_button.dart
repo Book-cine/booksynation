@@ -54,13 +54,13 @@ class _GoogleButtonMobileState extends State<GoogleButtonMobile> {
             UserCredential result = await signInWithGoogle(auth);
             User user = result.user!;
 
+            //store to local data
+            patient.uniqueId = user.uid;
+            patient.firstName = user.displayName!;
+            patient.middleName = '';
+            patient.lastName = '';
+            patient.email = user.email!;
             if (result.additionalUserInfo!.isNewUser) {
-              //store to local data
-              patient.uniqueId = user.uid;
-              patient.firstName = user.displayName!;
-              patient.middleName = '';
-              patient.lastName = '';
-              patient.email = user.email!;
               isGoogleUser = true;
               //create firebase data for user
               createPatientUserData(
