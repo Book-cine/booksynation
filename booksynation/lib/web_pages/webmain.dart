@@ -45,6 +45,10 @@ class _WebMainState extends State<WebMain> {
     // final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
+
+    //placed the function here so as to trigger the email notif checker whenever the admin logs in
+    periodicSendEmailToPatients();
+
     return Scaffold(
       body: Container(
         height: height,
