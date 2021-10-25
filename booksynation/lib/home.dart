@@ -115,17 +115,9 @@ class _HomepageState extends State<Homepage> {
                                 controller: passwordController,
                                 obscureText: !_passwordVisible,
                                 decoration: InputDecoration(
-                                  enabledBorder: OutlineInputBorder(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(8.0)),
-                                    borderSide: const BorderSide(
-                                      color: Colors.grey,
-                                    ),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(8.0)),
-                                    borderSide: BorderSide(color: Colors.blue),
+                                  icon: Icon(
+                                    Icons.lock_outlined,
+                                    color: Colors.black,
                                   ),
                                   hintText: 'Password',
                                   suffixIcon: GestureDetector(

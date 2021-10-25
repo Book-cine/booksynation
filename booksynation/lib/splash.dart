@@ -195,7 +195,7 @@ class _LoadScreenState extends State<LoadScreen> {
                 Align(
                   alignment: Alignment.center,
                   child: SizedBox(
-                    width: width * 0.20,
+                    width: width * 0.25,
                     child: AspectRatio(
                       aspectRatio: 1 / 1,
                       child: CircularProgressIndicator(
