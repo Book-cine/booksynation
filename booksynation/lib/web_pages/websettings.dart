@@ -1,10 +1,14 @@
+import 'dart:math' as math;
+
+import 'package:file_picker/file_picker.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+
 import 'package:booksynation/userData.dart';
 import 'package:booksynation/web_pages/web_data/adminData.dart';
 import 'package:booksynation/web_pages/weblogin.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'dart:math' as math;
 
 class WebSettings extends StatefulWidget {
   WebSettings({Key? key}) : super(key: key);
@@ -14,6 +18,48 @@ class WebSettings extends StatefulWidget {
 }
 
 class _WebSettingsState extends State<WebSettings> {
+  Future selectFile() async {
+    final result = await FilePicker.platform.pickFiles(
+      allowMultiple: false,
+      type: FileType.custom,
+      allowedExtensions: ['svg', 'jpg', 'png'],
+    );
+    if (result == null) return;
+
+    print('upload to firebase start!');
+    var _fileBytes = result.files.first.bytes;
+    setState(() {
+      fileBytes = _fileBytes;
+    });
+  }
+
+  Future uploadFile() async {
+    try {
+      await FirebaseStorage.instance
+          .ref('profilePics/${admin.uniqueId}/admin_image.png')
+          .putData(fileBytes!)
+          .then((p0) async {
+        await FirebaseStorage.instance
+            .ref('profilePics/${admin.uniqueId}/')
+            .child('admin_image.png')
+            .getDownloadURL()
+            .then((value) {
+          admin.profilePic = value;
+          adminCollection
+              .doc(admin.uniqueId)
+              .update({
+                'ProfilePic': admin.profilePic,
+              })
+              .then((value) => print('profile pic updated'))
+              .catchError(
+                  (error) => print('Failed to update profile pic: $error'));
+        });
+      });
+    } on FirebaseException catch (e) {
+      return null;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final name = 'Dr. ' + admin.firstName + ' ' + admin.lastName;
@@ -118,8 +164,14 @@ class _WebSettingsState extends State<WebSettings> {
                                   CircleAvatar(
                                     radius: 50,
                                     backgroundColor: Colors.white,
-                                    backgroundImage: AssetImage(
-                                        'images/user.png'), //check google pic
+                                    backgroundImage: (fileBytes == null)
+                                        ? (admin.profilePic ==
+                                                'images/user.png')
+                                            ? AssetImage(admin.profilePic)
+                                            : NetworkImage(admin.profilePic)
+                                                as ImageProvider
+                                        : MemoryImage(
+                                            fileBytes!), //check google pic
                                   ),
                                   Positioned(
                                     right: 0,
@@ -133,7 +185,9 @@ class _WebSettingsState extends State<WebSettings> {
                                             BorderRadius.circular(30.0),
                                       ),
                                       child: IconButton(
-                                        onPressed: () {},
+                                        onPressed: () {
+                                          selectFile();
+                                        },
                                         icon: Icon(Icons.add_a_photo,
                                             size: 15, color: Colors.grey),
                                       ),
@@ -239,6 +293,7 @@ class _WebSettingsState extends State<WebSettings> {
                                                 print('Add Admin User'))
                                             .catchError((error) => print(
                                                 'Failed to add Admin user: $error'));
+                                        uploadFile();
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(
                                           const SnackBar(
