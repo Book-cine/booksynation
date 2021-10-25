@@ -18,7 +18,7 @@ class _WebLoginState extends State<WebLogin> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   FirebaseAuth auth = FirebaseAuth.instance;
-
+  bool _passwordVisible = false;
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -183,9 +183,10 @@ class _WebLoginState extends State<WebLogin> {
                                 SizedBox(
                                   height: height * 0.005,
                                 ),
-                                TextField(
+                                TextFormField(
+                                  keyboardType: TextInputType.text,
                                   controller: passwordController,
-                                  obscureText: true,
+                                  obscureText: !_passwordVisible,
                                   decoration: InputDecoration(
                                     enabledBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.all(
@@ -201,8 +202,18 @@ class _WebLoginState extends State<WebLogin> {
                                           BorderSide(color: Colors.blue),
                                     ),
                                     hintText: 'Password',
-                                    suffixIcon:
-                                        Icon(Icons.visibility_off_outlined),
+                                    suffixIcon: GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          _passwordVisible = !_passwordVisible;
+                                        });
+                                      },
+                                      child: Icon(
+                                          _passwordVisible
+                                              ? Icons.visibility
+                                              : Icons.visibility_off,
+                                          color: Colors.grey[700]),
+                                    ),
                                   ),
                                 ),
                                 SizedBox(
