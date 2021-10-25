@@ -1,8 +1,6 @@
 import 'package:booksynation/home.dart';
 import 'package:booksynation/splash.dart';
-import 'package:booksynation/userData.dart';
 import 'package:booksynation/web_pages/web_data/adminData.dart';
-import 'package:booksynation/web_pages/webmain.dart';
 import 'package:booksynation/web_pages/webregister.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';

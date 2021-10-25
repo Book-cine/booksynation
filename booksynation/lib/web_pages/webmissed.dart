@@ -1,3 +1,4 @@
+import 'package:booksynation/loading.dart';
 import 'package:booksynation/web_pages/web_data/web_missed_data.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -173,18 +174,7 @@ class _WebMissedState extends State<WebMissed> {
                     }
 
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Center(
-                        child: SizedBox(
-                          width: width * 0.10,
-                          height: height * 0.10,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 10,
-                            valueColor: AlwaysStoppedAnimation<Color>(
-                              Colors.greenAccent.withOpacity(0.5),
-                            ),
-                          ),
-                        ),
-                      );
+                      return Loading();
                     }
 
                     return Column(

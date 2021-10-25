@@ -1,3 +1,4 @@
+import 'package:booksynation/loading.dart';
 import 'package:booksynation/web_pages/web_data/web_vaccines_data.dart';
 import 'package:booksynation/web_pages/web_data/web_vax_status_data.dart';
 import 'package:booksynation/web_pages/web_manage/web_manage_header.dart';
@@ -41,7 +42,7 @@ class _WebManageState extends State<WebManage> {
                 children: [
                   Spacer(flex: 1),
                   Expanded(
-                    flex: 30,
+                    flex: 50,
                     child: Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(16),
@@ -52,7 +53,7 @@ class _WebManageState extends State<WebManage> {
                   ),
                   Spacer(flex: 1),
                   Expanded(
-                    flex: 20,
+                    flex: 30,
                     child: Container(
                       child: Column(
                         children: [
@@ -320,19 +321,7 @@ class _WebManageState extends State<WebManage> {
         }
 
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Align(
-            alignment: Alignment.center,
-            child: SizedBox(
-              width: width * 0.10,
-              height: height * 0.10,
-              child: CircularProgressIndicator(
-                strokeWidth: 10,
-                valueColor: AlwaysStoppedAnimation<Color>(
-                  Colors.greenAccent.withOpacity(0.5),
-                ),
-              ),
-            ),
-          );
+          return Loading();
         }
 
         return Column(
@@ -436,8 +425,8 @@ class _WebManageState extends State<WebManage> {
                               style: ElevatedButton.styleFrom(
                                 primary: Color(0xFFFFFFFF),
                                 fixedSize: Size(
-                                  width * 0.1,
-                                  height * 0.045,
+                                  width * 0.085,
+                                  height * 0.035,
                                 ),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(4.0),
@@ -477,19 +466,7 @@ class _WebManageState extends State<WebManage> {
         }
 
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Align(
-            alignment: Alignment.center,
-            child: SizedBox(
-              width: width * 0.10,
-              height: height * 0.10,
-              child: CircularProgressIndicator(
-                strokeWidth: 10,
-                valueColor: AlwaysStoppedAnimation<Color>(
-                  Colors.greenAccent.withOpacity(0.5),
-                ),
-              ),
-            ),
-          );
+          return Loading();
         }
 
         return Column(

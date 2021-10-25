@@ -1,3 +1,4 @@
+import 'package:booksynation/loading.dart';
 import 'package:booksynation/web_pages/web_data/web_schedules_data.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -103,18 +104,7 @@ class _WebScheduleState extends State<WebSchedule> {
                 }
 
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(
-                    child: SizedBox(
-                      width: width * 0.10,
-                      height: height * 0.10,
-                      child: CircularProgressIndicator(
-                        strokeWidth: 10,
-                        valueColor: AlwaysStoppedAnimation<Color>(
-                          Colors.greenAccent.withOpacity(0.5),
-                        ),
-                      ),
-                    ),
-                  );
+                  return Loading();
                 }
                 String getDate(DateTime date) {
                   final DateFormat formatter = DateFormat('MM/dd/yyyy');
