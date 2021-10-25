@@ -32,7 +32,6 @@ class _PatientSettingsState extends State<PatientSettings> {
       final image = await ImagePicker().pickImage(source: ImageSource.gallery);
       if (image == null) return;
 
-      // final imageTemporary = File(image.path);
       final imagePermanent = await saveImagePermanently(image.path);
       setState(() {
         this.image = imagePermanent;
@@ -51,16 +50,12 @@ class _PatientSettingsState extends State<PatientSettings> {
   }
 
   Future uploadFile() async {
+    Reference ref = FirebaseStorage.instance
+        .ref('profilePics/${patient.uniqueId}/')
+        .child('patient_image.png');
     try {
-      await FirebaseStorage.instance
-          .ref('profilePics/${patient.uniqueId}/patient_image.png')
-          .putFile(image!)
-          .then((imageRes) async {
-        await FirebaseStorage.instance
-            .ref('profilePics/${patient.uniqueId}/')
-            .child('patient_image.png')
-            .getDownloadURL()
-            .then((value) {
+      await ref.putFile(image!).then((_image) async {
+        await ref.getDownloadURL().then((value) {
           patient.profilePic = value;
           patientCollection
               .doc(patient.uniqueId)
@@ -73,7 +68,7 @@ class _PatientSettingsState extends State<PatientSettings> {
         });
       });
     } on FirebaseException catch (e) {
-      return null;
+      print(e);
     }
   }
 

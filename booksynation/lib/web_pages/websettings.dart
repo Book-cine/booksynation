@@ -34,16 +34,12 @@ class _WebSettingsState extends State<WebSettings> {
   }
 
   Future uploadFile() async {
+    Reference ref = FirebaseStorage.instance
+        .ref('profilePics/${admin.uniqueId}/')
+        .child('admin_image.png');
     try {
-      await FirebaseStorage.instance
-          .ref('profilePics/${admin.uniqueId}/admin_image.png')
-          .putData(fileBytes!)
-          .then((p0) async {
-        await FirebaseStorage.instance
-            .ref('profilePics/${admin.uniqueId}/')
-            .child('admin_image.png')
-            .getDownloadURL()
-            .then((value) {
+      await ref.putData(fileBytes!).then((p0) async {
+        ref.getDownloadURL().then((value) {
           admin.profilePic = value;
           adminCollection
               .doc(admin.uniqueId)
@@ -56,7 +52,7 @@ class _WebSettingsState extends State<WebSettings> {
         });
       });
     } on FirebaseException catch (e) {
-      return null;
+      print(e);
     }
   }
 

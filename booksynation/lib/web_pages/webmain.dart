@@ -185,8 +185,6 @@ class _WebMainState extends State<WebMain> {
                                               ? AssetImage(admin.profilePic)
                                               : NetworkImage(admin.profilePic)
                                                   as ImageProvider,
-                                          // MemoryImage(fileBytes!)
-                                          //     as ImageProvider,
                                         ),
                                         SizedBox(
                                           width: 20,

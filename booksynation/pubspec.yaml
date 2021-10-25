@@ -35,13 +35,11 @@ dependencies:
   google_sign_in: ^5.1.1
   qr_flutter: ^4.0.0
   introduction_screen: ^2.1.0
-
   http: ^0.13.4
 
   firebase_storage: ^10.0.6
   path_provider: ^2.0.5
   image_picker: ^0.8.4+3
-
 
 dev_dependencies:
   flutter_test:

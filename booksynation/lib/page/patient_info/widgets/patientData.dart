@@ -212,6 +212,15 @@ getPatientData(User? _patient) async {
   await coll.doc(_patient!.uid).get().then((result) async {
     Map<String, dynamic>? value = result.data();
     patient.uniqueId = value?['UID'];
+
+    await FirebaseStorage.instance
+        .ref('profilePics/${patient.uniqueId}/patient_image.png')
+        .getDownloadURL()
+        .then((value) {
+      patient.profilePic = value;
+      print("Link Image: " + patient.profilePic);
+    }).catchError((error) => null);
+
     patient.fillStatus = value?['Fill_Status'];
     patient.type = value?['Type'];
     patient.firstName = value?['FirstName'];
@@ -242,14 +251,6 @@ getPatientData(User? _patient) async {
     patient.comorbidities = value?['Comorbidities'];
     patient.allergies = value?['Other_Allergies'];
     patient.comorbidities = value?['Other_Comorbidities'];
-
-    await FirebaseStorage.instance
-        .ref('profilePics/${patient.uniqueId}/patient_image.png')
-        .getDownloadURL()
-        .then((value) {
-      patient.profilePic = value;
-      print("Link Image: " + patient.profilePic);
-    }).catchError((error) => null);
   });
 }
 
