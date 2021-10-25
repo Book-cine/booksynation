@@ -1,3 +1,4 @@
+import 'package:booksynation/email_notifs.dart';
 import 'package:booksynation/page/booksched.dart';
 import 'package:booksynation/page/patient_info/widgets/patientData.dart';
 import 'package:booksynation/web_pages/web_data/assign_vaccine.dart';
@@ -75,6 +76,8 @@ class SaveChanges extends StatelessWidget {
               ),
             );
           }
+          //inserted function here to send email notif of new sched to missed patient
+          sendConfirmationBookingEmailNotif(patient.uniqueId);
         },
         style: ElevatedButton.styleFrom(
           primary: Colors.blue[700],

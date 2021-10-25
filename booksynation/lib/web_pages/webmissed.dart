@@ -1,3 +1,4 @@
+import 'package:booksynation/email_notifs.dart';
 import 'package:booksynation/loading.dart';
 import 'package:booksynation/web_pages/web_data/web_missed_data.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -104,6 +105,8 @@ class _WebMissedState extends State<WebMissed> {
                       ElevatedButton(
                         onPressed: () {
                           _selectedUserID.forEach((element) {
+                            //inserted function here to send email notif of new sched to missed patient
+                            sendNewBookingEmailNotifFromMissed(element);
                             reschedMissedPatient(element);
                           });
                         },
