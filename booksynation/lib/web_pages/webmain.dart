@@ -264,14 +264,14 @@ class _WebMainState extends State<WebMain> {
                                     onClicked: () => setState(() {
                                       this.status = 3;
                                       //temporarily placed this function here to test email notifs
-                                      sendEmailNotifs(
-                                          name: 'Mervin',
-                                          email: 'mervin.tampus35@gmail.com',
-                                          vaccine: 'Astra',
-                                          dosage: 'first',
-                                          schedule: DateTime.now()
-                                              .toUtc()
-                                              .toString());
+                                      // sendEmailNotifs(
+                                      //     name: 'Mervin',
+                                      //     email: 'mervin.tampus35@gmail.com',
+                                      //     vaccine: 'Astra',
+                                      //     dosage: 'first',
+                                      //     schedule: DateTime.now()
+                                      //         .toUtc()
+                                      //         .toString());
                                     }),
                                   ),
                                 ],
