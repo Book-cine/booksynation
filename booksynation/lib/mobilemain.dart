@@ -57,7 +57,7 @@ class _MobileMainState extends State<MobileMain> {
   Widget sideMenu() {
     final name = fullname;
     final email = patient.email;
-    final image = imageProfile;
+    final image = patient.profilePic;
     // final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
 
@@ -178,7 +178,9 @@ class _MobileMainState extends State<MobileMain> {
       decoration: BoxDecoration(
         color: Colors.grey.withOpacity(0.1),
         image: DecorationImage(
-          image: ExactAssetImage(urlImage),
+          image: (patient.profilePic == 'images/user.png')
+              ? AssetImage(patient.profilePic)
+              : NetworkImage(patient.profilePic) as ImageProvider,
           colorFilter: new ColorFilter.mode(
               Colors.grey.withOpacity(0.30), BlendMode.modulate),
           fit: BoxFit.cover,
@@ -192,7 +194,9 @@ class _MobileMainState extends State<MobileMain> {
             CircleAvatar(
               radius: 40,
               backgroundColor: Colors.white,
-              backgroundImage: AssetImage(urlImage),
+              backgroundImage: (patient.profilePic == 'images/user.png')
+                  ? AssetImage(patient.profilePic)
+                  : NetworkImage(patient.profilePic) as ImageProvider,
             ),
             SizedBox(
               height: 20,

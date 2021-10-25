@@ -60,6 +60,7 @@ class _GoogleButtonMobileState extends State<GoogleButtonMobile> {
             patient.middleName = '';
             patient.lastName = '';
             patient.email = user.email!;
+            patient.profilePic = user.photoURL!;
             if (result.additionalUserInfo!.isNewUser) {
               isGoogleUser = true;
               //create firebase data for user

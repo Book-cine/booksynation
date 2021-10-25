@@ -160,7 +160,7 @@ class UnlockedPersonalInfo extends StatelessWidget {
   }
 }
 
-//TODO: Please ko Mervin sa kani na part if makaya pa kay murag list lang sa personal info from the forms mao nani katong locked mode sa forms.
+//TODO: Showing the List of allergies and comobordities is not working..
 class LockedPersonalInfo extends StatelessWidget {
   const LockedPersonalInfo({
     Key? key,

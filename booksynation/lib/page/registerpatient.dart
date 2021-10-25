@@ -204,7 +204,7 @@ class _RegisterPatientState extends State<RegisterPatient> {
                                             password: passwordController.text,
                                           )
                                               .then((result) {
-                                            if (result != null && isValid) {
+                                            if (isValid) {
                                               if (result.additionalUserInfo!
                                                   .isNewUser) {
                                                 patient.uniqueId =

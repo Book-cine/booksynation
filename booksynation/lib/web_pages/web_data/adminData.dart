@@ -70,6 +70,6 @@ Future getAdminData(User? _admin) async {
         .then((value) {
       admin.profilePic = value;
       print("Link Image: " + admin.profilePic);
-    }).catchError((error) => {});
+    }).catchError((error) => null);
   });
 }

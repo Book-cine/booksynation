@@ -170,8 +170,7 @@ class _WebSettingsState extends State<WebSettings> {
                                             ? AssetImage(admin.profilePic)
                                             : NetworkImage(admin.profilePic)
                                                 as ImageProvider
-                                        : MemoryImage(
-                                            fileBytes!), //check google pic
+                                        : MemoryImage(fileBytes!),
                                   ),
                                   Positioned(
                                     right: 0,

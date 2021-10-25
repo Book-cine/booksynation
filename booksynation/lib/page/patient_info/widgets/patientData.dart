@@ -1,5 +1,6 @@
 import 'package:booksynation/page/onboarding.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -85,8 +86,6 @@ String fullname = patient.firstName +
     ' ' +
     ((patient.suffix == 'N/A') ? '' : patient.suffix);
 
-String imageProfile = 'images/user.png';
-
 final formKey = GlobalKey<FormState>();
 CollectionReference userCollection =
     FirebaseFirestore.instance.collection('user');
@@ -101,6 +100,7 @@ class PatientProfileData {
 
   //Profile Information
   late String uniqueId;
+  late String profilePic;
   late String type;
   late String firstName;
   late String middleName;
@@ -167,6 +167,7 @@ class PatientProfileData {
     required this.comorbidities,
     required this.otherAllergies,
     required this.others,
+    required this.profilePic,
   });
 }
 
@@ -203,11 +204,12 @@ PatientProfileData patient = PatientProfileData(
   comorbidities: allergies.isEmpty ? ['N/A'] : comorbidities,
   otherAllergies: 'Click to Edit',
   others: 'Click to Edit',
+  profilePic: 'images/user.png',
 );
 
 getPatientData(User? _patient) async {
   var coll = FirebaseFirestore.instance.collection('patient');
-  await coll.doc(_patient!.uid).get().then((result) {
+  await coll.doc(_patient!.uid).get().then((result) async {
     Map<String, dynamic>? value = result.data();
     patient.uniqueId = value?['UID'];
     patient.fillStatus = value?['Fill_Status'];
@@ -240,6 +242,14 @@ getPatientData(User? _patient) async {
     patient.comorbidities = value?['Comorbidities'];
     patient.allergies = value?['Other_Allergies'];
     patient.comorbidities = value?['Other_Comorbidities'];
+
+    await FirebaseStorage.instance
+        .ref('profilePics/${patient.uniqueId}/patient_image.png')
+        .getDownloadURL()
+        .then((value) {
+      patient.profilePic = value;
+      print("Link Image: " + patient.profilePic);
+    }).catchError((error) => null);
   });
 }
 
@@ -279,6 +289,7 @@ createPatientData() async {
         'Comorbidities': patient.comorbidities,
         'Other_Allergies': patient.otherAllergies,
         'Other_Comorbidities': patient.others,
+        'ProfilePic': patient.profilePic,
       })
       .then((value) => print('Add User'))
       .catchError((error) => print('Failed to add user: $error'));

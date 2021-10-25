@@ -122,7 +122,6 @@ updateStock() async {
 }
 
 updateVaccineData() async {
-  var vaccineDocument = vaccineCollection.doc(vaccineData.uniqueId);
   vaccineCollection
       .doc(vaccineData.uniqueId)
       .update({

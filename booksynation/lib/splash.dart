@@ -1,6 +1,5 @@
 import 'package:booksynation/home.dart';
 import 'package:booksynation/mobilemain.dart';
-import 'package:booksynation/page/onboarding.dart';
 import 'package:booksynation/page/patient_info/widgets/patientData.dart';
 import 'package:booksynation/userData.dart';
 import 'package:booksynation/web_pages/web_data/adminData.dart';

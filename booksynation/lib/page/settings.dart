@@ -1,8 +1,15 @@
+import 'dart:io';
+
 import 'package:booksynation/main.dart';
 import 'package:booksynation/page/patient_info/widgets/patientData.dart';
 import 'package:booksynation/userData.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:path/path.dart';
 
 class PatientSettings extends StatefulWidget {
   const PatientSettings({
@@ -18,6 +25,58 @@ class PatientSettings extends StatefulWidget {
 }
 
 class _PatientSettingsState extends State<PatientSettings> {
+  File? image;
+
+  Future pickImage() async {
+    try {
+      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+      if (image == null) return;
+
+      // final imageTemporary = File(image.path);
+      final imagePermanent = await saveImagePermanently(image.path);
+      setState(() {
+        this.image = imagePermanent;
+      });
+    } on PlatformException catch (e) {
+      print('Failed to pick image: $e');
+    }
+  }
+
+  Future<File> saveImagePermanently(String imagePath) async {
+    final directory = await getApplicationDocumentsDirectory();
+    final name = basename(imagePath);
+    final image = File('${directory.path}/$name');
+
+    return File(imagePath).copy(image.path);
+  }
+
+  Future uploadFile() async {
+    try {
+      await FirebaseStorage.instance
+          .ref('profilePics/${patient.uniqueId}/patient_image.png')
+          .putFile(image!)
+          .then((imageRes) async {
+        await FirebaseStorage.instance
+            .ref('profilePics/${patient.uniqueId}/')
+            .child('patient_image.png')
+            .getDownloadURL()
+            .then((value) {
+          patient.profilePic = value;
+          patientCollection
+              .doc(patient.uniqueId)
+              .update({
+                'ProfilePic': patient.profilePic,
+              })
+              .then((value) => print('profile pic updated'))
+              .catchError(
+                  (error) => print('Failed to update profile pic: $error'));
+        });
+      });
+    } on FirebaseException catch (e) {
+      return null;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -28,6 +87,7 @@ class _PatientSettingsState extends State<PatientSettings> {
 
     return SafeArea(
       child: Scaffold(
+        resizeToAvoidBottomInset: true,
         backgroundColor: Colors.white,
         body: Container(
           alignment: Alignment.center,
@@ -55,7 +115,12 @@ class _PatientSettingsState extends State<PatientSettings> {
                         CircleAvatar(
                           radius: 80,
                           backgroundColor: Colors.white,
-                          backgroundImage: AssetImage('images/user.png'),
+                          backgroundImage: image == null
+                              ? (patient.profilePic == 'images/user.png')
+                                  ? AssetImage(patient.profilePic)
+                                  : NetworkImage(patient.profilePic)
+                                      as ImageProvider
+                              : FileImage(image!),
                         ),
                         Positioned(
                           right: 0,
@@ -66,7 +131,9 @@ class _PatientSettingsState extends State<PatientSettings> {
                               borderRadius: BorderRadius.circular(30.0),
                             ),
                             child: IconButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                pickImage();
+                              },
                               icon: Icon(Icons.add_a_photo, color: Colors.grey),
                             ),
                           ),
@@ -162,6 +229,7 @@ class _PatientSettingsState extends State<PatientSettings> {
                                     .then((value) => print('Add Admin User'))
                                     .catchError((error) => print(
                                         'Failed to add Admin user: $error'));
+                                uploadFile();
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
                                     content: Text(
