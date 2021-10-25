@@ -1,6 +1,7 @@
 import 'package:booksynation/userData.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class AdminProfileData {
   //Profile Information
@@ -26,7 +27,7 @@ class AdminProfileData {
 AdminProfileData admin = AdminProfileData(
   uniqueId: '',
   affiliation: '',
-  profilePic: '',
+  profilePic: 'images/user.png',
   firstName: '',
   lastName: '',
   email: '',
@@ -54,7 +55,7 @@ createAdminData() async {
 
 Future getAdminData(User? _admin) async {
   var coll = FirebaseFirestore.instance.collection('admin');
-  await coll.doc(_admin!.uid).get().then((result) {
+  await coll.doc(_admin!.uid).get().then((result) async {
     Map<String, dynamic>? value = result.data();
     admin.uniqueId = value?['UID'];
     admin.affiliation = value?['Affiliation'];
@@ -62,5 +63,13 @@ Future getAdminData(User? _admin) async {
     admin.firstName = value?['FirstName'];
     admin.lastName = value?['LastName'];
     admin.email = value?['Email'];
+
+    await FirebaseStorage.instance
+        .ref('profilePics/${userdata.uniqueId}/${admin.profilePic}')
+        .getDownloadURL()
+        .then((value) {
+      admin.profilePic = value;
+      print("Link Image: " + admin.profilePic);
+    }).catchError((error) => {});
   });
 }

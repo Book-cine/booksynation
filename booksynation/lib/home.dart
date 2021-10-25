@@ -17,7 +17,7 @@ class _HomepageState extends State<Homepage> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final FirebaseAuth auth = FirebaseAuth.instance;
-
+  bool _passwordVisible = false;
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -110,15 +110,28 @@ class _HomepageState extends State<Homepage> {
                               SizedBox(
                                 height: height * 0.025,
                               ),
-                              TextField(
+                              TextFormField(
+                                keyboardType: TextInputType.text,
                                 controller: passwordController,
-                                obscureText: true,
+                                obscureText: !_passwordVisible,
                                 decoration: InputDecoration(
                                   icon: Icon(
                                     Icons.lock_outlined,
                                     color: Colors.black,
                                   ),
                                   hintText: 'Password',
+                                  suffixIcon: GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        _passwordVisible = !_passwordVisible;
+                                      });
+                                    },
+                                    child: Icon(
+                                        _passwordVisible
+                                            ? Icons.visibility
+                                            : Icons.visibility_off,
+                                        color: Colors.grey[700]),
+                                  ),
                                 ),
                               ),
                               SizedBox(

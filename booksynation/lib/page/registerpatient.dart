@@ -164,10 +164,6 @@ class _RegisterPatientState extends State<RegisterPatient> {
                                     controller: passwordController,
                                     obscureText: true,
                                     decoration: InputDecoration(
-                                      suffixIcon: Icon(
-                                        Icons.lock_outlined,
-                                        color: Colors.black,
-                                      ),
                                       hintText: 'Password',
                                     ),
                                   ),
@@ -178,10 +174,6 @@ class _RegisterPatientState extends State<RegisterPatient> {
                                     controller: cpasswordController,
                                     obscureText: true,
                                     decoration: InputDecoration(
-                                      suffixIcon: Icon(
-                                        Icons.lock,
-                                        color: Colors.black,
-                                      ),
                                       hintText: 'Confirm Password',
                                     ),
                                     validator: (value) {

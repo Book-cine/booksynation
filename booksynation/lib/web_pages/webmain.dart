@@ -33,16 +33,14 @@ class _WebMainState extends State<WebMain> {
   final FirebaseAuth auth;
   final currentUser;
   final padding = EdgeInsets.symmetric(horizontal: 20);
-
   String? value;
   int _selected = 0;
 
   @override
   Widget build(BuildContext context) {
+    print("Admin PP: " + admin.profilePic);
     final name = 'Dr. ' + admin.firstName + ' ' + admin.lastName;
     final email = userdata.email;
-    final urlImage = 'images/user.png';
-    // final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
 
@@ -182,7 +180,13 @@ class _WebMainState extends State<WebMain> {
                                         CircleAvatar(
                                           radius: 23,
                                           backgroundColor: Colors.white,
-                                          backgroundImage: AssetImage(urlImage),
+                                          backgroundImage: (admin.profilePic ==
+                                                  'images/user.png')
+                                              ? AssetImage(admin.profilePic)
+                                              : NetworkImage(admin.profilePic)
+                                                  as ImageProvider,
+                                          // MemoryImage(fileBytes!)
+                                          //     as ImageProvider,
                                         ),
                                         SizedBox(
                                           width: 20,

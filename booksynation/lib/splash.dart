@@ -196,11 +196,13 @@ class _LoadScreenState extends State<LoadScreen> {
                   alignment: Alignment.center,
                   child: SizedBox(
                     width: width * 0.25,
-                    height: height * 0.25,
-                    child: CircularProgressIndicator(
-                      strokeWidth: 10,
-                      valueColor: AlwaysStoppedAnimation<Color>(
-                        Colors.greenAccent.withOpacity(0.5),
+                    child: AspectRatio(
+                      aspectRatio: 1 / 1,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 10,
+                        valueColor: AlwaysStoppedAnimation<Color>(
+                          Colors.greenAccent.withOpacity(0.5),
+                        ),
                       ),
                     ),
                   ),
