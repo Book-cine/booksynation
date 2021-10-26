@@ -79,11 +79,7 @@ bool fillStatus = false; //dapat false
 bool initialState = true;
 bool isGoogleUser = false;
 
-String fullname = patient.firstName +
-    ' ' +
-    patient.lastName +
-    ' ' +
-    ((patient.suffix == 'N/A') ? '' : patient.suffix);
+String? fullname;
 
 final formKey = GlobalKey<FormState>();
 CollectionReference userCollection =
@@ -211,15 +207,6 @@ getPatientData(User? _patient) async {
   await coll.doc(_patient!.uid).get().then((result) async {
     Map<String, dynamic>? value = result.data();
     patient.uniqueId = value?['UID'];
-
-    await FirebaseStorage.instance
-        .ref('profilePics/${patient.uniqueId}/patient_image.png')
-        .getDownloadURL()
-        .then((value) {
-      patient.profilePic = value;
-      print("Link Image: " + patient.profilePic);
-    }).catchError((error) => null);
-
     patient.fillStatus = value?['Fill_Status'];
     patient.type = value?['Type'];
     patient.firstName = value?['FirstName'];
@@ -246,6 +233,13 @@ getPatientData(User? _patient) async {
     patient.interactedCovid = value?['Covid_Interaction'];
     patient.isDiagnosed = value?['Diagnosed_w_Covid'];
     patient.diagnosedDate = value?['Diagnosed_Date'];
+    await FirebaseStorage.instance
+        .ref('profilePics/${patient.uniqueId}/patient_image.png')
+        .getDownloadURL()
+        .then((value) {
+      patient.profilePic = value;
+      print("Link Image: " + patient.profilePic);
+    }).catchError((error) => null);
     patient.allergies = value?['Allergies'];
     patient.comorbidities = value?['Comorbidities'];
     patient.allergies = value?['Other_Allergies'];
@@ -333,6 +327,48 @@ updatePatientData() async {
       })
       .then((value) => print('Update User'))
       .catchError((error) => print('Failed to update user: $error'));
+}
+
+setLocalSignOut() {
+  patient = PatientProfileData(
+    uniqueId: '',
+    fillStatus: fillStatus,
+    type: '',
+    firstName: 'Juan',
+    middleName: 'Alfonso',
+    lastName: 'Dela Cruz',
+    suffix: 'N/A',
+    age: '00',
+    bday: '01/01/2000',
+    sex: 'Male',
+    civStatus: 'Single',
+    philhealth: 'N/A',
+    address: 'Click to Edit',
+    region: 'Select Option',
+    province: 'Select Option',
+    city: 'Select Option',
+    brgy: 'Select Option',
+    zip: '0000',
+    contact: '09XXXXXXXXX',
+    email: 'example@domain.com',
+    covclass: 'Select Option',
+    employed: 'No',
+    pregnant: 'No',
+    disability: 'No',
+    interactedCovid: 'No',
+    isDiagnosed: 'No',
+    diagnosedDate: 'N/A',
+    allergies: allergies.isEmpty ? ['N/A'] : allergies,
+    comorbidities: allergies.isEmpty ? ['N/A'] : comorbidities,
+    otherAllergies: 'Click to Edit',
+    others: 'Click to Edit',
+    profilePic: 'images/user.png',
+  );
+  fullname = patient.firstName +
+      ' ' +
+      patient.lastName +
+      ' ' +
+      ((patient.suffix == 'N/A') ? '' : patient.suffix);
 }
 
 class NavigatorData {
