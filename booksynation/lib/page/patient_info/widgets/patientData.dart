@@ -1,4 +1,3 @@
-import 'package:booksynation/page/onboarding.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -90,9 +89,9 @@ final formKey = GlobalKey<FormState>();
 CollectionReference userCollection =
     FirebaseFirestore.instance.collection('user');
 
-final Stream<QuerySnapshot> users = patientCollection.snapshots();
+final Stream<QuerySnapshot> users = mobilePatientCollection.snapshots();
 
-CollectionReference patientCollection =
+CollectionReference mobilePatientCollection =
     FirebaseFirestore.instance.collection('patient');
 
 class PatientProfileData {
@@ -255,7 +254,7 @@ getPatientData(User? _patient) async {
 }
 
 createPatientData() async {
-  patientCollection
+  mobilePatientCollection
       .doc(patient.uniqueId)
       .set({
         'UID': patient.uniqueId,
@@ -297,7 +296,7 @@ createPatientData() async {
 }
 
 updatePatientData() async {
-  patientCollection
+  mobilePatientCollection
       .doc(patient.uniqueId)
       .update({
         'UID': patient.uniqueId,
@@ -337,7 +336,7 @@ updatePatientData() async {
 }
 
 class NavigatorData {
-  late Widget mainBody;
+  late Widget? mainBody;
   late String currentWindow;
   NavigatorData({
     required this.mainBody,
@@ -346,6 +345,6 @@ class NavigatorData {
 }
 
 NavigatorData navigatorData = NavigatorData(
-  mainBody: OnBoard(),
+  mainBody: null,
   currentWindow: '',
 );
