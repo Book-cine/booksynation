@@ -37,12 +37,34 @@ MissedData missedPatient = MissedData(
 CollectionReference missedCollection =
     FirebaseFirestore.instance.collection('missed-sched');
 
-deleteMissedData(String uid) {
-  missedCollection
-      .doc(uid)
-      .delete()
-      .then((value) => print('Missed Patient Deleted'))
-      .catchError((error) => print('Failed to delete Missed Patient: $error'));
+deleteMissedData(String uid) async {
+  var coll = FirebaseFirestore.instance.collection('missed-sched');
+  var coll2 = FirebaseFirestore.instance.collection('removed-users');
+
+  await coll.doc(uid).get().then((result) async {
+    Map<String, dynamic>? value = result.data();
+    //copy to completed-users collection
+    await coll2.doc(uid).set({
+      'Category': value?['Category'],
+      'DateSchedule': value?['DateSchedule'],
+      'Dosage': value?['Dosage'],
+      'Email': value?['Email'],
+      'Name': value?['Name'],
+      'Vaccine': value?['Vaccine'],
+      'UID': value?['UID'],
+    }).then((value) async {
+      print('Schedule transferred to removed-users');
+      //remove from missed scheduled collection
+      coll
+          .doc(uid)
+          .delete()
+          .then((value) => print('Missed Patient Deleted'))
+          .catchError(
+              (error) => print('Failed to delete Missed Patient: $error'));
+    }).catchError((error) =>
+        print('Failed to transfer schedule to Removed Collection: $error'));
+  }).catchError(
+      (error) => print('Failed to get missed scheduled-user: $error'));
 }
 
 //called when approval button is pressed by admin

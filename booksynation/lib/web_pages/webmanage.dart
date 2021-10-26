@@ -14,13 +14,25 @@ class WebManage extends StatefulWidget {
 }
 
 class _WebManageState extends State<WebManage> {
-  StatusData statusData = StatusData(250, 100, 10, 5);
-
   final Stream<QuerySnapshot> _usersStream =
       FirebaseFirestore.instance.collection('vaccine').snapshots();
 
   final Stream<QuerySnapshot> _stockStream =
       FirebaseFirestore.instance.collection('vaccine-stock').snapshots();
+
+  final Stream<QuerySnapshot> _bookedStream =
+      FirebaseFirestore.instance.collection('scheduled-users').snapshots();
+  final Stream<QuerySnapshot> _completedStream =
+      FirebaseFirestore.instance.collection('completed-users').snapshots();
+  final Stream<QuerySnapshot> _missedStream =
+      FirebaseFirestore.instance.collection('missed-sched').snapshots();
+  final Stream<QuerySnapshot> _removedStream =
+      FirebaseFirestore.instance.collection('removed-users').snapshots();
+
+  int booked = 0;
+  int completed = 0;
+  int missed = 0;
+  int removed = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +81,8 @@ class _WebManageState extends State<WebManage> {
                                 child: buildScheduler(width, height)),
                           ),
                           Spacer(flex: 1),
-                          buildFooterUpdates(),
+                          getFooterDataBooked(),
+                          // buildFooterUpdates(),
                         ],
                       ),
                     ),
@@ -85,7 +98,98 @@ class _WebManageState extends State<WebManage> {
     );
   }
 
+  StreamBuilder getFooterDataBooked() {
+    return StreamBuilder<QuerySnapshot>(builder: (context, snapshot) {
+      return StreamBuilder<QuerySnapshot>(
+          stream: _bookedStream,
+          builder:
+              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+            if (snapshot.hasError) {
+              return Text('Something went wrong');
+            }
+
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Loading();
+            }
+            booked = 0;
+            snapshot.data!.docChanges.forEach((element) {
+              booked++;
+            });
+            return getFooterDataCompleted();
+          });
+    });
+  }
+
+  StreamBuilder getFooterDataCompleted() {
+    return StreamBuilder<QuerySnapshot>(builder: (context, snapshot) {
+      return StreamBuilder<QuerySnapshot>(
+          stream: _completedStream,
+          builder:
+              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+            if (snapshot.hasError) {
+              return Text('Something went wrong');
+            }
+
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Loading();
+            }
+
+            completed = 0;
+            snapshot.data!.docChanges.forEach((element) {
+              completed++;
+            });
+            return getFooterDataMissed();
+          });
+    });
+  }
+
+  StreamBuilder getFooterDataMissed() {
+    return StreamBuilder<QuerySnapshot>(builder: (context, snapshot) {
+      return StreamBuilder<QuerySnapshot>(
+          stream: _missedStream,
+          builder:
+              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+            if (snapshot.hasError) {
+              return Text('Something went wrong');
+            }
+
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Loading();
+            }
+            missed = 0;
+            snapshot.data!.docChanges.forEach((element) {
+              missed++;
+            });
+            return getFooterDataRemoved();
+          });
+    });
+  }
+
+  StreamBuilder getFooterDataRemoved() {
+    return StreamBuilder<QuerySnapshot>(builder: (context, snapshot) {
+      return StreamBuilder<QuerySnapshot>(
+          stream: _removedStream,
+          builder:
+              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+            if (snapshot.hasError) {
+              return Text('Something went wrong');
+            }
+
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Loading();
+            }
+            removed = 0;
+            snapshot.data!.docChanges.forEach((element) {
+              removed++;
+            });
+            return buildFooterUpdates();
+          });
+    });
+  }
+
   Widget buildFooterUpdates() {
+    StatusData statusData = StatusData(booked, completed, missed, removed);
+
     return Expanded(
       flex: 20,
       child: Container(
@@ -224,7 +328,7 @@ class _WebManageState extends State<WebManage> {
                                     child: Row(
                                       children: [
                                         Container(
-                                          child: Text('Rescheduled',
+                                          child: Text('Missed',
                                               style: TextStyle(
                                                   fontFamily: 'Poppins',
                                                   fontWeight: FontWeight.w500,
@@ -270,7 +374,7 @@ class _WebManageState extends State<WebManage> {
                                     child: Row(
                                       children: [
                                         Container(
-                                          child: Text('Cancelled',
+                                          child: Text('Removed',
                                               style: TextStyle(
                                                   fontFamily: 'Poppins',
                                                   fontWeight: FontWeight.w500,
