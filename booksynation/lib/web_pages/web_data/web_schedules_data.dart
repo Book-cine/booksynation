@@ -31,9 +31,6 @@ class ScheduleData {
   });
 }
 
-CollectionReference patientCollection =
-    FirebaseFirestore.instance.collection('patient');
-
 ScheduleData scheduleData = ScheduleData(
   uniqueId: '',
   name: '',

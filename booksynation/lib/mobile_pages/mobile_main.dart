@@ -331,7 +331,7 @@ class _MobileMainState extends State<MobileMain> {
       await ref.putFile(image!).then((_image) async {
         await ref.getDownloadURL().then((value) {
           patient.profilePic = value;
-          mobilePatientCollection
+          patientCollection
               .doc(patient.uniqueId)
               .update({
                 'ProfilePic': patient.profilePic,

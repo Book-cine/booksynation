@@ -89,9 +89,9 @@ final formKey = GlobalKey<FormState>();
 CollectionReference userCollection =
     FirebaseFirestore.instance.collection('user');
 
-final Stream<QuerySnapshot> users = mobilePatientCollection.snapshots();
+final Stream<QuerySnapshot> users = patientCollection.snapshots();
 
-CollectionReference mobilePatientCollection =
+CollectionReference patientCollection =
     FirebaseFirestore.instance.collection('patient');
 
 class PatientProfileData {
@@ -254,7 +254,7 @@ getPatientData(User? _patient) async {
 }
 
 createPatientData() async {
-  mobilePatientCollection
+  patientCollection
       .doc(patient.uniqueId)
       .set({
         'UID': patient.uniqueId,
@@ -296,7 +296,7 @@ createPatientData() async {
 }
 
 updatePatientData() async {
-  mobilePatientCollection
+  patientCollection
       .doc(patient.uniqueId)
       .update({
         'UID': patient.uniqueId,
