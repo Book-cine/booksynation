@@ -27,11 +27,11 @@ class _HomepageState extends State<Homepage> {
       child: Scaffold(
         body: Container(
           height: height,
-          padding: EdgeInsets.all(25.0),
           decoration: BoxDecoration(
             color: Color(0xFF3DDD6A).withOpacity(0.10),
           ),
           child: SingleChildScrollView(
+            padding: EdgeInsets.all(25.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
