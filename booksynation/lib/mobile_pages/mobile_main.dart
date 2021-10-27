@@ -42,8 +42,6 @@ class _MobileMainState extends State<MobileMain> {
   });
   final FirebaseAuth auth;
   final currentUser;
-  bool _consent = false;
-  bool _confirm = false;
   String fullname = patient.firstName +
       ' ' +
       patient.lastName +
@@ -552,9 +550,9 @@ class _MobileMainState extends State<MobileMain> {
             alignment: Alignment.center,
             child: Container(
               color: Colors.white,
-              padding: EdgeInsets.fromLTRB(
-                  width * 0.08, height * 0.02, width * 0.08, height * 0.02),
               child: SingleChildScrollView(
+                padding: EdgeInsets.fromLTRB(
+                    width * 0.08, height * 0.02, width * 0.08, 0),
                 child: Column(
                   children: [
                     SizedBox(height: height * 0.20),
@@ -847,28 +845,7 @@ class _MobileMainState extends State<MobileMain> {
       pages: [
         PageViewModel(
           title: healthDecTitle1,
-          bodyWidget: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Checkbox(
-                value: _consent,
-                activeColor: Color(0xFF26A98A),
-                onChanged: (value) {
-                  setState(() => _consent = value!);
-                },
-              ),
-              Container(
-                padding: EdgeInsets.zero,
-                width: width * 0.7,
-                child: Text(
-                  healthDecDescription1,
-                  textAlign: TextAlign.justify,
-                  style: _normalTextStyle,
-                ),
-              ),
-            ],
-          ),
+          body: healthDecDescription1,
           image: Image.asset(
             'images/vaxinfoimg1.png',
             scale: 1.5,
@@ -878,26 +855,7 @@ class _MobileMainState extends State<MobileMain> {
         PageViewModel(
           title: healthDecTitle2,
           useScrollView: false,
-          bodyWidget: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Checkbox(
-                value: _confirm,
-                activeColor: Color(0xFF26A98A),
-                onChanged: (value) {
-                  setState(() => _confirm = value!);
-                },
-              ),
-              Expanded(
-                child: Text(
-                  healthDecDescription2,
-                  textAlign: TextAlign.justify,
-                  style: _normalTextStyle,
-                ),
-              ),
-            ],
-          ),
+          body: healthDecDescription2,
           image: Padding(
             padding: EdgeInsets.only(top: height * 0.05),
             child: Material(
@@ -914,7 +872,17 @@ class _MobileMainState extends State<MobileMain> {
                   fixedSize: Size(width * 0.40, height * 0.065),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(60))),
-              onPressed: _confirm ? () => myAppointment(context) : null,
+              onPressed: () {
+                User? user = FirebaseAuth.instance.currentUser;
+                print("CurrentUser:" + user.toString());
+                createScheduleVaccine(user);
+                Future.delayed(Duration(seconds: 1), () {
+                  setState(() {
+                    navigatorData.currentWindow = '';
+                    navigatorData.mainBody = myAppointment(context);
+                  });
+                });
+              },
               child: Text(
                 btnTextFinishBook,
                 style: _btnTextStyle,
@@ -924,15 +892,17 @@ class _MobileMainState extends State<MobileMain> {
       ],
       showDoneButton: false,
       nextColor: Color(0xFF26A98A),
-      next: Icon(Icons.arrow_forward),
+      next: Text(
+        'Agree',
+      ),
       dotsDecorator: dotsDecoration,
       globalBackgroundColor: Colors.white,
       skipFlex: 0,
       nextFlex: 0,
-      isProgressTap: _consent,
-      isProgress: _consent,
-      showNextButton: _consent,
-      freeze: !_consent,
+      isProgressTap: true,
+      isProgress: true,
+      showNextButton: true,
+      freeze: false,
       // animationDuration: 1000,
     );
   }
@@ -1022,9 +992,6 @@ class _MobileMainState extends State<MobileMain> {
                               patient.lastName +
                               ' ' +
                               ((patient.suffix == 'N/A') ? '' : patient.suffix);
-                          User? user = FirebaseAuth.instance.currentUser;
-                          print("CurrentUser:" + user.toString());
-                          createScheduleVaccine(user);
 
                           Future.delayed(const Duration(seconds: 2), () {
                             setState(() {
@@ -1464,215 +1431,219 @@ class _PatientSettingsState extends State<PatientSettings> {
             key: _formKey,
             child: Container(
               color: Colors.white,
-              padding: EdgeInsets.all(35.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Column(
-                    children: [
-                      Text('Account Information',
-                          style: TextStyle(
-                            fontSize: height * 0.022,
-                            fontWeight: FontWeight.bold,
-                          )),
-                      SizedBox(height: height * 0.020),
-                    ],
-                  ),
-                  Column(
-                    children: [
-                      Stack(children: [
-                        CircleAvatar(
-                          radius: 80,
-                          backgroundColor: Colors.white,
-                          backgroundImage: image == null
-                              ? (patient.profilePic == 'images/user.png')
-                                  ? AssetImage(patient.profilePic)
-                                  : NetworkImage(patient.profilePic)
-                                      as ImageProvider
-                              : FileImage(image!),
-                        ),
-                        Positioned(
-                          right: 0,
-                          bottom: 10,
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(30.0),
-                            ),
-                            child: IconButton(
-                              onPressed: () {
-                                pickImage();
-                              },
-                              icon: Icon(Icons.add_a_photo, color: Colors.grey),
+              child: SingleChildScrollView(
+                padding: EdgeInsets.fromLTRB(40, 35, 45, 0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Column(
+                      children: [
+                        Text('Account Information',
+                            style: TextStyle(
+                              fontSize: height * 0.022,
+                              fontWeight: FontWeight.bold,
+                            )),
+                        SizedBox(height: height * 0.020),
+                      ],
+                    ),
+                    Column(
+                      children: [
+                        Stack(children: [
+                          CircleAvatar(
+                            radius: 80,
+                            backgroundColor: Colors.white,
+                            backgroundImage: image == null
+                                ? (patient.profilePic == 'images/user.png')
+                                    ? AssetImage(patient.profilePic)
+                                    : NetworkImage(patient.profilePic)
+                                        as ImageProvider
+                                : FileImage(image!),
+                          ),
+                          Positioned(
+                            right: 0,
+                            bottom: 10,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(30.0),
+                              ),
+                              child: IconButton(
+                                onPressed: () {
+                                  pickImage();
+                                },
+                                icon:
+                                    Icon(Icons.add_a_photo, color: Colors.grey),
+                              ),
                             ),
                           ),
+                        ]),
+                        SizedBox(height: height * 0.020),
+                        Center(
+                          child: Container(
+                            child: Text(fullname,
+                                style: TextStyle(
+                                    fontFamily: 'Poppins',
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 18,
+                                    color: Color(0xFF192A3E))),
+                          ),
                         ),
-                      ]),
-                      SizedBox(height: height * 0.020),
-                      Center(
-                        child: Container(
-                          child: Text(fullname,
-                              style: TextStyle(
-                                  fontFamily: 'Poppins',
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 18,
-                                  color: Color(0xFF192A3E))),
+                        SizedBox(height: height * 0.020),
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text('Email',
+                              style:
+                                  TextStyle(color: Colors.black, fontSize: 14)),
                         ),
-                      ),
-                      SizedBox(height: height * 0.020),
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text('Email',
-                            style:
-                                TextStyle(color: Colors.black, fontSize: 14)),
-                      ),
-                      TextFormField(
-                        enabled: false,
-                        decoration: InputDecoration(
-                          hintText: patient.email,
+                        TextFormField(
+                          enabled: false,
+                          decoration: InputDecoration(
+                            hintText: patient.email,
+                          ),
                         ),
-                      ),
-                      SizedBox(height: height * 0.020),
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text('Current Password',
-                            style:
-                                TextStyle(color: Colors.black, fontSize: 14)),
-                      ),
-                      TextFormField(
-                        controller: passwordController,
-                        obscureText: true,
-                        validator: (value) {
-                          if (value!.isEmpty || value != userdata.password) {
-                            return 'Please input current password.';
-                          } else {
-                            return null;
-                          }
-                        },
-                      ),
-                      SizedBox(height: height * 0.020),
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text('New Password',
-                            style:
-                                TextStyle(color: Colors.black, fontSize: 14)),
-                      ),
-                      TextFormField(
-                        controller: newpasswordController,
-                        obscureText: true,
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'Please input new password.';
-                          } else {
-                            return null;
-                          }
-                        },
-                      ),
-                    ],
-                  ),
-                  Spacer(),
-                  Align(
-                    alignment: Alignment.center,
-                    child: Container(
-                      width: width * 0.65,
-                      decoration: BoxDecoration(boxShadow: [
-                        BoxShadow(
-                          color: Color(0xFF1D74E9).withOpacity(0.16),
-                          blurRadius: 8,
-                          offset: Offset(0, 4), // changes position of shadow
+                        SizedBox(height: height * 0.020),
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text('Current Password',
+                              style:
+                                  TextStyle(color: Colors.black, fontSize: 14)),
                         ),
-                      ]),
-                      child: ElevatedButton(
-                        onPressed: () async {
-                          final isValid = _formKey.currentState!.validate();
-                          if (isValid) {
-                            try {
-                              await widget.auth.currentUser!
-                                  .updatePassword(newpasswordController.text)
-                                  .then((value) {
-                                userDataCollection
-                                    .doc(userdata.uniqueId)
-                                    .update({
-                                      'password': newpasswordController.text,
-                                    })
-                                    .then((value) => print('Add Admin User'))
-                                    .catchError((error) => print(
-                                        'Failed to add Admin user: $error'));
-                                uploadFile();
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text(
-                                      'Saving Changes, Please reauthenticate.',
-                                    ),
-                                  ),
-                                );
-                                Future.delayed(const Duration(seconds: 3), () {
-                                  setLocalSignOut();
-                                  widget.auth.signOut();
-                                  navigatorData.mainBody = null;
-                                  Navigator.pop(context);
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => App(),
+                        TextFormField(
+                          controller: passwordController,
+                          obscureText: true,
+                          validator: (value) {
+                            if (value!.isEmpty || value != userdata.password) {
+                              return 'Please input current password.';
+                            } else {
+                              return null;
+                            }
+                          },
+                        ),
+                        SizedBox(height: height * 0.020),
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text('New Password',
+                              style:
+                                  TextStyle(color: Colors.black, fontSize: 14)),
+                        ),
+                        TextFormField(
+                          controller: newpasswordController,
+                          obscureText: true,
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Please input new password.';
+                            } else {
+                              return null;
+                            }
+                          },
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: height * 0.020),
+                    Align(
+                      alignment: Alignment.center,
+                      child: Container(
+                        width: width * 0.65,
+                        decoration: BoxDecoration(boxShadow: [
+                          BoxShadow(
+                            color: Color(0xFF1D74E9).withOpacity(0.16),
+                            blurRadius: 8,
+                            offset: Offset(0, 4), // changes position of shadow
+                          ),
+                        ]),
+                        child: ElevatedButton(
+                          onPressed: () async {
+                            final isValid = _formKey.currentState!.validate();
+                            if (isValid) {
+                              try {
+                                await widget.auth.currentUser!
+                                    .updatePassword(newpasswordController.text)
+                                    .then((value) {
+                                  userDataCollection
+                                      .doc(userdata.uniqueId)
+                                      .update({
+                                        'password': newpasswordController.text,
+                                      })
+                                      .then((value) => print('Add Admin User'))
+                                      .catchError((error) => print(
+                                          'Failed to add Admin user: $error'));
+                                  uploadFile();
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text(
+                                        'Saving Changes, Please reauthenticate.',
+                                      ),
                                     ),
                                   );
+                                  Future.delayed(const Duration(seconds: 3),
+                                      () {
+                                    setLocalSignOut();
+                                    widget.auth.signOut();
+                                    navigatorData.mainBody = null;
+                                    Navigator.pop(context);
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => App(),
+                                      ),
+                                    );
+                                  });
                                 });
-                              });
-                            } on FirebaseAuthException catch (e) {
-                              print(e);
-                              if (e.code == 'weak-password') {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text(
-                                      'Password is too weak.',
+                              } on FirebaseAuthException catch (e) {
+                                print(e);
+                                if (e.code == 'weak-password') {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text(
+                                        'Password is too weak.',
+                                      ),
                                     ),
-                                  ),
-                                );
-                              } else {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text(
-                                      'Password update unsuccessful.',
+                                  );
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text(
+                                        'Password update unsuccessful.',
+                                      ),
                                     ),
-                                  ),
-                                );
+                                  );
+                                }
                               }
-                            }
-                          } else {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text(
-                                  'Please review the fields before submitting.',
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text(
+                                    'Please review the fields before submitting.',
+                                  ),
                                 ),
-                              ),
-                            );
-                          }
-                        },
-                        style: ElevatedButton.styleFrom(
-                          primary: Colors.blue[700],
-                          fixedSize: Size(
-                            width * 0.65,
-                            height * 0.060,
+                              );
+                            }
+                          },
+                          style: ElevatedButton.styleFrom(
+                            primary: Colors.blue[700],
+                            fixedSize: Size(
+                              width * 0.65,
+                              height * 0.060,
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(6.0),
+                            ),
                           ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(6.0),
-                          ),
-                        ),
-                        child: Text(
-                          'Save Changes',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontFamily: 'Mulish',
-                            fontWeight: FontWeight.w600,
-                            fontSize: height * 0.018,
-                            decoration: TextDecoration.none,
+                          child: Text(
+                            'Save Changes',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontFamily: 'Mulish',
+                              fontWeight: FontWeight.w600,
+                              fontSize: height * 0.018,
+                              decoration: TextDecoration.none,
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
