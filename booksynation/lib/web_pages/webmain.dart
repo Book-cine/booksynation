@@ -198,6 +198,8 @@ class _WebMainState extends State<WebMain> {
                                           children: [
                                             Text(name,
                                                 style: TextStyle(
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
                                                     fontFamily: 'Poppins',
                                                     fontWeight: FontWeight.w600,
                                                     fontSize: 13,
