@@ -480,6 +480,8 @@ class _MobileMainState extends State<MobileMain> {
         true; //Status of Vaccination of User from firestore (false when vaccine is missed, true otherwise)
     bool fillStatus =
         patient.fillStatus; //Status of Fill up Form of User from firestore
+    bool missedStatus =
+        patient.missedStatus; //Miss Status of User from firestore
     print('FillStatus: ' +
         fillStatus.toString()); //no alert even if Fillstatus is false
     DateTime now = new DateTime.now();
@@ -495,7 +497,7 @@ class _MobileMainState extends State<MobileMain> {
 
     Widget getStatus(String schedule, bool status) {
       if (schedule != formatter.format(DateTime.utc(1969, 7, 20, 20, 18, 04))) {
-        if (status) {
+        if (!missedStatus) {
           return scheduleScreen(context);
         } else {
           return missedScreen(context);

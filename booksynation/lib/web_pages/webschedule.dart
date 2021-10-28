@@ -19,6 +19,9 @@ class _WebScheduleState extends State<WebSchedule> {
   final Stream<QuerySnapshot> _scheduledStream =
       FirebaseFirestore.instance.collection('scheduled-users').snapshots();
 
+  final CollectionReference patientCollection =
+      FirebaseFirestore.instance.collection('patient');
+
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width - 260;
@@ -234,6 +237,16 @@ class _WebScheduleState extends State<WebSchedule> {
                                                   ),
                                                   tooltip: 'Mark as missed',
                                                   onPressed: () {
+                                                    patientCollection
+                                                        .doc(data['uniqueID'])
+                                                        .update({
+                                                          'Missed_Status': true,
+                                                        })
+                                                        .then((value) => print(
+                                                            'Update User'))
+                                                        .catchError((error) =>
+                                                            print(
+                                                                'Failed to update user: $error'));
                                                     transferToMissed(
                                                         data['uniqueID']);
                                                   },
@@ -285,7 +298,13 @@ class _WebScheduleState extends State<WebSchedule> {
                                                   width: 25,
                                                 ),
                                                 tooltip: 'Mark as finished',
-                                                onPressed: () {},
+                                                onPressed: () {
+                                                  (data['Dosage'] == '2nd')
+                                                      ? finishPatient(
+                                                          data['uniqueID'])
+                                                      : reschedTo2ndDose(
+                                                          data['uniqueID']);
+                                                },
                                               ),
                                               IconButton(
                                                 icon: SvgPicture.asset(

@@ -36,6 +36,8 @@ MissedData missedPatient = MissedData(
 
 CollectionReference missedCollection =
     FirebaseFirestore.instance.collection('missed-sched');
+CollectionReference patientCollection =
+    FirebaseFirestore.instance.collection('patient');
 
 deleteMissedData(String uid) async {
   var coll = FirebaseFirestore.instance.collection('missed-sched');
@@ -71,6 +73,13 @@ deleteMissedData(String uid) async {
 reschedMissedPatient(String uniqueID) async {
   missedPatient.uniqueId = uniqueID;
   var coll = FirebaseFirestore.instance.collection('missed-sched');
+  patientCollection
+      .doc(uniqueID)
+      .update({
+        'Missed_Status': false,
+      })
+      .then((value) => print('Update User'))
+      .catchError((error) => print('Failed to update user: $error'));
 
   missedPatient.uniqueId = uniqueID;
   print('Missed Patient UniqueID: ' + missedPatient.uniqueId);

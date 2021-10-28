@@ -167,7 +167,7 @@ class _WebMainState extends State<WebMain> {
                               child: Column(
                                 children: [
                                   Container(
-                                    width: 260,
+                                    width: 240,
                                     height: height * 0.18,
                                     child: Row(
                                       crossAxisAlignment:

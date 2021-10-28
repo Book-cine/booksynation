@@ -76,6 +76,7 @@ DateTime? diagnosedDate;
 
 bool diagnosed = false;
 bool fillStatus = false; //dapat false
+bool missedStatus = false;
 bool initialState = true;
 bool isGoogleUser = false;
 
@@ -92,7 +93,7 @@ CollectionReference patientCollection =
 
 class PatientProfileData {
   late bool fillStatus;
-
+  late bool missedStatus;
   //Profile Information
   late String uniqueId;
   late String profilePic;
@@ -132,6 +133,7 @@ class PatientProfileData {
 
   PatientProfileData({
     required this.fillStatus,
+    required this.missedStatus,
     required this.uniqueId,
     required this.type,
     required this.firstName,
@@ -170,6 +172,7 @@ class PatientProfileData {
 PatientProfileData patient = PatientProfileData(
   uniqueId: '',
   fillStatus: fillStatus,
+  missedStatus: missedStatus,
   type: '',
   firstName: 'Juan',
   middleName: 'Alfonso',
@@ -208,6 +211,7 @@ getPatientData(User? _patient) async {
     Map<String, dynamic>? value = result.data();
     patient.uniqueId = value?['UID'];
     patient.fillStatus = value?['Fill_Status'];
+    patient.missedStatus = value?['Missed_Status'];
     patient.type = value?['Type'];
     patient.firstName = value?['FirstName'];
     patient.middleName = value?['MiddleName'];
@@ -254,6 +258,7 @@ createPatientData() async {
         'UID': patient.uniqueId,
         'Google_User': isGoogleUser,
         'Fill_Status': patient.fillStatus,
+        'Missed_Status': patient.missedStatus,
         'Type': patient.type,
         'FirstName': patient.firstName,
         'MiddleName': patient.middleName,
@@ -295,6 +300,7 @@ updatePatientData() async {
       .update({
         'UID': patient.uniqueId,
         'Fill_Status': patient.fillStatus,
+        'Missed_Status': patient.missedStatus,
         'Type': patient.type,
         'FirstName': patient.firstName,
         'MiddleName': patient.middleName,
@@ -333,6 +339,7 @@ setLocalSignOut() {
   patient = PatientProfileData(
     uniqueId: '',
     fillStatus: fillStatus,
+    missedStatus: missedStatus,
     type: '',
     firstName: 'Juan',
     middleName: 'Alfonso',
