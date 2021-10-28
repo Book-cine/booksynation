@@ -75,7 +75,7 @@ class _PatientDropdownState extends State<PatientDropdown> {
                   case 'Barangay':
                     patient.brgy = value.toString();
                     break;
-                  case 'Covid-19 Classification':
+                  case 'Patient Classification':
                     patient.covclass = value.toString();
                     break;
                   case 'Are you Employed?':
