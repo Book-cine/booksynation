@@ -207,6 +207,8 @@ class _WebMainState extends State<WebMain> {
                                             ),
                                             Text(email,
                                                 style: TextStyle(
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
                                                     fontFamily: 'Poppins',
                                                     fontWeight: FontWeight.w500,
                                                     fontSize: 11,
