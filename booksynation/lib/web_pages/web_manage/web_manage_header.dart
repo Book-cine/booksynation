@@ -1,3 +1,4 @@
+import 'package:booksynation/strings.dart';
 import 'package:booksynation/web_pages/web_data/web_vaccines_data.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +19,7 @@ class _WebManageHeaderState extends State<WebManageHeader> {
         stream: stockCollection.snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasError) {
-            return Text('Something went wrong');
+            return Text(somethingWrongSnackbar);
           }
 
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -125,7 +126,7 @@ class _WebManageHeaderState extends State<WebManageHeader> {
                             child: Row(
                               children: [
                                 Container(
-                                  child: Text('Astrazenica',
+                                  child: Text('Astrazeneca',
                                       style: TextStyle(
                                           fontFamily: 'Poppins',
                                           fontWeight: FontWeight.w500,
@@ -142,7 +143,7 @@ class _WebManageHeaderState extends State<WebManageHeader> {
                                   child: Text(
                                       snapshot.data!.docChanges
                                           .where((element) =>
-                                              element.doc.id == 'Astrazenica')
+                                              element.doc.id == 'Astrazeneca')
                                           .map((e) =>
                                               e.doc.get('totalCurrentStock'))
                                           .single
@@ -159,7 +160,7 @@ class _WebManageHeaderState extends State<WebManageHeader> {
                                           snapshot.data!.docChanges
                                               .where((element) =>
                                                   element.doc.id ==
-                                                  'Astrazenica')
+                                                  'Astrazeneca')
                                               .map((e) =>
                                                   e.doc.get('totalMaxStock'))
                                               .single

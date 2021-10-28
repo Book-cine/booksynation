@@ -1,6 +1,7 @@
 import 'package:booksynation/home.dart';
 import 'package:booksynation/mobile_pages/mobile_main.dart';
 import 'package:booksynation/page/patient_info/widgets/patientData.dart';
+import 'package:booksynation/strings.dart';
 import 'package:booksynation/userData.dart';
 import 'package:booksynation/web_pages/web_data/adminData.dart';
 import 'package:booksynation/web_pages/web_data/assign_vaccine.dart';
@@ -51,7 +52,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Text(
-                    'BookSyNation',
+                    appName,
                     style: _titleTextStyle,
                   ),
                   SizedBox(
@@ -66,41 +67,9 @@ class _SplashScreenState extends State<SplashScreen> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text('National\nVaccination\nBooking System',
+                  Text(longAppNameText,
                       style: _titleTextStyle.copyWith(
                           color: Colors.black.withOpacity(0.6))),
-                  /*
-                  ),                  
-                  Padding(
-                    padding: EdgeInsets.only(
-                      top: 5,
-                      bottom: 5,
-                    ),
-                    child: Text(
-                      'Vaccination',
-                      style: TextStyle(
-                        color: Colors.black.withOpacity(0.6),
-                        fontFamily: 'Antic Didone',
-                        fontWeight: FontWeight.bold,
-                        fontSize: height * 0.036,
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(
-                      top: 5,
-                      bottom: 5,
-                    ),
-                    child: Text(
-                      'Booking System',
-                      style: TextStyle(
-                        color: Colors.black.withOpacity(0.6),
-                        fontFamily: 'Antic Didone',
-                        fontWeight: FontWeight.bold,
-                        fontSize: height * 0.036,
-                      ),
-                    ),
-                  ),*/
                 ],
               ),
             ],

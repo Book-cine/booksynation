@@ -1,4 +1,5 @@
 import 'package:booksynation/page/patient_info/widgets/patientData.dart';
+import 'package:booksynation/strings.dart';
 import 'package:flutter/material.dart';
 
 class DatePicker extends StatefulWidget {
@@ -56,7 +57,7 @@ class _DatePickerState extends State<DatePicker> {
                   : ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
                         content: Text(
-                          'Please indicate Yes, if diagnosed with Covid',
+                          indicateYesSnackbar,
                         ),
                       ),
                     );

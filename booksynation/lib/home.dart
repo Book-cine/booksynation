@@ -2,6 +2,7 @@ import 'package:booksynation/page/patient_info/widgets/patientData.dart';
 import 'package:booksynation/page/registerpatient.dart';
 import 'package:booksynation/page/resetpass.dart';
 import 'package:booksynation/splash.dart';
+import 'package:booksynation/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -50,7 +51,7 @@ class _HomepageState extends State<Homepage> {
                       width: width * 0.015,
                     ),
                     Text(
-                      'BookSyNation',
+                      appName,
                       style: TextStyle(
                         color: Colors.black,
                         fontFamily: 'Antic Didone',
@@ -171,7 +172,7 @@ class _HomepageState extends State<Homepage> {
                                           .showSnackBar(
                                         const SnackBar(
                                           content: Text(
-                                            'No user found for that email.',
+                                            noUserSnackbar,
                                           ),
                                         ),
                                       );
@@ -180,7 +181,7 @@ class _HomepageState extends State<Homepage> {
                                           .showSnackBar(
                                         const SnackBar(
                                           content: Text(
-                                            'Wrong password provided for that user.',
+                                            wrongPassSnackbar,
                                           ),
                                         ),
                                       );
@@ -189,7 +190,7 @@ class _HomepageState extends State<Homepage> {
                                           .showSnackBar(
                                         const SnackBar(
                                           content: Text(
-                                            'Login Error',
+                                            loginErrorSnackbar,
                                           ),
                                         ),
                                       );
@@ -207,7 +208,7 @@ class _HomepageState extends State<Homepage> {
                                   ),
                                 ),
                                 child: Text(
-                                  'Log In',
+                                  loginText,
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontFamily: 'Mulish',
@@ -232,7 +233,7 @@ class _HomepageState extends State<Homepage> {
                                   );
                                 },
                                 child: Text(
-                                  'Register Now',
+                                  registerText,
                                   style: TextStyle(
                                     color: Color(0xFF146955),
                                     fontFamily: 'Mulish',
@@ -257,7 +258,7 @@ class _HomepageState extends State<Homepage> {
                                   );
                                 },
                                 child: Text(
-                                  'Forgot Password',
+                                  forgotPassText,
                                   style: TextStyle(
                                     color: Color(0xFF146955),
                                     fontFamily: 'Mulish',

@@ -1,4 +1,5 @@
 import 'package:booksynation/loading.dart';
+import 'package:booksynation/strings.dart';
 import 'package:booksynation/web_pages/web_data/web_vaccines_data.dart';
 import 'package:booksynation/web_pages/web_data/web_vax_status_data.dart';
 import 'package:booksynation/web_pages/web_manage/web_manage_header.dart';
@@ -105,7 +106,7 @@ class _WebManageState extends State<WebManage> {
           builder:
               (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (snapshot.hasError) {
-              return Text('Something went wrong');
+              return Text(somethingWrongSnackbar);
             }
 
             if (snapshot.connectionState == ConnectionState.waiting) {
@@ -127,7 +128,7 @@ class _WebManageState extends State<WebManage> {
           builder:
               (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (snapshot.hasError) {
-              return Text('Something went wrong');
+              return Text(somethingWrongSnackbar);
             }
 
             if (snapshot.connectionState == ConnectionState.waiting) {
@@ -150,7 +151,7 @@ class _WebManageState extends State<WebManage> {
           builder:
               (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (snapshot.hasError) {
-              return Text('Something went wrong');
+              return Text(somethingWrongSnackbar);
             }
 
             if (snapshot.connectionState == ConnectionState.waiting) {
@@ -172,7 +173,7 @@ class _WebManageState extends State<WebManage> {
           builder:
               (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (snapshot.hasError) {
-              return Text('Something went wrong');
+              return Text(somethingWrongSnackbar);
             }
 
             if (snapshot.connectionState == ConnectionState.waiting) {
@@ -220,7 +221,7 @@ class _WebManageState extends State<WebManage> {
                                     child: Row(
                                       children: [
                                         Container(
-                                          child: Text('Booked',
+                                          child: Text(bookedManageText,
                                               style: TextStyle(
                                                   fontFamily: 'Poppins',
                                                   fontWeight: FontWeight.w500,
@@ -266,7 +267,7 @@ class _WebManageState extends State<WebManage> {
                                     child: Row(
                                       children: [
                                         Container(
-                                          child: Text('Completed',
+                                          child: Text(completedManageText,
                                               style: TextStyle(
                                                   fontFamily: 'Poppins',
                                                   fontWeight: FontWeight.w500,
@@ -328,7 +329,7 @@ class _WebManageState extends State<WebManage> {
                                     child: Row(
                                       children: [
                                         Container(
-                                          child: Text('Missed',
+                                          child: Text(missedManageText,
                                               style: TextStyle(
                                                   fontFamily: 'Poppins',
                                                   fontWeight: FontWeight.w500,
@@ -374,7 +375,7 @@ class _WebManageState extends State<WebManage> {
                                     child: Row(
                                       children: [
                                         Container(
-                                          child: Text('Removed',
+                                          child: Text(removedManageText,
                                               style: TextStyle(
                                                   fontFamily: 'Poppins',
                                                   fontWeight: FontWeight.w500,
@@ -421,7 +422,7 @@ class _WebManageState extends State<WebManage> {
       stream: _usersStream,
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasError) {
-          return Text('Something went wrong');
+          return Text(somethingWrongSnackbar);
         }
 
         if (snapshot.connectionState == ConnectionState.waiting) {
@@ -438,31 +439,31 @@ class _WebManageState extends State<WebManage> {
                 columns: const <DataColumn>[
                   DataColumn(
                     label: Text(
-                      'Date',
+                      dateManageLabel,
                       style: TextStyle(fontStyle: FontStyle.italic),
                     ),
                   ),
                   DataColumn(
                     label: Text(
-                      'Stock',
+                      stockManageLabel,
                       style: TextStyle(fontStyle: FontStyle.italic),
                     ),
                   ),
                   DataColumn(
                     label: Text(
-                      'Category',
+                      categoryManageLabel,
                       style: TextStyle(fontStyle: FontStyle.italic),
                     ),
                   ),
                   DataColumn(
                     label: Text(
-                      'Vaccine',
+                      vaccineManageLabel,
                       style: TextStyle(fontStyle: FontStyle.italic),
                     ),
                   ),
                   DataColumn(
                     label: Text(
-                      'Actions',
+                      actionsManageLabel,
                       style: TextStyle(fontStyle: FontStyle.italic),
                     ),
                   ),
@@ -537,7 +538,7 @@ class _WebManageState extends State<WebManage> {
                                 ),
                               ),
                               child: Text(
-                                'Edit',
+                                editText,
                                 style: TextStyle(
                                   color: Color(0xFF242731),
                                   fontFamily: 'Mulish',
@@ -566,7 +567,7 @@ class _WebManageState extends State<WebManage> {
       stream: _stockStream,
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasError) {
-          return Text('Something went wrong');
+          return Text(somethingWrongSnackbar);
         }
 
         if (snapshot.connectionState == ConnectionState.waiting) {
@@ -588,7 +589,7 @@ class _WebManageState extends State<WebManage> {
                         children: [
                           Container(
                             child: Text(
-                              'Vaccination Start',
+                              vaxStartText,
                               style: TextStyle(
                                 color: Color(0xFF333333),
                                 fontFamily: 'Poppins',
@@ -615,7 +616,7 @@ class _WebManageState extends State<WebManage> {
                         children: [
                           Container(
                             child: Text(
-                              'Vaccination End',
+                              vaxEndText,
                               style: TextStyle(
                                 color: Color(0xFF333333),
                                 fontFamily: 'Poppins',
@@ -650,7 +651,7 @@ class _WebManageState extends State<WebManage> {
                           children: [
                             Container(
                               child: Text(
-                                'Stock',
+                                stockManageLabel,
                                 style: TextStyle(
                                   color: Color(0xFF333333),
                                   fontFamily: 'Poppins',
@@ -704,7 +705,7 @@ class _WebManageState extends State<WebManage> {
                           children: [
                             Container(
                               child: Text(
-                                'Vaccine',
+                                vaccineManageLabel,
                                 style: TextStyle(
                                   color: Color(0xFF333333),
                                   fontFamily: 'Poppins',
@@ -738,7 +739,7 @@ class _WebManageState extends State<WebManage> {
                                     });
                                   },
                                   items: <String>[
-                                    'Astrazenica',
+                                    'Astrazeneca',
                                     'Janssen',
                                     'Moderna',
                                     'Pfizer',
@@ -772,7 +773,7 @@ class _WebManageState extends State<WebManage> {
                           children: [
                             Container(
                               child: Text(
-                                'Category',
+                                categoryManageLabel,
                                 style: TextStyle(
                                   color: Color(0xFF333333),
                                   fontFamily: 'Poppins',
@@ -886,7 +887,7 @@ class _WebManageState extends State<WebManage> {
                         ),
                       ),
                       child: Text(
-                        'Schedule Vaccine',
+                        btnTextSchedVax,
                         style: TextStyle(
                           color: Colors.white,
                           fontFamily: 'Mulish',

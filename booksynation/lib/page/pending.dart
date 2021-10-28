@@ -32,7 +32,7 @@ class PendingScreen extends StatelessWidget {
                     right: width * 0.14),
                 alignment: Alignment.bottomCenter,
                 child: Text(
-                  pendingText, //TODO: add or change text
+                  pendingText,
                   textAlign: TextAlign.center,
                   style: _normalTextStyle,
                 ),

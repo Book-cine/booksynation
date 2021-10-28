@@ -1,6 +1,7 @@
 import 'package:booksynation/google_button.dart';
 import 'package:booksynation/home.dart';
 import 'package:booksynation/page/patient_info/widgets/patientData.dart';
+import 'package:booksynation/strings.dart';
 import 'package:booksynation/userData.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -113,7 +114,7 @@ class _RegisterPatientState extends State<RegisterPatient> {
                                         SizedBox(
                                           width: width * 0.025,
                                         ),
-                                        Text('Create Account'),
+                                        Text(createAccText),
                                       ],
                                     ),
                                     SizedBox(
@@ -126,7 +127,7 @@ class _RegisterPatientState extends State<RegisterPatient> {
                                           Icons.email,
                                           color: Colors.black,
                                         ),
-                                        labelText: 'Email Address',
+                                        labelText: emailAddRegLabel,
                                       ),
                                     ),
                                     SizedBox(
@@ -226,7 +227,7 @@ class _RegisterPatientState extends State<RegisterPatient> {
                                                       .showSnackBar(
                                                     const SnackBar(
                                                       content: Text(
-                                                        'Registration successful.',
+                                                        regSuccessSnackbar,
                                                       ),
                                                     ),
                                                   );
@@ -245,7 +246,7 @@ class _RegisterPatientState extends State<RegisterPatient> {
                                                     .showSnackBar(
                                                   const SnackBar(
                                                     content: Text(
-                                                      'Registration unsuccessful.',
+                                                      regFailedSnackbar,
                                                     ),
                                                   ),
                                                 );
@@ -259,7 +260,7 @@ class _RegisterPatientState extends State<RegisterPatient> {
                                                   .showSnackBar(
                                                 const SnackBar(
                                                   content: Text(
-                                                    'Email address is already in use.',
+                                                    emailInUseSnackbar,
                                                   ),
                                                 ),
                                               );
@@ -269,7 +270,7 @@ class _RegisterPatientState extends State<RegisterPatient> {
                                                   .showSnackBar(
                                                 const SnackBar(
                                                   content: Text(
-                                                    'Email address is not valid',
+                                                    invalidEmailSnackbar,
                                                   ),
                                                 ),
                                               );
@@ -278,7 +279,7 @@ class _RegisterPatientState extends State<RegisterPatient> {
                                                   .showSnackBar(
                                                 const SnackBar(
                                                   content: Text(
-                                                    'Registration Error',
+                                                    regErrorSnackbar,
                                                   ),
                                                 ),
                                               );
@@ -298,7 +299,7 @@ class _RegisterPatientState extends State<RegisterPatient> {
                                         ),
                                       ),
                                       child: Text(
-                                        'Register',
+                                        btnTextRegister,
                                         style: TextStyle(
                                           color: Colors.white,
                                           fontFamily: 'Mulish',

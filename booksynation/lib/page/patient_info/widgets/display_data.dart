@@ -1,4 +1,5 @@
 import 'package:booksynation/page/patient_info/widgets/patientData.dart';
+import 'package:booksynation/strings.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -21,10 +22,10 @@ class DisplayData extends StatelessWidget {
               builder: (BuildContext context,
                   AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (snapshot.hasError) {
-                  return const Text('Something went wrong');
+                  return const Text(somethingWrongSnackbar);
                 }
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Text('Loading');
+                  return const Text(loadingText);
                 }
 
                 final data = snapshot.requireData;

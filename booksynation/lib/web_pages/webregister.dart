@@ -1,4 +1,5 @@
 import 'package:booksynation/google_button_web.dart';
+import 'package:booksynation/strings.dart';
 import 'package:booksynation/userData.dart';
 import 'package:booksynation/web_pages/web_data/adminData.dart';
 import 'package:booksynation/web_pages/weblogin.dart';
@@ -115,7 +116,7 @@ class _WebRegisterState extends State<WebRegister> {
                                       SizedBox(
                                         width: width * 0.025,
                                       ),
-                                      Text('Create Account'),
+                                      Text(createAccText),
                                     ],
                                   ),
                                   SizedBox(
@@ -225,7 +226,7 @@ class _WebRegisterState extends State<WebRegister> {
                                                     .showSnackBar(
                                                   const SnackBar(
                                                     content: Text(
-                                                      'Registration successful.',
+                                                      regSuccessSnackbar,
                                                     ),
                                                   ),
                                                 );
@@ -243,7 +244,7 @@ class _WebRegisterState extends State<WebRegister> {
                                                   .showSnackBar(
                                                 const SnackBar(
                                                   content: Text(
-                                                    'Registration unsuccessful.',
+                                                    regFailedSnackbar,
                                                   ),
                                                 ),
                                               );
@@ -258,7 +259,7 @@ class _WebRegisterState extends State<WebRegister> {
                                                 .showSnackBar(
                                               const SnackBar(
                                                 content: Text(
-                                                  'Email address is already in use.',
+                                                  emailInUseSnackbar,
                                                 ),
                                               ),
                                             );
@@ -268,7 +269,7 @@ class _WebRegisterState extends State<WebRegister> {
                                                 .showSnackBar(
                                               const SnackBar(
                                                 content: Text(
-                                                  'Email address is not valid',
+                                                  invalidEmailSnackbar,
                                                 ),
                                               ),
                                             );
@@ -277,7 +278,7 @@ class _WebRegisterState extends State<WebRegister> {
                                                 .showSnackBar(
                                               const SnackBar(
                                                 content: Text(
-                                                  'Registration Error',
+                                                  regErrorSnackbar,
                                                 ),
                                               ),
                                             );
@@ -297,7 +298,7 @@ class _WebRegisterState extends State<WebRegister> {
                                       ),
                                     ),
                                     child: Text(
-                                      'Register',
+                                      btnTextRegister,
                                       style: TextStyle(
                                         color: Colors.white,
                                         fontFamily: 'Mulish',

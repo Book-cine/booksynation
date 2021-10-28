@@ -1,5 +1,6 @@
 import 'package:booksynation/email_notifs.dart';
 import 'package:booksynation/loading.dart';
+import 'package:booksynation/strings.dart';
 import 'package:booksynation/web_pages/web_data/web_missed_data.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -49,7 +50,7 @@ class _WebMissedState extends State<WebMissed> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Container(
-                        child: Text('Vaccine: ',
+                        child: Text(vaccineWithColonText,
                             style: TextStyle(
                                 fontFamily: 'Poppins',
                                 fontWeight: FontWeight.w600,
@@ -77,7 +78,7 @@ class _WebMissedState extends State<WebMissed> {
                           },
                           items: <String>[
                             'All',
-                            'Astrazenica',
+                            'Astrazeneca',
                             'Janssen',
                             'Moderna',
                             'Pfizer',
@@ -121,7 +122,7 @@ class _WebMissedState extends State<WebMissed> {
                           ),
                         ),
                         child: Text(
-                          'Reschedule Patient',
+                          reschedPatientText,
                           style: TextStyle(
                             color: Colors.white,
                             fontFamily: 'Mulish',
@@ -149,7 +150,7 @@ class _WebMissedState extends State<WebMissed> {
                           ),
                         ),
                         child: Text(
-                          'Remove Patient',
+                          removePatientText,
                           style: TextStyle(
                             color: Colors.white,
                             fontFamily: 'Mulish',
@@ -173,7 +174,7 @@ class _WebMissedState extends State<WebMissed> {
                   builder: (BuildContext context,
                       AsyncSnapshot<QuerySnapshot> snapshot) {
                     if (snapshot.hasError) {
-                      return Text('Something went wrong');
+                      return Text(somethingWrongSnackbar);
                     }
 
                     if (snapshot.connectionState == ConnectionState.waiting) {
@@ -206,49 +207,49 @@ class _WebMissedState extends State<WebMissed> {
                               columns: const <DataColumn>[
                                 DataColumn(
                                   label: Text(
-                                    'Unique ID',
+                                    uniqueIdLabel,
                                     style:
                                         TextStyle(fontStyle: FontStyle.italic),
                                   ),
                                 ),
                                 DataColumn(
                                   label: Text(
-                                    'Name',
+                                    nameLabel,
                                     style:
                                         TextStyle(fontStyle: FontStyle.italic),
                                   ),
                                 ),
                                 DataColumn(
                                   label: Text(
-                                    'Email',
+                                    emailText,
                                     style:
                                         TextStyle(fontStyle: FontStyle.italic),
                                   ),
                                 ),
                                 DataColumn(
                                   label: Text(
-                                    'Vaccine',
+                                    vaccineManageLabel,
                                     style:
                                         TextStyle(fontStyle: FontStyle.italic),
                                   ),
                                 ),
                                 DataColumn(
                                   label: Text(
-                                    'Dosage',
+                                    dosageText,
                                     style:
                                         TextStyle(fontStyle: FontStyle.italic),
                                   ),
                                 ),
                                 DataColumn(
                                   label: Text(
-                                    'Category',
+                                    categoryManageLabel,
                                     style:
                                         TextStyle(fontStyle: FontStyle.italic),
                                   ),
                                 ),
                                 DataColumn(
                                   label: Text(
-                                    'Date Scheduled',
+                                    dateScheduledText,
                                     style:
                                         TextStyle(fontStyle: FontStyle.italic),
                                   ),

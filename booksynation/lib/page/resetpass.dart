@@ -1,4 +1,5 @@
 import 'package:booksynation/home.dart';
+import 'package:booksynation/strings.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -104,7 +105,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                                   SizedBox(
                                     width: width * 0.025,
                                   ),
-                                  Text('Reset Password'),
+                                  Text(resetPassText),
                                 ],
                               ),
                               SizedBox(
@@ -148,7 +149,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                                               .showSnackBar(
                                             const SnackBar(
                                               content: Text(
-                                                'Request successful.',
+                                                reqSuccessSnackbar,
                                               ),
                                             ),
                                           );
@@ -164,7 +165,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                                               .showSnackBar(
                                             const SnackBar(
                                               content: Text(
-                                                'Request unsuccessful.',
+                                                reqFailedSnackbar,
                                               ),
                                             ),
                                           );
@@ -177,7 +178,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                                             .showSnackBar(
                                           const SnackBar(
                                             content: Text(
-                                              'Email address is already in use.',
+                                              emailInUseSnackbar,
                                             ),
                                           ),
                                         );
@@ -186,7 +187,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                                             .showSnackBar(
                                           const SnackBar(
                                             content: Text(
-                                              'Email address is not valid',
+                                              invalidEmailSnackbar,
                                             ),
                                           ),
                                         );
@@ -195,7 +196,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                                             .showSnackBar(
                                           const SnackBar(
                                             content: Text(
-                                              'Email address not registered',
+                                              emailUnregisteredSnackbar,
                                             ),
                                           ),
                                         );

@@ -3,6 +3,7 @@ import 'package:booksynation/page/patient_info/widgets/patientData.dart';
 import 'package:booksynation/page/patient_info/widgets/patient_check_box.dart';
 import 'package:booksynation/page/patient_info/widgets/patient_dropdown.dart';
 import 'package:booksynation/page/patient_info/widgets/patient_form_field.dart';
+import 'package:booksynation/strings.dart';
 import 'package:flutter/material.dart';
 
 class EssentialInfo extends StatefulWidget {
@@ -34,13 +35,13 @@ class _EssentialInfoState extends State<EssentialInfo> {
             Expanded(
               child: PatientDropdown(
                 dropList: covclass,
-                label: 'Covid-19 Classification',
+                label: covclassEssInfoLabel,
               ),
             ),
             SizedBox(width: widget.width * 0.015),
             Expanded(
               child: PatientDropdown(
-                  dropList: yesOrNo, label: 'Are you Employed?'),
+                  dropList: yesOrNo, label: employedEssInfoLabel),
             ),
           ],
         ),
@@ -50,30 +51,28 @@ class _EssentialInfoState extends State<EssentialInfo> {
           children: [
             Expanded(
               child: PatientDropdown(
-                  dropList: yesOrNo, label: 'Are you Pregnant?'),
+                  dropList: yesOrNo, label: pregnantEssInfoLabel),
             ),
             SizedBox(width: widget.width * 0.015),
             Expanded(
               child: PatientDropdown(
-                  dropList: yesOrNo, label: 'Person with Disability?'),
+                  dropList: yesOrNo, label: disabilityEssInfoLabel),
             ),
           ],
         ),
         SizedBox(height: widget.height * 0.025),
-        PatientDropdown(
-            dropList: yesOrNo,
-            label: 'Directly interacted with Covid-19 Patient?'),
+        PatientDropdown(dropList: yesOrNo, label: interactCovidEssInfoLabel),
         SizedBox(height: widget.height * 0.025),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Expanded(
               child: PatientDropdown(
-                  dropList: yesOrNo, label: 'Are you diagnosed with Covid-19?'),
+                  dropList: yesOrNo, label: diagnosedEssInfoLabel),
             ),
             SizedBox(width: widget.width * 0.015),
             Expanded(
-              child: DatePicker(label: 'Diagnosed Date'),
+              child: DatePicker(label: diagDateEssInfoLabel),
             ),
           ],
         ),
@@ -85,14 +84,14 @@ class _EssentialInfoState extends State<EssentialInfo> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Allergies', style: TextStyle(fontSize: 16)),
-                  PatientCheckbox(label: 'Drug'),
-                  PatientCheckbox(label: 'Food'),
-                  PatientCheckbox(label: 'Insect'),
-                  PatientCheckbox(label: 'Latex'),
-                  PatientCheckbox(label: 'Mold'),
-                  PatientCheckbox(label: 'Pet'),
-                  PatientCheckbox(label: 'Pollen'),
+                  Text(allergiesEssInfoLabel, style: TextStyle(fontSize: 16)),
+                  PatientCheckbox(label: allergyCheckDrug),
+                  PatientCheckbox(label: allergyCheckFood),
+                  PatientCheckbox(label: allergyCheckInsect),
+                  PatientCheckbox(label: allergyCheckLatex),
+                  PatientCheckbox(label: allergyCheckMold),
+                  PatientCheckbox(label: allergyCheckPet),
+                  PatientCheckbox(label: allergyCheckPollen),
                 ],
               ),
             ),
@@ -101,14 +100,14 @@ class _EssentialInfoState extends State<EssentialInfo> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Comorbidities', style: TextStyle(fontSize: 16)),
-                  PatientCheckbox(label: 'Hypertension'),
-                  PatientCheckbox(label: 'Heart Disease'),
-                  PatientCheckbox(label: 'Kidney Disease'),
-                  PatientCheckbox(label: 'Diabetes'),
-                  PatientCheckbox(label: 'Asthma'),
-                  PatientCheckbox(label: 'Immunodeficiency'),
-                  PatientCheckbox(label: 'Cancer'),
+                  Text(comorbidEssInfoLabel, style: TextStyle(fontSize: 16)),
+                  PatientCheckbox(label: comorbidCheckHypertension),
+                  PatientCheckbox(label: comorbidCheckHeart),
+                  PatientCheckbox(label: comorbidCheckKidney),
+                  PatientCheckbox(label: comorbidCheckDiabetes),
+                  PatientCheckbox(label: comorbidCheckAsthma),
+                  PatientCheckbox(label: comorbidCheckImmunodeficieny),
+                  PatientCheckbox(label: comorbidCheckCancer),
                 ],
               ),
             ),
@@ -121,14 +120,14 @@ class _EssentialInfoState extends State<EssentialInfo> {
             SizedBox(width: widget.width * 0.1),
             Expanded(
               child: PatientFormField(
-                label: 'Other Allergies:',
+                label: otherAllergyEssInfoLabel,
                 placeholder: patient.otherAllergies,
               ),
             ),
             SizedBox(width: widget.width * 0.1),
             Expanded(
               child: PatientFormField(
-                  label: 'Others:', placeholder: patient.others),
+                  label: othersEssInfoLabel, placeholder: patient.others),
             ),
           ],
         ),

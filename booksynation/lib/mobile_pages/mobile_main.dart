@@ -75,7 +75,7 @@ class _MobileMainState extends State<MobileMain> {
     );
   }
 
-  //TODO: side-menu
+  //side-menu
   Widget sideMenu(context) {
     final email = patient.email;
     final image = patient.profilePic;
@@ -120,8 +120,7 @@ class _MobileMainState extends State<MobileMain> {
                                 Navigator.pop(context);
                                 navigatorData.currentWindow =
                                     'Personal Information';
-                                navigatorData.mainBody = personalInfo(
-                                    context); //TODO: change screen direction
+                                navigatorData.mainBody = personalInfo(context);
                               },
                             );
                           },
@@ -176,7 +175,7 @@ class _MobileMainState extends State<MobileMain> {
                           width: 10,
                         ),
                         Text(
-                          'BookSyNation',
+                          appName,
                           style: TextStyle(
                             fontFamily: 'Antic Didone',
                             fontWeight: FontWeight.bold,
@@ -195,7 +194,7 @@ class _MobileMainState extends State<MobileMain> {
     );
   }
 
-  //TODO: header
+  //header
   Widget buildHeader({
     required String urlImage,
     required String name,
@@ -247,7 +246,7 @@ class _MobileMainState extends State<MobileMain> {
     );
   }
 
-  //TODO: side-menu-tiles
+  //side-menu-tiles
   Widget buildMenuItem({
     required String text,
     required IconData icon,
@@ -264,13 +263,13 @@ class _MobileMainState extends State<MobileMain> {
     );
   }
 
-  //TODO: sign-out-tile
+  //sign-out-tile
   Widget buildSignOutItem(context) {
     final color = Colors.black;
     final hoverColor = Colors.grey.withOpacity(0.5);
 
     return ListTile(
-      title: Text('Sign-out', style: TextStyle(color: color)),
+      title: Text(signOutText, style: TextStyle(color: color)),
       leading: SvgPicture.asset(
         'images/signout_icon.svg',
         color: color,
@@ -293,7 +292,7 @@ class _MobileMainState extends State<MobileMain> {
     );
   }
 
-  //TODO: sign-out
+  //sign-out
   Widget signOutMenu({
     required String text,
     required SvgPicture icon,
@@ -422,7 +421,7 @@ class _MobileMainState extends State<MobileMain> {
     );
   }
 
-  //TODO: my-appointments-functions
+  //my-appointments-functions
   void showAlert(BuildContext context) {
     showDialog(
       context: context,
@@ -473,7 +472,7 @@ class _MobileMainState extends State<MobileMain> {
     );
   }
 
-  //TODO: my-appointments
+  //my-appointments
   Widget myAppointment(context) {
     DateTime scheduleDate = scheduleData
         .dateScheduled; //Schedule of User's vaccine from firestore/ Book button pressed if not empty
@@ -482,7 +481,7 @@ class _MobileMainState extends State<MobileMain> {
     bool fillStatus =
         patient.fillStatus; //Status of Fill up Form of User from firestore
     print('FillStatus: ' +
-        fillStatus.toString()); //TODO: no alert even if Fillstatus is false
+        fillStatus.toString()); //no alert even if Fillstatus is false
     DateTime now = new DateTime.now();
     var formatter = new DateFormat('MM/dd/yyyy');
     String date = formatter.format(now);
@@ -516,7 +515,7 @@ class _MobileMainState extends State<MobileMain> {
     );
   }
 
-  //TODO: schedule-screen
+  //schedule-screen
   Widget scheduleScreen(context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
@@ -537,9 +536,9 @@ class _MobileMainState extends State<MobileMain> {
       return formattedSched;
     }
 
-    //TODO: if no schedule yet then show alert and redirect to forms or pending screen,
-    //TODO: if missed patient and not yet rescheduled show alert or pending screen.
-    //TODO: if removed then show patient removed need to fill up forms or delete account.
+    //if no schedule yet then show alert and redirect to forms or pending screen,
+    //if missed patient and not yet rescheduled show alert or pending screen.
+    //if removed then show patient removed need to fill up forms or delete account.
 
     return SafeArea(
       child: Scaffold(
@@ -563,17 +562,6 @@ class _MobileMainState extends State<MobileMain> {
                           fontSize: height * 0.035,
                           fontWeight: FontWeight.bold),
                     ),
-                    /*
-                    Text(
-                      'on ' + date,
-                      textAlign: TextAlign.justify,
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontFamily: 'Average',
-                        fontWeight: FontWeight.bold,
-                        fontSize: height * 0.035,
-                      ),
-                    ), */
                     SizedBox(height: height * 0.10),
                     Image.asset('images/calendar.png'),
                     SizedBox(height: height * 0.10),
@@ -658,7 +646,7 @@ class _MobileMainState extends State<MobileMain> {
     );
   }
 
-  //TODO: book-schedule
+  //book-schedule
   Widget bookSchedule(context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
@@ -675,8 +663,6 @@ class _MobileMainState extends State<MobileMain> {
       fontSize: height * 0.018,
       decoration: TextDecoration.none,
     );
-
-    //TODO: name dynamic implementation
 
     if (patient.fillStatus) {
       return SafeArea(
@@ -696,8 +682,7 @@ class _MobileMainState extends State<MobileMain> {
                           style: _normalTextStyle,
                           children: <TextSpan>[
                         TextSpan(
-                            text: fullname +
-                                '!', //TODO: apply name dynamic implementation
+                            text: fullname + '!',
                             style: const TextStyle(fontWeight: FontWeight.bold))
                       ])),
                 ),
@@ -718,7 +703,7 @@ class _MobileMainState extends State<MobileMain> {
                           navigatorData.currentWindow = '';
                           navigatorData.mainBody = healthDeclaration(context);
                         },
-                      ); //TODO:change button action
+                      );
                     },
                     style: ElevatedButton.styleFrom(
                       primary: Color(0xFF26A98A),
@@ -743,7 +728,7 @@ class _MobileMainState extends State<MobileMain> {
     }
   }
 
-  //TODO: missed-screen
+  //missed-screen
   Widget missedScreen(context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
@@ -787,7 +772,7 @@ class _MobileMainState extends State<MobileMain> {
                       "\n" +
                       contactDetail2 +
                       "\n\n" +
-                      missedText3), //TODO: implement dynamic contact details?
+                      missedText3),
                   textAlign: TextAlign.center,
                   style: _normalTextStyle,
                 ),
@@ -893,7 +878,7 @@ class _MobileMainState extends State<MobileMain> {
       showDoneButton: false,
       nextColor: Color(0xFF26A98A),
       next: Text(
-        'Agree',
+        agreeText,
       ),
       dotsDecorator: dotsDecoration,
       globalBackgroundColor: Colors.white,
@@ -903,7 +888,6 @@ class _MobileMainState extends State<MobileMain> {
       isProgress: true,
       showNextButton: true,
       freeze: false,
-      // animationDuration: 1000,
     );
   }
 
@@ -916,7 +900,7 @@ class _MobileMainState extends State<MobileMain> {
     }
   }
 
-  //TODO: unlocked-personal-info-page
+  //unlocked-personal-info-page
   Widget unlockedPersonalInfo(context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
@@ -933,7 +917,7 @@ class _MobileMainState extends State<MobileMain> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Profile',
+                Text(profileText,
                     style: TextStyle(
                       fontSize: height * 0.024,
                       fontWeight: FontWeight.bold,
@@ -941,7 +925,7 @@ class _MobileMainState extends State<MobileMain> {
                 SizedBox(height: height * 0.03),
                 PatientProfile(height: height, width: width),
                 SizedBox(height: height * 0.03),
-                Text('Contact Details',
+                Text(formContactDetailsText,
                     style: TextStyle(
                       fontSize: height * 0.024,
                       fontWeight: FontWeight.bold,
@@ -949,7 +933,7 @@ class _MobileMainState extends State<MobileMain> {
                 SizedBox(height: height * 0.03),
                 ContactDetails(height: height, width: width),
                 SizedBox(height: height * 0.03),
-                Text('Essential Information',
+                Text(essentialInfoText,
                     style: TextStyle(
                       fontSize: height * 0.024,
                       fontWeight: FontWeight.bold,
@@ -979,7 +963,7 @@ class _MobileMainState extends State<MobileMain> {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
                               content: Text(
-                                'Submitting Your Data',
+                                submitDataSnackbar,
                               ),
                             ),
                           );
@@ -1003,7 +987,7 @@ class _MobileMainState extends State<MobileMain> {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
                               content: Text(
-                                'Please review the fields before submitting.',
+                                reviewFieldErrMsg,
                               ),
                             ),
                           );
@@ -1012,7 +996,7 @@ class _MobileMainState extends State<MobileMain> {
                         sendConfirmationBookingEmailNotif(patient.uniqueId);
                       },
                       style: ElevatedButton.styleFrom(
-                        primary: Colors.blue[700],
+                        primary: Color(0xFF26A98A),
                         fixedSize: Size(
                           width * 0.65,
                           height * 0.060,
@@ -1022,7 +1006,7 @@ class _MobileMainState extends State<MobileMain> {
                         ),
                       ),
                       child: Text(
-                        'Save Changes',
+                        btnTextSave,
                         style: TextStyle(
                           color: Colors.white,
                           fontFamily: 'Mulish',
@@ -1043,36 +1027,36 @@ class _MobileMainState extends State<MobileMain> {
     );
   }
 
-  //TODO: locked-personal-info
+  //locked-personal-info
   Widget lockedPersonalInfo() {
     List patientData = [
-      Text('First Name: ' + patient.firstName),
-      Text('Middle Name: ' + patient.middleName),
-      Text('Last Name: ' + patient.lastName),
-      Text('Suffix: ' + patient.suffix),
-      Text('Sex: ' + patient.sex),
-      Text('Bday: ' + patient.bday),
-      Text('Age: ' + patient.age),
-      Text('Civil Status: ' + patient.civStatus),
-      Text('Philhealth: ' + patient.philhealth),
-      Text('Address: ' + patient.address),
-      Text('Region: ' + patient.region),
-      Text('Province: ' + patient.province),
-      Text('City: ' + patient.city),
-      Text('Barangay: ' + patient.brgy),
-      Text('Zip: ' + patient.zip),
-      Text('Contact Num: ' + patient.contact),
-      Text('Email Address: ' + patient.email),
-      Text('Cov19 Classification: ' + patient.covclass),
-      Text('Employed? : ' + patient.employed),
-      Text('Pregnant? : ' + patient.pregnant),
-      Text('PWD: ' + patient.disability),
-      Text('Interacted Covid: ' + patient.interactedCovid),
-      Text('Diagnosed with Covid: ' + patient.isDiagnosed),
-      Text('Diagnosed Date: ' + patient.diagnosedDate),
-      Text('Allergies: '),
+      Text(firstNameLabel + patient.firstName),
+      Text(midNameLabel + patient.middleName),
+      Text(lastNameLabel + patient.lastName),
+      Text(suffixLabel + patient.suffix),
+      Text(sexLabel + patient.sex),
+      Text(bdayLabel + patient.bday),
+      Text(ageLabel + patient.age),
+      Text(civStatusLabel + patient.civStatus),
+      Text(philhealthLabel + patient.philhealth),
+      Text(addressLabel + patient.address),
+      Text(regionLabel + patient.region),
+      Text(provinceLabel + patient.province),
+      Text(cityLabel + patient.city),
+      Text(brgyLabel + patient.brgy),
+      Text(zipLabel + patient.zip),
+      Text(contactLabel + patient.contact),
+      Text(emailLabel + patient.email),
+      Text(covclassLabel + patient.covclass),
+      Text(employedStatLabel + patient.employed),
+      Text(pregStatLabel + patient.pregnant),
+      Text(disabilityLabel + patient.disability),
+      Text(interactedLabel + patient.interactedCovid),
+      Text(diagnosedLabel + patient.isDiagnosed),
+      Text(diagnosedDateLabel + patient.diagnosedDate),
+      Text(allergiesLabel),
       for (var item in patient.allergies) Text(item),
-      Text('Comorbidities: '),
+      Text(comorbiditiesLabel),
       for (var item in patient.comorbidities) Text(item),
       // Text('Other Allergies: ' + patient.otherAllergies),
       // Text('Other Comorbidities: ' + patient.others),
@@ -1091,7 +1075,7 @@ class _MobileMainState extends State<MobileMain> {
     );
   }
 
-  //TODO: onboarding
+  //onboarding
   Widget onBoard(context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
@@ -1110,7 +1094,7 @@ class _MobileMainState extends State<MobileMain> {
                   Image.asset('images/onb1.png'),
                   SizedBox(height: height * 0.10),
                   Text(
-                    'Fill up the online form.',
+                    onboardTitle1,
                     textAlign: TextAlign.justify,
                     style: TextStyle(
                       color: Colors.black,
@@ -1125,7 +1109,7 @@ class _MobileMainState extends State<MobileMain> {
                     alignment: Alignment.center,
                     padding: EdgeInsets.symmetric(horizontal: 10.0),
                     child: Text(
-                      'You won’t need to fill up a written form in the vaccination site once you filled the online form.',
+                      onboardDesc1,
                       textAlign: TextAlign.justify,
                       style: TextStyle(
                         color: Colors.black,
@@ -1138,7 +1122,7 @@ class _MobileMainState extends State<MobileMain> {
                   Image.asset('images/imagecp.png'),
                   SizedBox(height: height * 0.10),
                   Text(
-                    'Book a schedule for\nvaccination.',
+                    onboardTitle2,
                     textAlign: TextAlign.justify,
                     style: TextStyle(
                       color: Colors.black,
@@ -1153,7 +1137,7 @@ class _MobileMainState extends State<MobileMain> {
                     alignment: Alignment.center,
                     padding: EdgeInsets.symmetric(horizontal: 10.0),
                     child: Text(
-                      'Choose your schedule at your most appropriate time and date.',
+                      onboardDesc2,
                       textAlign: TextAlign.justify,
                       style: TextStyle(
                         color: Colors.black,
@@ -1168,7 +1152,7 @@ class _MobileMainState extends State<MobileMain> {
                   Container(
                     width: width * 0.60,
                     child: Text(
-                      'Get notified when your schedule is near.',
+                      onboardTitle3,
                       textAlign: TextAlign.start,
                       style: TextStyle(
                         color: Colors.black,
@@ -1184,7 +1168,7 @@ class _MobileMainState extends State<MobileMain> {
                     alignment: Alignment.center,
                     padding: EdgeInsets.symmetric(horizontal: 10.0),
                     child: Text(
-                      'Be reminded of your vaccination schedule a day before to be ready for the appointment.',
+                      onboardDesc3,
                       textAlign: TextAlign.justify,
                       style: TextStyle(
                         color: Colors.black,
@@ -1213,7 +1197,6 @@ class _MobileMainState extends State<MobileMain> {
                               navigatorData.mainBody = covidInfo(this.context);
                             },
                           );
-                          //TODO: change navigation to COVID-19 Info
                         },
                         style: ElevatedButton.styleFrom(
                           primary: Color(0xFF26A98A),
@@ -1226,7 +1209,7 @@ class _MobileMainState extends State<MobileMain> {
                           ),
                         ),
                         child: Text(
-                          'PROCEED',
+                          btnTextProceed,
                           style: TextStyle(
                             color: Colors.white,
                             fontFamily: 'Mulish',
@@ -1241,99 +1224,6 @@ class _MobileMainState extends State<MobileMain> {
                 ],
               ),
             ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  //vaccine-information
-  Widget vaccineInfo(context) {
-    final width = MediaQuery.of(context).size.width;
-    final height = MediaQuery.of(context).size.height;
-    final TextStyle _btnTextStyle = TextStyle(
-      color: Colors.white,
-      fontFamily: 'Mulish',
-      fontWeight: FontWeight.w600,
-      fontSize: height * 0.018,
-      decoration: TextDecoration.none,
-    );
-    return SafeArea(
-      child: Scaffold(
-        body: Center(
-          child: Column(
-            children: <Widget>[
-              //TODO: Add lang ari ug widgets para sa contents etol
-              //TODO: Mao ni sa first part sa screening katong after sa booknow
-              Padding(
-                padding: EdgeInsets.only(top: height * 0.065),
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => healthScreening(context),
-                      ),
-                    ); //TODO:change button action
-                  },
-                  style: ElevatedButton.styleFrom(
-                    primary: Color(0xFF26A98A),
-                    fixedSize: Size(
-                      width * 0.35,
-                      height * 0.065,
-                    ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(60.0),
-                    ),
-                  ),
-                  child: Text('GET STARTED', style: _btnTextStyle),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget healthScreening(context) {
-    final width = MediaQuery.of(context).size.width;
-    final height = MediaQuery.of(context).size.height;
-    final TextStyle _btnTextStyle = TextStyle(
-      color: Colors.white,
-      fontFamily: 'Mulish',
-      fontWeight: FontWeight.w600,
-      fontSize: height * 0.018,
-      decoration: TextDecoration.none,
-    );
-    return SafeArea(
-      child: Scaffold(
-        body: Center(
-          child: Column(
-            children: <Widget>[
-              Padding(
-                padding: EdgeInsets.only(top: height * 0.065),
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => myAppointment(context),
-                      ),
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    primary: Color(0xFF26A98A),
-                    fixedSize: Size(
-                      width * 0.35,
-                      height * 0.065,
-                    ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(60.0),
-                    ),
-                  ),
-                  child: Text('FINISH BOOKING', style: _btnTextStyle),
-                ),
-              ),
-            ],
           ),
         ),
       ),
@@ -1366,7 +1256,7 @@ class _PatientSettingsState extends State<PatientSettings> {
     return patientSettings(widget.context);
   }
 
-  //TODO: patient-settings-functions
+  //patient-settings-functions
   Future pickImage() async {
     try {
       final image = await ImagePicker().pickImage(source: ImageSource.gallery);
@@ -1413,7 +1303,7 @@ class _PatientSettingsState extends State<PatientSettings> {
     }
   }
 
-  //TODO: patient-settings
+  //patient-settings
   Widget patientSettings(context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
@@ -1438,7 +1328,7 @@ class _PatientSettingsState extends State<PatientSettings> {
                   children: [
                     Column(
                       children: [
-                        Text('Account Information',
+                        Text(accInfoText,
                             style: TextStyle(
                               fontSize: height * 0.022,
                               fontWeight: FontWeight.bold,
@@ -1491,7 +1381,7 @@ class _PatientSettingsState extends State<PatientSettings> {
                         SizedBox(height: height * 0.020),
                         Align(
                           alignment: Alignment.centerLeft,
-                          child: Text('Email',
+                          child: Text(emailText,
                               style:
                                   TextStyle(color: Colors.black, fontSize: 14)),
                         ),
@@ -1504,7 +1394,7 @@ class _PatientSettingsState extends State<PatientSettings> {
                         SizedBox(height: height * 0.020),
                         Align(
                           alignment: Alignment.centerLeft,
-                          child: Text('Current Password',
+                          child: Text(currentPassText,
                               style:
                                   TextStyle(color: Colors.black, fontSize: 14)),
                         ),
@@ -1513,7 +1403,7 @@ class _PatientSettingsState extends State<PatientSettings> {
                           obscureText: true,
                           validator: (value) {
                             if (value!.isEmpty || value != userdata.password) {
-                              return 'Please input current password.';
+                              return currentPassErrMsg;
                             } else {
                               return null;
                             }
@@ -1522,7 +1412,7 @@ class _PatientSettingsState extends State<PatientSettings> {
                         SizedBox(height: height * 0.020),
                         Align(
                           alignment: Alignment.centerLeft,
-                          child: Text('New Password',
+                          child: Text(newPassText,
                               style:
                                   TextStyle(color: Colors.black, fontSize: 14)),
                         ),
@@ -1531,7 +1421,7 @@ class _PatientSettingsState extends State<PatientSettings> {
                           obscureText: true,
                           validator: (value) {
                             if (value!.isEmpty) {
-                              return 'Please input new password.';
+                              return newPassErrMsg;
                             } else {
                               return null;
                             }
@@ -1571,7 +1461,7 @@ class _PatientSettingsState extends State<PatientSettings> {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(
                                       content: Text(
-                                        'Saving Changes, Please reauthenticate.',
+                                        reauthSnackbar,
                                       ),
                                     ),
                                   );
@@ -1595,7 +1485,7 @@ class _PatientSettingsState extends State<PatientSettings> {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(
                                       content: Text(
-                                        'Password is too weak.',
+                                        passWeakSnackbar,
                                       ),
                                     ),
                                   );
@@ -1603,7 +1493,7 @@ class _PatientSettingsState extends State<PatientSettings> {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(
                                       content: Text(
-                                        'Password update unsuccessful.',
+                                        passUpdateSnackbar,
                                       ),
                                     ),
                                   );
@@ -1613,14 +1503,14 @@ class _PatientSettingsState extends State<PatientSettings> {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
                                   content: Text(
-                                    'Please review the fields before submitting.',
+                                    reviewFieldErrMsg,
                                   ),
                                 ),
                               );
                             }
                           },
                           style: ElevatedButton.styleFrom(
-                            primary: Colors.blue[700],
+                            primary: Color(0xFF26A98A),
                             fixedSize: Size(
                               width * 0.65,
                               height * 0.060,
@@ -1630,7 +1520,7 @@ class _PatientSettingsState extends State<PatientSettings> {
                             ),
                           ),
                           child: Text(
-                            'Save Changes',
+                            btnTextSave,
                             style: TextStyle(
                               color: Colors.white,
                               fontFamily: 'Mulish',

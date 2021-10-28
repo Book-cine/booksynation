@@ -1,5 +1,6 @@
 import 'package:booksynation/loading.dart';
 import 'package:booksynation/splash.dart';
+import 'package:booksynation/strings.dart';
 import 'package:booksynation/web_pages/weblogin.dart';
 import 'package:flutter/foundation.dart';
 
@@ -48,7 +49,7 @@ class _AppState extends State<App> {
     // Show error message if initialization failed
     if (_error) {
       return AlertDialog(
-        title: const Text('Encountered Error!'),
+        title: const Text(mainErrorText),
       );
     }
     // Show a loader until FlutterFire is initialized

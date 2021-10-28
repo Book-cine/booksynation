@@ -1,5 +1,6 @@
 import 'dart:math' as math;
 
+import 'package:booksynation/strings.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -141,7 +142,7 @@ class _WebSettingsState extends State<WebSettings> {
                                     width: width * 0.015,
                                   ),
                                   Text(
-                                    'BookSyNation',
+                                    appName,
                                     style: TextStyle(
                                       color: Colors.black,
                                       fontFamily: 'Antic Didone',
@@ -293,7 +294,7 @@ class _WebSettingsState extends State<WebSettings> {
                                             .showSnackBar(
                                           const SnackBar(
                                             content: Text(
-                                              'Saving Changes, Please reauthenticate.',
+                                              reauthSnackbar,
                                             ),
                                           ),
                                         );
@@ -316,7 +317,7 @@ class _WebSettingsState extends State<WebSettings> {
                                             .showSnackBar(
                                           const SnackBar(
                                             content: Text(
-                                              'Password is too weak.',
+                                              passWeakSnackbar,
                                             ),
                                           ),
                                         );
@@ -325,7 +326,7 @@ class _WebSettingsState extends State<WebSettings> {
                                             .showSnackBar(
                                           const SnackBar(
                                             content: Text(
-                                              'Password update unsuccessful.',
+                                              passUpdateSnackbar,
                                             ),
                                           ),
                                         );
@@ -335,7 +336,7 @@ class _WebSettingsState extends State<WebSettings> {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       const SnackBar(
                                         content: Text(
-                                          'Please review the fields before submitting.',
+                                          reviewFieldErrMsg,
                                         ),
                                       ),
                                     );
@@ -352,7 +353,7 @@ class _WebSettingsState extends State<WebSettings> {
                                   ),
                                 ),
                                 child: Text(
-                                  'Save Changes',
+                                  btnTextSave,
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontFamily: 'Mulish',

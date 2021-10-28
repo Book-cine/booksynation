@@ -1,4 +1,5 @@
 import 'package:booksynation/loading.dart';
+import 'package:booksynation/strings.dart';
 import 'package:booksynation/web_pages/web_data/web_schedules_data.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -43,7 +44,7 @@ class _WebScheduleState extends State<WebSchedule> {
                   width: 10,
                 ),
                 Container(
-                  child: Text('Vaccine: ',
+                  child: Text(vaccineWithColonText,
                       style: TextStyle(
                           fontFamily: 'Poppins',
                           fontWeight: FontWeight.w600,
@@ -71,7 +72,7 @@ class _WebScheduleState extends State<WebSchedule> {
                     },
                     items: <String>[
                       'All',
-                      'Astrazenica',
+                      'Astrazeneca',
                       'Janssen',
                       'Moderna',
                       'Pfizer',
@@ -100,7 +101,7 @@ class _WebScheduleState extends State<WebSchedule> {
               builder: (BuildContext context,
                   AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (snapshot.hasError) {
-                  return Text('Something went wrong');
+                  return Text(somethingWrongSnackbar);
                 }
 
                 if (snapshot.connectionState == ConnectionState.waiting) {
@@ -136,43 +137,43 @@ class _WebScheduleState extends State<WebSchedule> {
                           columns: const <DataColumn>[
                             DataColumn(
                               label: Text(
-                                'Unique ID',
+                                uniqueIdLabel,
                                 style: TextStyle(fontStyle: FontStyle.italic),
                               ),
                             ),
                             DataColumn(
                               label: Text(
-                                'Name',
+                                nameLabel,
                                 style: TextStyle(fontStyle: FontStyle.italic),
                               ),
                             ),
                             DataColumn(
                               label: Text(
-                                'Email',
+                                emailText,
                                 style: TextStyle(fontStyle: FontStyle.italic),
                               ),
                             ),
                             DataColumn(
                               label: Text(
-                                'Vaccine',
+                                vaccineManageLabel,
                                 style: TextStyle(fontStyle: FontStyle.italic),
                               ),
                             ),
                             DataColumn(
                               label: Text(
-                                'Dosage',
+                                dosageText,
                                 style: TextStyle(fontStyle: FontStyle.italic),
                               ),
                             ),
                             DataColumn(
                               label: Text(
-                                'Category',
+                                categoryManageLabel,
                                 style: TextStyle(fontStyle: FontStyle.italic),
                               ),
                             ),
                             DataColumn(
                               label: Text(
-                                'Date Scheduled',
+                                dateScheduledText,
                                 style: TextStyle(fontStyle: FontStyle.italic),
                               ),
                             ),

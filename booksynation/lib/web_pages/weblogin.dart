@@ -1,5 +1,6 @@
 import 'package:booksynation/home.dart';
 import 'package:booksynation/splash.dart';
+import 'package:booksynation/strings.dart';
 import 'package:booksynation/web_pages/web_data/adminData.dart';
 import 'package:booksynation/web_pages/webregister.dart';
 import 'package:flutter/material.dart';
@@ -95,7 +96,7 @@ class _WebLoginState extends State<WebLogin> {
                                   height: height * 0.01,
                                 ),
                                 Text(
-                                  'BookSyNation',
+                                  appName,
                                   style: TextStyle(
                                     color: Colors.black,
                                     fontFamily: 'Antic Didone',
@@ -108,7 +109,7 @@ class _WebLoginState extends State<WebLogin> {
                                   height: height * 0.02,
                                 ),
                                 Text(
-                                  'Log in to BookSyNation',
+                                  logInWebText,
                                   style: TextStyle(
                                     color: Colors.black,
                                     fontFamily: 'Mulish',
@@ -118,7 +119,7 @@ class _WebLoginState extends State<WebLogin> {
                                   ),
                                 ),
                                 Text(
-                                  'Enter your email and password below',
+                                  enterEmailPassText,
                                   style: TextStyle(
                                     color: Color(0xFF9FA2B4),
                                     fontFamily: 'Mulish',
@@ -136,7 +137,7 @@ class _WebLoginState extends State<WebLogin> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Email',
+                                  emailText,
                                   style: TextStyle(
                                     color: Colors.black,
                                     fontFamily: 'Mulish',
@@ -164,14 +165,14 @@ class _WebLoginState extends State<WebLogin> {
                                       borderSide:
                                           BorderSide(color: Colors.blue),
                                     ),
-                                    hintText: 'Email Address',
+                                    hintText: emailAddRegLabel,
                                   ),
                                 ),
                                 SizedBox(
                                   height: height * 0.025,
                                 ),
                                 Text(
-                                  'PASSWORD',
+                                  passwordText.toUpperCase(),
                                   style: TextStyle(
                                     color: Colors.black,
                                     fontFamily: 'Mulish',
@@ -201,7 +202,7 @@ class _WebLoginState extends State<WebLogin> {
                                       borderSide:
                                           BorderSide(color: Colors.blue),
                                     ),
-                                    hintText: 'Password',
+                                    hintText: passwordText,
                                     suffixIcon: GestureDetector(
                                       onTap: () {
                                         setState(() {
@@ -249,7 +250,7 @@ class _WebLoginState extends State<WebLogin> {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       const SnackBar(
                                         content: Text(
-                                          'No user found for that email.',
+                                          noUserSnackbar,
                                         ),
                                       ),
                                     );
@@ -257,7 +258,7 @@ class _WebLoginState extends State<WebLogin> {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       const SnackBar(
                                         content: Text(
-                                          'Wrong password provided for that user.',
+                                          wrongPassSnackbar,
                                         ),
                                       ),
                                     );
@@ -265,7 +266,7 @@ class _WebLoginState extends State<WebLogin> {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       const SnackBar(
                                         content: Text(
-                                          'Login Error',
+                                          loginErrorSnackbar,
                                         ),
                                       ),
                                     );
@@ -283,7 +284,7 @@ class _WebLoginState extends State<WebLogin> {
                                 ),
                               ),
                               child: Text(
-                                'Log In',
+                                loginText,
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontFamily: 'Mulish',
@@ -300,7 +301,7 @@ class _WebLoginState extends State<WebLogin> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  'Don\'t have an account? ',
+                                  noAccountText,
                                   style: TextStyle(
                                     color: Color(0xFF9FA2B4),
                                     fontFamily: 'Mulish',
@@ -320,7 +321,7 @@ class _WebLoginState extends State<WebLogin> {
                                     );
                                   },
                                   child: Text(
-                                    'Sign Up',
+                                    signUpText,
                                     style: TextStyle(
                                       color: Color(0xFF146955),
                                       fontFamily: 'Mulish',

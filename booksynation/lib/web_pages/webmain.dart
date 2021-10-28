@@ -1,4 +1,5 @@
 import 'package:booksynation/email_notifs.dart';
+import 'package:booksynation/strings.dart';
 import 'package:booksynation/userData.dart';
 import 'package:booksynation/web_pages/web_data/adminData.dart';
 import 'package:booksynation/web_pages/webmanage.dart';
@@ -147,7 +148,7 @@ class _WebMainState extends State<WebMain> {
                         ),
                         Container(
                           width: 240,
-                          child: Text("BookSyNation",
+                          child: Text(appName,
                               style: TextStyle(
                                   fontFamily: 'Antic Didone',
                                   fontSize: 22,
@@ -326,19 +327,19 @@ class _WebMainState extends State<WebMain> {
   int get status => _selected;
 
   String getSection() {
-    String section = 'Manage Vaccines';
+    String section = manageVaxSection;
     switch (status) {
       case 0:
-        section = 'Manage Vaccines';
+        section = manageVaxSection;
         break;
       case 1:
-        section = 'Scheduled Vaccines';
+        section = scheduledVaxSection;
         break;
       case 2:
-        section = 'Missed Vaccinations';
+        section = missedVaxSection;
         break;
       case 3:
-        section = 'Settings';
+        section = settingsSection;
         break;
     }
     return section;

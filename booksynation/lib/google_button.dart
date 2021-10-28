@@ -1,5 +1,6 @@
 import 'package:booksynation/page/patient_info/widgets/patientData.dart';
 import 'package:booksynation/splash.dart';
+import 'package:booksynation/strings.dart';
 import 'package:booksynation/userData.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -91,7 +92,7 @@ class _GoogleButtonMobileState extends State<GoogleButtonMobile> {
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
                 content: Text(
-                  'Login unsuccessful.',
+                  loginFailedText,
                 ),
               ),
             );
@@ -119,7 +120,7 @@ class _GoogleButtonMobileState extends State<GoogleButtonMobile> {
                     Padding(
                       padding: const EdgeInsets.only(left: 20),
                       child: Text(
-                        'Google',
+                        googleText,
                         style: TextStyle(
                           fontSize: 16,
                           color: Colors.blueGrey,
