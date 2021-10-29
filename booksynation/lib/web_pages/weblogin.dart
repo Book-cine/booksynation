@@ -344,13 +344,6 @@ class _WebLoginState extends State<WebLogin> {
           ],
         ),
       ),
-      floatingActionButton: IconButton(
-        onPressed: () {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => Homepage()));
-        },
-        icon: Icon(Icons.web),
-      ),
     );
   }
 }
