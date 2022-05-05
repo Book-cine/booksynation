@@ -7,5 +7,5 @@ Vaccination scheduling is one of the current problems in this pandemic. A standa
 
 BookSyNation was conceived as a way to improve the efficiency of the current vaccination scheduling process. The application handles the collection of basic information from the user, the booking of vaccination schedules by the user, the management of the booked schedules by the admin, and the handling of missed schedules booked using the app. 
 
-Given approximately two (2) months of the development period, the focus of the team is on implementing the main functionalities detailed in the succeeding pages. Thus, deployment concerns such as verifying the identity and the authenticity of the collected information are currently outside the initial scope of the app.
+Given approximately 1 month of both design and development, the focus of the team was on implementing the main functionalities detailed in the software requirements specifications. Thus, deployment concerns such as verifying the identity and the authenticity of the collected information were outside the initial scope of the app.
 
